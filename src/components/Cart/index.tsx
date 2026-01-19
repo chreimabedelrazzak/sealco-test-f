@@ -42,22 +42,30 @@ const Cart = () => {
                 Updated grid to match your request: size removed, titles outlined/aligned.
             */}
             <div className="w-full px-4 md:px-0">
-  {/* 3. PRODUCT TABLE HEADERS - Visible only on Desktop (md and up) */}
-  <div className="hidden md:grid grid-cols-[1.5fr_1fr_1fr_1fr_50px] border-b border-gray-200 pb-4 mb-6 px-4">
-    <p className="text-sm font-bold text-black uppercase">Product</p>
-    <p className="text-sm font-bold text-black uppercase text-center">Unit Price</p>
-    <p className="text-sm font-bold text-black uppercase text-center">Quantity</p>
-    <p className="text-sm font-bold text-black uppercase text-center">Subtotal</p>
-    <p className="invisible">Action</p>
-  </div>
+              {/* 3. PRODUCT TABLE HEADERS - Visible only on Desktop (md and up) */}
+              <div className="hidden md:grid grid-cols-[1.5fr_1fr_1fr_1fr_50px] border-b border-gray-200 pb-4 mb-6 px-4">
+                <p className="text-sm font-bold text-black uppercase">
+                  Product
+                </p>
+                <p className="text-sm font-bold text-black uppercase text-center">
+                  Unit Price
+                </p>
+                <p className="text-sm font-bold text-black uppercase text-center">
+                  Quantity
+                </p>
+                <p className="text-sm font-bold text-black uppercase text-center">
+                  Subtotal
+                </p>
+                <p className="invisible">Action</p>
+              </div>
 
-  {/* 4. CART ITEMS - Stacked cards on mobile, Grid rows on desktop */}
-  <div className="flex flex-col gap-6 md:gap-8">
-    {cartItems.map((item, key) => (
-      <SingleItem item={item} key={key} />
-    ))}
-  </div>
-</div>
+              {/* 4. CART ITEMS - Stacked cards on mobile, Grid rows on desktop */}
+              <div className="flex flex-col gap-6 md:gap-8">
+                {cartItems.map((item, key) => (
+                  <SingleItem item={item} key={key} />
+                ))}
+              </div>
+            </div>
 
             {/* 5. SEND AS A GIFT SECTION */}
             <div className="mt-12 border-t border-gray-100 pt-8">
