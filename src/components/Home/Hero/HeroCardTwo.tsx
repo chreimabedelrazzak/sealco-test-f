@@ -44,11 +44,12 @@ export default function HeroCardTwo({
           Kept 'md:absolute' and 'md:inset-0' to maintain desktop design.
       */}
       <div 
-        className="relative md:absolute md:inset-0 z-0 w-full h-[300px] sm:h-[400px] md:h-full max-w-[1400px] 2xl:max-w-[1600px] mx-auto bg-no-repeat 
-                   bg-[center_bottom_0%] bg-[length:100%] 
-                   md:bg-right md:bg-bottom transition-all duration-700"
+        className="relative md:absolute md:inset-0 z-0 w-full h-[350px] sm:h-[450px] md:h-full mt-auto max-w-[1400px] 2xl:max-w-[1600px] mx-auto bg-no-repeat 
+                   bg-bottom bg-contain 
+                   md:bg-right-bottom md:bg-contain transition-all duration-700"
         style={{
           backgroundImage: `url(${image})`,
+          backgroundPosition: 'center bottom', /* Forces image to the very bottom pixel */
         }}
       />
 
