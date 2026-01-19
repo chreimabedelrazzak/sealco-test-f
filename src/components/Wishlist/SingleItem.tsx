@@ -174,7 +174,7 @@ const SingleItem = ({ orderItem, smallView, onRemove }: SingleItemProps) => {
         </div>
         <button
           onClick={handleAddToCart}
-          className="mt-3 w-full bg-blue text-white py-2.5 rounded-md font-medium text-sm hover:bg-opacity-90 transition-all"
+          className="mt-3 w-full text-center font-bold text-sm rounded-full py-3 px-10 transition-all duration-300 bg-[#116DB2] text-white hover:bg-[#AD003A]"
         >
           Add to Cart
         </button>
