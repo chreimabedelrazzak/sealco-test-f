@@ -109,7 +109,7 @@ export default function FooterTwo() {
             Copyright &copy; {year} Sealco LG. All rights reserved.
           </p>
 
-          <div className="flex flex-wrap items-center gap-4">
+          <div className="flex flex-wrap items-center justify-center gap-4">
             <div className="flex gap-4 mr-4">
               <a
                 href="/careers"

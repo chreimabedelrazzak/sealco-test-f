@@ -21,11 +21,13 @@ export default function HeroCardOne({
           DESKTOP: Image is pinned to the right.
       */}
       <div
-        className="absolute inset-0 z-0 w-full h-full max-w-[1400px] 2xl:max-w-[1600px] mx-auto bg-no-repeat 
-                   bg-[center_bottom_0%] bg-[length:100%] 
-                  md:bg-bottom transition-all duration-700 p-4"
+        className="absolute inset-0 z-0 w-full h-full bg-no-repeat 
+             bg-bottom bg-contain 
+             md:bg-right md:bg-contain transition-all duration-700"
         style={{
           backgroundImage: `url(${image})`,
+          // Use backgroundSize: 'contain' to ensure the fridge/AC aren't cut off
+          backgroundPosition: "center bottom",
         }}
       />
 
