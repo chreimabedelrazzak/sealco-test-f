@@ -16,29 +16,51 @@ export default function HeroCardTwo({
   image,
 }: HeroCard) {
   return (
-    <section className="relative w-full h-full min-h-[550px] md:min-h-[600px] 2xl:min-h-[800px] bg-[#F8F8F8] overflow-hidden flex flex-col justify-between">
-  
-  {/* CONTENT LAYER - Always on top */}
-  <div className="relative z-10 w-full max-w-[1200px] mx-auto px-6 pt-12 md:pt-0 md:h-full flex flex-col justify-center">
-    <div className="w-full md:max-w-[550px] text-center md:text-left flex flex-col items-center md:items-start">
-      <span className="block text-black font-semibold text-xl sm:text-4xl">{subtitle}</span>
-      <h1 className="block text-black font-bold text-2xl sm:text-6xl mb-3">{title}</h1>
-      <p className="text-lg text-black font-medium mb-6">{description}</p>
-      <a href="#" className="bg-[#116DB2] text-white font-bold py-4 px-10 rounded-full hover:bg-[#AD003A] transition-all">
-        {buttonText}
-      </a>
-    </div>
-  </div>
+    <section className="mb-20 md:mb-10 relative w-full h-full min-h-[500px] md:min-h-[600px] 2xl:min-h-[800px] bg-[#F8F8F8] overflow-hidden flex flex-col md:flex-row items-center">
+      
+      {/* BACKGROUND IMAGE LAYER 
+          Matches HeroCardOne: Mobile centered at bottom, Desktop pinned to right.
+      */}
+      <div 
+        className="absolute inset-0 z-0 w-full h-full max-w-[1400px] 2xl:max-w-[1600px] mx-auto bg-no-repeat 
+                   bg-[center_bottom_0%] bg-[length:100%] 
+                   md:bg-bottom transition-all duration-700"
+        style={{
+          backgroundImage: `url(${image})`,
+        }}
+      />
 
-  {/* IMAGE LAYER - Responsive positioning */}
-  <div className="relative md:absolute inset-0 z-0 w-full h-[300px] md:h-full flex items-end justify-center md:justify-end">
-    <img 
-      src={image} 
-      alt={title}
-      className="w-full h-full object-contain object-bottom md:object-right-bottom max-w-[90%] md:max-w-[50%] lg:max-w-[60%]"
-    />
-  </div>
+      {/* CONTENT LAYER
+          Matches the reference padding and layout to ensure text doesn't overlap 
+          the image on mobile/tablet.
+      */}
+      <div className="relative z-10 w-full max-w-[1200px] 2xl:max-w-[1600px] mx-auto px-6 xl:px-0 h-full flex flex-col justify-start pt-16 md:pt-0 md:justify-center">
+        <div className="px-4 w-full md:max-w-[550px] lg:max-w-[500px] text-center md:text-left flex flex-col items-center md:items-start">
+          
+          {/* Kept your Title as the primary big text */}
+          <span className="block text-[#000000] sm:leading-[45px] font-semibold text-xl sm:text-4xl axl:text-6xl">
+            {title}
+          </span>
 
-</section>
+          {/* Subtitle - Kept your design font-semibold text-3xl */}
+          <span className="block text-[#000000] font-semibold text-xl sm:text-3xl mb-3">
+            {subtitle}
+          </span>
+
+          {/* Description - Kept your font-medium text-lg */}
+          <p className="text-lg text-[#000000] font-medium mb-3">
+            {description}
+          </p>
+
+          <a
+            href="#"
+            className="inline-flex font-bold text-white text-sm md:text-base rounded-full bg-[#116DB2] py-4 px-10 hover:bg-[#AD003A] transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1"
+          >
+            {buttonText}
+          </a>
+        </div>
+      </div>
+
+    </section>
   );
 }

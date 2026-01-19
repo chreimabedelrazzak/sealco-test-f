@@ -320,7 +320,7 @@ const Header = () => {
         <div  className="flex items-center justify-between">
           {/* LOGO - Stays Left */}
           <Link href="/" className="flex-shrink-0">
-            <div className="relative w-[140px] h-[80px] sm:w-[180px] md:w-[220px] lg:w-[240px]">
+            <div className="relative w-[180px] h-[90px] sm:w-[200px] md:w-[220px] lg:w-[240px]">
               <Image
                 src="/images/logo/main-logo.png"
                 alt="Logo"
