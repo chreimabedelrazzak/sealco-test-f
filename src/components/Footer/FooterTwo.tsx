@@ -90,7 +90,7 @@ export default function FooterTwo() {
   return (
     <>
       <footer className="bg-white border-t border-[#E8E8E8] w-full mt-5 border-b">
-        <div className="max-w-[1200px] 2xl:max-w-[1600px] mx-auto">
+        <div className=" 2xl:max-w-[1600px] mx-auto px-6 xl:px-8">
           {/* Top Section: Navigation Grid */}
           <div className="">
             {/* Use mx-auto to center the container, but px-0 to ensure content starts at the edge */}
@@ -102,9 +102,9 @@ export default function FooterTwo() {
           {/* Bottom Section: Copyright & Socials */}
         </div>
       </footer>
-      <div className="py-6 bg-white max-w-[1200px] 2xl:max-w-[1600px] mx-auto">
+      <div className="py-6 bg-white 2xl:max-w-[1600px] mx-auto px-6 xl:px-8">
         {/* Aligning the footer bottom with the grid above */}
-        <div className=" flex flex-col md:flex-row gap-5 items-center justify-between">
+        <div className=" flex flex-col md:flex-row gap-5 items-center justify-between px-4">
           <p className="text-[#6E6E6E] font-medium text-[11px]">
             Copyright &copy; {year} Sealco LG. All rights reserved.
           </p>

@@ -25,15 +25,15 @@ export default function CtaThree({
   paragraphs,
 }: CtaThreeProps) {
   return (
-    <section className="bg-[#FFFFFF] pt-16 px-6 pb-6">
-      <div className="max-w-[1200px] 2xl:max-w-[1600px] mx-auto">
+    <section className="bg-[#FFFFFF] pt-16 pb-6">
+      <div className="2xl:max-w-[1600px] mx-auto px-6 xl:px-8">
         {/* Section Title */}
-        <h2 className="text-3xl font-bold text-[#000000] mb-12 text-start">
+        <h2 className="text-3xl font-bold text-[#000000] mb-12 text-start px-4">
           {title}
         </h2>
 
         {/* Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 px-4">
           {features.map((feature, index) => (
             <div
               key={index}
@@ -71,7 +71,7 @@ export default function CtaThree({
 
         {/* Bottom Paragraph */}
         {/* CHANGE THE LINE BELOW FROM <p> TO <div> */}
-        <div className="text-gray-700 text-base leading-relaxed mt-12">
+        <div className="text-gray-700 text-base leading-relaxed mt-12 px-4">
           {paragraphs.map((p, idx) => (
             <div key={idx} className="pb-6">
               <p className="text-gray-700 text-sm leading-relaxed">{p}</p>

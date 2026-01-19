@@ -18,7 +18,7 @@ export default function HeroCardThree({
   link,
 }: HeroCard) {
   return (
-    <div className="relative w-full h-[60vh] lg:h-[80vh] my-8 overflow-hidden">
+    <div className="relative w-full h-[80vh] lg:h-[80vh] my-8 overflow-hidden">
       {/* BACKGROUND IMAGE */}
       <div
         className="
@@ -45,9 +45,9 @@ export default function HeroCardThree({
 
       {/* TEXT + BUTTON */}
       <div className="absolute inset-0 z-20">
-        <div className="relative max-w-[1200px] 2xl:max-w-[1600px] mx-auto h-full flex items-end xl:px-0 px-4 pb-[3%]">
-          <div className="max-w-[450px]">
-            <span className="block text-[#000000] sm:leading-[45px] font-semibold text-xl sm:text-4xl axl:text-6xl">
+        <div className="relative 2xl:max-w-[1600px] mx-auto h-full w-full flex items-end xl:px-8 px-6 pb-[3%]">
+          <div className="max-w-[450px] px-4">
+            <span className="block text-[#000000] sm:leading-[45px]  font-semibold text-xl sm:text-4xl axl:text-6xl">
               {title}
             </span>
 

@@ -19,7 +19,7 @@ export default function HeroCardTwo({
     <section className="mb-20 md:mb-10 relative w-full h-full min-h-[500px] md:min-h-[600px] 2xl:min-h-[800px] bg-[#F8F8F8] overflow-hidden flex flex-col md:flex-row items-center">
       
       {/* CONTENT LAYER - Moved up in the DOM so it renders first on mobile */}
-      <div className="relative z-10 w-full max-w-[1200px] 2xl:max-w-[1600px] mx-auto px-6 xl:px-0 flex flex-col justify-start pt-16 md:pt-0 md:h-full md:justify-center">
+      <div className="relative z-10 w-full 2xl:max-w-[1600px] mx-auto px-6 xl:px-8 flex flex-col justify-start pt-16 md:pt-0 md:h-full md:justify-center">
         <div className="px-4 w-full md:max-w-[550px] lg:max-w-[500px] text-center md:text-left flex flex-col items-center md:items-start">
           <span className="block text-[#000000] sm:leading-[45px] font-semibold text-xl sm:text-4xl axl:text-6xl">
             {title}

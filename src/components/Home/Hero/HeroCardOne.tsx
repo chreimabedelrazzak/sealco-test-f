@@ -35,7 +35,7 @@ export default function HeroCardOne({
           Added 'pt-12 md:pt-0' and 'justify-start md:justify-center' 
           to push text to the top on mobile so it doesn't overlap the centered image.
       */}
-      <div className="relative z-10 w-full max-w-[1200px] 2xl:max-w-[1600px] mx-auto px-6 xl:px-0 h-full flex flex-col justify-start pt-16 md:pt-0 md:justify-center">
+      <div className="relative z-10 w-full 2xl:max-w-[1600px] mx-auto px-6 xl:px-8 h-full flex flex-col justify-start pt-16 md:pt-0 md:justify-center">
         <div className="px-4 w-full md:max-w-[550px] lg:max-w-[650px] text-center md:text-left flex flex-col items-center md:items-start">
           {/* Subtitle - Thinner stroke (LG Style) */}
           <span className="block text-[#000000] sm:leading-[24px] font-semibold text-xl sm:text-4xl axl:text-6xl">

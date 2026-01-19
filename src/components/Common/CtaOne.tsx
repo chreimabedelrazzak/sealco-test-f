@@ -27,8 +27,8 @@ export default function Newsletter({
         <div className="absolute inset-0 bg-gradient-to-br from-[#272727] via-[#272727]/80 via-20% to-transparent" />
 
         {/* Content */}
-        <div className="relative z-10 max-w-[1200px] 2xl:max-w-[1600px] mx-auto w-full px-6 lg:px-0">
-          <div className="max-w-[420px] text-left">
+        <div className="relative z-10 2xl:max-w-[1600px] mx-auto w-full px-6 xl:px-8">
+          <div className="max-w-[420px] text-left px-4">
             <h2 className="text-white font-bold text-3xl sm:text-4xl leading-snug mb-4">
               {title}
             </h2>
