@@ -19,7 +19,11 @@ interface CtaThreeProps {
   paragraphs: String[];
 }
 
-export default function CtaThree({ title, features, paragraphs }: CtaThreeProps) {
+export default function CtaThree({
+  title,
+  features,
+  paragraphs,
+}: CtaThreeProps) {
   return (
     <section className="bg-[#FFFFFF] pt-16 px-6 pb-6">
       <div className="max-w-[1200px] 2xl:max-w-[1600px] mx-auto">
@@ -44,7 +48,9 @@ export default function CtaThree({ title, features, paragraphs }: CtaThreeProps)
                   height={80}
                 />
               </div>
-              <h3 className="font-bold text-xl text-[#000000] mb-4">{feature.title}</h3>
+              <h3 className="font-bold text-xl text-[#000000] mb-4">
+                {feature.title}
+              </h3>
 
               {/* Items (title + description) */}
               <div className="space-y-4">
@@ -64,13 +70,14 @@ export default function CtaThree({ title, features, paragraphs }: CtaThreeProps)
         </div>
 
         {/* Bottom Paragraph */}
-        <p className="text-gray-700 text-base leading-relaxed mt-12">
+        {/* CHANGE THE LINE BELOW FROM <p> TO <div> */}
+        <div className="text-gray-700 text-base leading-relaxed mt-12">
           {paragraphs.map((p, idx) => (
             <div key={idx} className="pb-6">
-                <p className="text-gray-700 text-sm leading-relaxed">{p}</p>
+              <p className="text-gray-700 text-sm leading-relaxed">{p}</p>
             </div>
           ))}
-        </p>
+        </div>
       </div>
     </section>
   );

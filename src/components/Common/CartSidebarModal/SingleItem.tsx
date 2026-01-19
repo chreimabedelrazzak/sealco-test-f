@@ -10,33 +10,26 @@ const SingleItem = ({ item, removeItemFromCart }) => {
   const handleRemoveFromCart = async () => {
     const userToken = localStorage.getItem("userToken");
     const customerIdStr = localStorage.getItem("customerId");
-    console.log("Item: ", item.itemId);
 
-    // 1. Always remove from Redux immediately (Optimistic Update)
-    // This ensures the UI feels responsive even if the network is slow
+    // 1. UI FIX: Ensure you are passing the ID that Redux uses to identify the row.
+    // If your cart slice filters by 'id', and you've set 'id' to be the productId:
     dispatch(removeItemFromCart(item.id));
 
-    // 2. If signed in, sync the deletion with the server
     if (userToken && customerIdStr) {
       const customerId = parseInt(customerIdStr, 10);
-
       try {
-        // Build the API call with the Bearer token
+        // 2. SERVER SYNC: Use item.itemId (the primary key in your CartItems table)
         await apiClient.delete(
           `/customers/${customerId}/cart-items/${item.itemId}`,
           {
             headers: {
               Authorization: `Bearer ${userToken}`,
             },
-          }
-        );
-
-        console.log(
-          `Item ${item.id} successfully removed from server-side cart`
+          },
         );
       } catch (error) {
         console.error("Failed to remove item from server cart:", error);
-        // Optional: You could re-add the item to Redux here if the API fails
+        // Optional: Re-fetch or re-add if server fails
       }
     }
   };
@@ -44,11 +37,9 @@ const SingleItem = ({ item, removeItemFromCart }) => {
   return (
     <div className="flex items-center justify-between gap-5">
       <div className="w-full flex items-center gap-6">
-        <div className="flex items-center justify-center rounded-[10px] bg-gray-3 max-w-[90px] w-full h-22.5">
+        <div className="flex items-center justify-center rounded-[10px] abg-gray-3 max-w-[90px] w-full h-22.5">
           <Image
-            src={
-              `${process.env.NEXT_PUBLIC_BASE_URL}/user-content/no-image.png`
-            }
+            src={item.thumbnailImageUrl}
             unoptimized
             alt="product"
             width={100}

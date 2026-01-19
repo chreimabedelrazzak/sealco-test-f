@@ -38,10 +38,8 @@ const Shipping = ({ formData, onChange }: { formData: any; onChange: (e: any) =>
             />
         </div>
         
-        {/* You can replicate the fields from Billing here if you want them to be editable separately */}
-        <p className="text-sm font-medium text-[#116DB2]">
-          Note: Currently using billing info for shipping.
-        </p>
+        {/* here use the address card */}
+        
       </div>
     </div>
   );

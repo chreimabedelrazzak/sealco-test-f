@@ -67,8 +67,8 @@ const SingleItem = ({ item }) => {
       <div className="min-w-[400px]">
         <div className="flex items-center justify-between gap-5">
           <div className="w-full flex items-center gap-5.5">
-            <div className="flex items-center justify-center rounded-[5px] bg-gray-2 max-w-[80px] w-full h-17.5">
-              <Image width={200} height={200} unoptimized src={`${process.env.NEXT_PUBLIC_BASE_URL}/user-content/no-image.png`} alt="product" />
+            <div className="flex items-center justify-center rounded-[5px] bag-gray-2 max-w-[80px] w-full h-17.5">
+              <Image width={200} height={200} unoptimized src={item.thumbnailImageUrl} alt="product" />
             </div>
 
             <div>

@@ -17,13 +17,14 @@ export default function CartInitializer() {
 
     try {
       const cart = await cartService.getCartByCustomerId(customerId, userToken);
-      const reduxItems: CartItem[] = cart.items.map((item: any) => ({
+      const reduxItems: CartItem[] = (cart?.items || []).map((item: any) => ({
         id: Number(item.productId),
         itemId: Number(item.id),
         title: item.productName || "Unknown Product",
         price: Number(item.calculatedProductPrice?.price || 0),
         discountedPrice: Number(item.calculatedProductPrice?.price || 0),
         quantity: Number(item.quantity || 0),
+        thumbnailImageUrl: `${process.env.NEXT_PUBLIC_BASE_IMG_URL}${item.productImage}`,
         imgs: {
           thumbnails: [item.thumbnailUrl],
           previews: [item.thumbnailUrl],

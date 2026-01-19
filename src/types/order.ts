@@ -60,4 +60,5 @@ export interface OrderDetailVm {
   orderNote: string | null;
   isMasterOrder: boolean;
   subOrderIds: number[] | null;
+  currentUserId: number;
 }

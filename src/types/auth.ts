@@ -21,3 +21,47 @@ export interface RegisterRequest {
 }
 
 // Reuse LoginResponse if the API returns the same structure (success, token, etc.)
+
+export interface AddressVm {
+  userAddressId: number | null;
+  contactName: string;
+  phone: string;
+  addressLine1: string;
+  addressLine2: string;
+  districtId: number | null;
+  districtName?: string;
+  zipCode: string;
+  stateOrProvinceId: number;
+  stateOrProvinceName?: string;
+  city: string;
+  countryId: string;
+  countryName?: string;
+}
+
+export interface AccountAddressesRequestResponse {
+  newShippingAddress: AddressVm | null;
+  newBillingAddress: AddressVm | null;
+  existingShippingAddressId: number | null;
+}
+
+export interface SaveAddressResponse {
+  success: boolean;
+  message: string;
+  shippingAddressId: number;
+  billingAddressId: number;
+}
+
+// For States/Provinces (matching your Value/Text example)
+export interface SelectOption {
+  value: string;
+  text: string;
+  disabled: boolean;
+  group: any | null;
+  selected: boolean;
+}
+
+// For Districts (matching your Id/Name example)
+export interface District {
+  id: number;
+  name: string;
+}

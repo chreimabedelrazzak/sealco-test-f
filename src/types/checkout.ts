@@ -9,7 +9,7 @@ export interface AddressItem {
   zipCode: string;
   stateOrProvinceId: number;
   stateOrProvinceName: string;
-  cityName: string;
+  city: string;
   countryId: number | null;
   countryName: string;
   isDistrictEnabled: boolean;
@@ -42,6 +42,7 @@ export interface AddressForm {
 
 export interface ShippingInfoResponse {
   existingShippingAddresses: AddressItem[];
+  existingBillingAddresses: AddressItem[];
   shippingAddressId: number;
   billingAddressId: number;
   shippingMethod: string | null;

@@ -4,6 +4,18 @@ export type Category = {
   img: string;
 };
 
+export interface Banner {
+  id: number;
+  titleEn: string;
+  subtitleEn: string | null;
+  descriptionEn: string | null;
+  titleAr: string | null;
+  subtitleAr: string | null;
+  descriptionAr: string | null;
+  linkUrl: string;
+  thumbnailImageUrl: string;
+}
+
 export interface SubCategory {
   id: number;
   name: string;
@@ -24,7 +36,30 @@ export interface CategoryDetails {
   includeInMenu: boolean;
   isPublished: boolean;
   thumbnailImageUrl: string;
-  subCategories: SubCategory[]; // The nested array we just added in C#
+  subCategories: SubCategory[];
+  banners: Banner[]; // Added to match the new API response
+}
+
+export interface ProductAttribute {
+  attributeName: string;
+  value: string;
+}
+
+export interface ProductImages {
+  thumbnails: string[];
+  previews: string[];
+  fullSize: string[];
+}
+
+export interface ProductCategories {
+  categoryId: number;
+  categoryName: string;
+}
+
+// 1. New interface for the dynamic filters
+export interface AvailableFilter {
+  name: string;      // e.g., "Color", "Size"
+  values: string[];  // e.g., ["#707070", "#ffffff"] or ["22", "27"]
 }
 
 export interface CategoryProduct {
@@ -32,22 +67,29 @@ export interface CategoryProduct {
   productId: number;
   productName: string;
   slug: string;
-  isFeaturedProduct: boolean;
-  displayOrder: number;
-  isProductPublished: boolean;
   price: number;
   oldPrice: number | null;
-  description: string | null;
-  specification: string | null;
-  stockQuantity: number;
-  reviewsCount: number;
+  // Marking these as optional/nullable as they are sometimes 
+  // excluded from the search result JSON to improve performance
+  shortDescription?: string | null; 
+  description?: string | null;
+  stockQuantity?: number;
+  reviewsCount?: number;
+  categories?: ProductCategories[]; 
   thumbnailImageUrl: string;
+  imgs?: ProductImages; 
+  attributes: ProductAttribute[];
 }
 
+// 2. Updated response wrapper to include availableFilters
 export interface CategoryProductResponse {
   page: number;
   pageSize: number;
   totalItems: number;
-  totalPages: number;
   items: CategoryProduct[];
+  availableFilters: AvailableFilter[]; // Crucial for the dynamic sidebar
+  priceRange: {
+    min: number;
+    max: number;
+  };
 }

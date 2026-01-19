@@ -3,10 +3,12 @@ import { RootState } from "../store";
 
 export type CartItem = {
   id: number;
+  itemId: number;
   title: string;
   price: number;
   discountedPrice: number;
   quantity: number;
+  thumbnailImageUrl: string;
   imgs?: {
     thumbnails: string[];
     previews: string[];
@@ -26,7 +28,7 @@ export const cart = createSlice({
   initialState,
   reducers: {
     addItemToCart: (state, action: PayloadAction<CartItem>) => {
-      const { id, title, price, quantity, discountedPrice, imgs } =
+      const { id, itemId, title, price, quantity, discountedPrice, thumbnailImageUrl, imgs } =
         action.payload;
 
       const existingItem = state.items.find((item) => item.id === id);
@@ -36,9 +38,11 @@ export const cart = createSlice({
       } else {
         state.items.push({
           id,
+          itemId,
           title,
           price,
           discountedPrice,
+          thumbnailImageUrl,
           quantity,
           imgs,
         });

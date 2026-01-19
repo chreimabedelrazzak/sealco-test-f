@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Product } from "@/types/product";
 import { useModalContext } from "@/app/context/QuickViewModalContext";
 import { useCartModalContext } from "@/app/context/CartSidebarModalContext";
@@ -12,36 +12,43 @@ import Image from "next/image";
 import { CategoryProduct } from "@/types/Category";
 import { cartService } from "@/services/cartService";
 import { wishListService } from "@/services/wishListService";
+import { useRouter } from "next/navigation";
 import { apiClient } from "@/services/apiClient";
 
 const SingleGridItem = ({ item }: { item: CategoryProduct }) => {
   const { openModal } = useModalContext();
   const { openCartModal } = useCartModalContext();
   const dispatch = useDispatch<AppDispatch>();
+  const router = useRouter();
+  const [wishlistMessage, setWishlistMessage] = useState<string | null>(null);
 
   const handleSetProductDetails = () => {
-    const imageUrl = `${process.env.NEXT_PUBLIC_BASE_URL}${item.thumbnailImageUrl}`;
-
     const productDetails = {
       id: item.id,
       productId: item.productId,
-      thumnailIamgeUrl: item.thumbnailImageUrl,
+      productName: item.productName,
       title: item.productName,
+      thumbnailImageUrl: item.thumbnailImageUrl,
       price: item.price,
       oldPrice: item.oldPrice,
       discountedPrice: item.price,
-      reviews: item.reviewsCount || 0,
+      reviewsCount: item.reviewsCount || 0,
+
       imgs: {
-        thumbnails: [imageUrl],
-        previews: [imageUrl],
+        thumbnails: item.imgs?.thumbnails || [],
+        previews: item.imgs?.previews || [],
+        fullSize: item.imgs?.fullSize || [],
       },
+
       slug: item.slug,
       description: item.description,
+      shortDescription: item.shortDescription,
+      stockQuantity: item.stockQuantity,
+      attributes: item.attributes || [],
+      categories: [], // ✅ ADDED: Fixes "Property 'categories' is missing"
     };
 
     localStorage.setItem("productDetails", JSON.stringify(productDetails));
-
-    // Also update Redux if you are using it as a backup
     dispatch(updateQuickView(productDetails));
   };
 
@@ -49,65 +56,51 @@ const SingleGridItem = ({ item }: { item: CategoryProduct }) => {
     dispatch(
       updateQuickView({
         id: item.id,
-        title: item.productName,
-        price: item.oldPrice || item.price,
+        productId: item.productId,
+        productName: item.productName,
+        title: item.productName, // Added to satisfy Product type
+        price: item.price,
+        oldPrice: item.oldPrice || 0,
         discountedPrice: item.price,
-        reviews: item.reviewsCount,
-        img: `${process.env.NEXT_PUBLIC_BASE_URL}${item.thumbnailImageUrl}`, // Main image string
-        images: [
-          `${process.env.NEXT_PUBLIC_BASE_URL}${item.thumbnailImageUrl}`,
-        ], // Fallback array
-        imgs: {
-          thumbnails: [
-            `${process.env.NEXT_PUBLIC_BASE_URL}${item.thumbnailImageUrl}`,
-          ],
-          previews: [
-            `${process.env.NEXT_PUBLIC_BASE_URL}${item.thumbnailImageUrl}`,
-          ],
-        },
-        // If your Product type requires these from the item:
+        reviewsCount: item.reviewsCount || 0,
+        thumbnailImageUrl: item.thumbnailImageUrl,
         slug: item.slug,
         description: item.description,
-      })
+        shortDescription: item.shortDescription || "", // Added
+        stockQuantity: item.stockQuantity, // Added
+        categories: [], // Added
+        attributes: item.attributes || [], // Added
+        imgs: {
+          thumbnails: [
+            `${process.env.NEXT_PUBLIC_BASE_IMG_URL}${item.thumbnailImageUrl}`,
+          ],
+          previews: [
+            `${process.env.NEXT_PUBLIC_BASE_IMG_URL}${item.thumbnailImageUrl}`,
+          ],
+          fullSize: [
+            `${process.env.NEXT_PUBLIC_BASE_IMG_URL}${item.thumbnailImageUrl}`,
+          ], // ✅ ADDED: Fixes "Property 'fullSize' is missing"
+        },
+      }),
     );
   };
 
   const handleAddToCart = async () => {
+    if (isOutOfStock) return;
+
     // 1. Prepare standardized values
-    // Use Number() to ensure ID matching works perfectly in the Redux Map/Find logic
-    const cleanId = Number(item.productId);
-    const imageUrl = `${process.env.NEXT_PUBLIC_BASE_URL}${item.thumbnailImageUrl}`;
-
-    // 2. Prepare the Redux payload
-    // MUST match the structure used in CartInitializer/setCartItems
-    const reduxPayload = {
-      id: cleanId, // Redux slice uses 'id' for calculations and uniqueness
-      title: item.productName,
-      itemId: item.id,
-      price: Number(item.price || item.oldPrice || 0),
-      discountedPrice: Number(item.price || 0),
-      quantity: 1,
-      imgs: {
-        thumbnails: [imageUrl],
-        previews: [imageUrl],
-      },
-    };
-
-    // 3. Update Redux immediately (Optimistic Update)
-    dispatch(addItemToCart(reduxPayload));
-
-    // 4. Open the modal immediately so the user sees the change
-    // openCartModal();
+    const cleanId = Number(item.id);
+    const imageUrl = `${process.env.NEXT_PUBLIC_BASE_IMG_URL}${item.thumbnailImageUrl}`;
+    
+    // 2. Determine the Item ID (Default to product.id for guest/offline users)
+    let finalItemId = item.id; 
 
     const userToken = localStorage.getItem("userToken");
-    console.log("userToken: ", userToken);
+    const customerIdStr = localStorage.getItem("customerId");
 
-    if (userToken) {
-      const customerIdStr = localStorage.getItem("customerId");
-      const customerId = customerIdStr ? parseInt(customerIdStr, 10) : null;
-
-      if (!customerId) return;
-
+    // 3. Server-Side Sync (Attempt to get real DB itemId if logged in)
+    if (userToken && customerIdStr) {
+      const customerId = parseInt(customerIdStr, 10);
       try {
         const apiPayload = {
           productId: cleanId,
@@ -115,7 +108,7 @@ const SingleGridItem = ({ item }: { item: CategoryProduct }) => {
           quantity: 1,
         };
 
-        await apiClient.post(
+        const response = await apiClient.post(
           `/customers/${customerId}/add-cart-item`,
           apiPayload,
           {
@@ -123,23 +116,41 @@ const SingleGridItem = ({ item }: { item: CategoryProduct }) => {
           }
         );
 
-        // ✅ DO NOT call fetchServerCart here.
-        // Since we updated Redux optimistically with the correct ID and structure,
-        // the local state is already correct.
+        // ✅ Success: Update the itemId with the REAL primary key from your DB (e.g., 30086)
+        if (response.data && response.data.success) {
+          finalItemId = response.data.itemId;
+          console.log("Synced with server. DB ItemId:", finalItemId);
+        }
       } catch (err) {
-        console.error("Error adding item to server-side cart:", err);
-        // Optional: rollback Redux if the server fails
+        console.error("Error adding item to server-side cart, falling back to local ID:", err);
+        // We keep finalItemId as item.id so the cart doesn't break
       }
     }
+
+    // 4. Prepare the Redux payload with the correct ID
+    const reduxPayload = {
+      id: cleanId, // Product ID for calculations
+      title: item.productName,
+      itemId: finalItemId, // REAL DB ID if logged in, otherwise product.id
+      price: Number(item.price || item.oldPrice || 0),
+      discountedPrice: Number(item.price || 0),
+      quantity: 1,
+      thumbnailImageUrl: imageUrl,
+      imgs: {
+        thumbnails: [imageUrl],
+        previews: [imageUrl],
+      },
+    };
+
+    // 5. Update Redux and UI
+    dispatch(addItemToCart(reduxPayload));
+    
     window.scrollTo({
       top: 0,
-      behavior: "smooth", // Use 'smooth' for a nice animation or 'auto' for instant jump
+      behavior: "smooth",
     });
     openCartModal();
   };
-  const discountPercent = Math.round(
-    ((item.price - item.oldPrice) / item.price) * 100
-  );
 
   const handleAddToWishlist = async () => {
     // 1. Retrieve required data from storage
@@ -149,12 +160,12 @@ const SingleGridItem = ({ item }: { item: CategoryProduct }) => {
     // 2. Security/Validation check
     if (!userToken || !customerIdStr) {
       console.warn("User must be logged in to add items to the wishlist.");
-      // Optional: Trigger a login modal or notification
+      router.push("/signin");
       return;
     }
 
     const customerId = parseInt(customerIdStr, 10);
-    const cleanProductId = Number(item.productId);
+    const cleanProductId = Number(item.id);
 
     try {
       // 3. Use the specific API service function
@@ -164,24 +175,53 @@ const SingleGridItem = ({ item }: { item: CategoryProduct }) => {
           productId: cleanProductId,
           quantity: 1, // Default quantity for wishlist items
         },
-        userToken
+        userToken,
       );
 
       // 4. Success feedback
       console.log("Success:", result.message);
       // Optional: Add a toast notification here
+      setWishlistMessage("Added to wishlist!");
+
+      // ✅ Clear message after 3 seconds
+      setTimeout(() => {
+        setWishlistMessage(null);
+      }, 10000);
     } catch (err: any) {
       // Error is already logged in the service, but you can handle UI feedback here
       console.error("Failed to add to wishlist:", err.message);
     }
   };
+  const sizeAttr = item.attributes?.find((a) => a.attributeName === "Size");
+  const colorAttr = item.attributes?.find((a) => a.attributeName === "Color");
+  const isOutOfStock = item.stockQuantity <= 0;
+  const hasDiscount = item.oldPrice && item.oldPrice > item.price;
+  const discountPercent = hasDiscount
+    ? Math.round(((item.oldPrice - item.price) / item.oldPrice) * 100)
+    : 0;
 
   return (
     <div className="group w-full bg-white flex flex-col items-start text-start">
       {/* Image Container with LG-style border and padding */}
-      <div className="relative w-full aspect-square flex items-center justify-center mb-4 border border-[#E8E8E8] p-8 bg-[#FDFDFD] overflow-hidden">
+      <div className="relative w-full aspect-square flex items-center justify-center mb-4 border border-[#E8E8E8] p-8 overflow-hidden">
         {/* TOP RIGHT ICONS: Wishlist and Share */}
         <div className="absolute top-2 right-2 flex items-center gap-2 z-20">
+          <div className="h-5">
+            {" "}
+            <p className="w-full text-center"></p>
+            {/* Fixed height prevent layout shift when text appears */}
+            {wishlistMessage && (
+              <p
+                className={`text-sm font-medium animate-fade-in text-center ${
+                  wishlistMessage.includes("Added to wishlist!")
+                    ? "text-red"
+                    : "text-green-600"
+                }`}
+              >
+                {wishlistMessage}
+              </p>
+            )}
+          </div>
           <button
             onClick={handleAddToWishlist}
             className="text-gray-400 hover:text-[#AD003A] transition-colors"
@@ -223,17 +263,21 @@ const SingleGridItem = ({ item }: { item: CategoryProduct }) => {
           </button>
         </div>
 
-        {/* Discount Badge - Positioned slightly lower to avoid icons */}
-        {discountPercent > 0 && (
-          <span className="absolute top-25 right-0 bg-[#116DB2] text-white text-sm font-bold py-1 px-3">
-            SALE
+        {isOutOfStock ? (
+          <span className="absolute top-12 right-0 bg-[#D32F2F] text-white text-[10px] font-bold py-1 px-3 z-10 uppercase tracking-widest">
+            Out of Stock
           </span>
+        ) : (
+          discountPercent > 0 && (
+            <span className="absolute top-14 right-0 bg-[#116DB2] text-white text-[12px] font-bold py-1 px-3 z-10">
+              -{discountPercent}%
+            </span>
+          )
         )}
-
         {/* Product Image */}
         <div className="relative w-full h-full transition-transform duration-500 group-hover:scale-105">
           <Image
-            src={`${process.env.NEXT_PUBLIC_BASE_URL}${item.thumbnailImageUrl}`}
+            src={`${process.env.NEXT_PUBLIC_BASE_IMG_URL}${item.thumbnailImageUrl}`}
             unoptimized
             alt={item.productName}
             fill
@@ -266,21 +310,51 @@ const SingleGridItem = ({ item }: { item: CategoryProduct }) => {
         </Link>
       </h3>
 
-      {/* Meta Info */}
-      {/* <p className="text-[12px] text-gray-500 mb-2 font-medium uppercase tracking-wider">
-        {item.category && item.category.length > 0
-          ? item.category[0]
-          : "General"}{" "}
-        | {item.reviews} Reviews
-      </p> */}
+      {/* Meta Info - Fixed height container */}
+      <div className="mt-2 mb-2 h-[52px] flex flex-col justify-start gap-1">
+        {item.attributes &&
+          item.attributes
+            .filter(
+              (attr) =>
+                attr.attributeName === "Size" || attr.attributeName === "Color",
+            )
+            .map((attr, index) => (
+              <div key={index} className="flex items-center gap-2 h-6">
+                <p className="text-[12px] text-gray-500 font-medium uppercase tracking-wider">
+                  {attr.attributeName}:
+                </p>
 
-      {/* Pricing section */}
-      <div className="flex flex-col items-start mb-5">
-        <div className="flex items-baseline gap-1.5">
+                {attr.attributeName === "Size" ? (
+                  <span className="text-[12px] text-gray-900 font-bold">
+                    {attr.value}
+                  </span>
+                ) : (
+                  <div
+                    className="w-4 h-4 rounded-full border border-gray-200 shadow-sm"
+                    style={{ backgroundColor: attr.value }}
+                    title={attr.value}
+                  />
+                )}
+              </div>
+            ))}
+      </div>
+
+      {/* Pricing section - Modified Logic */}
+      <div className="flex flex-col items-start mb-5 h-[40px] justify-center">
+        <div className="flex items-center gap-2">
+          {/* Current Price */}
           <span className="text-2xl font-bold text-[#000000]">
             {item.price}$
           </span>
-          <span className="text-[10px] font-bold text-[#000000] uppercase self-baseline translate-y-[1px]">
+
+          {/* Old Price (Strikethrough) - only if higher than current */}
+          {hasDiscount && (
+            <span className="text-sm text-gray-400 line-through decoration-gray-400">
+              {item.oldPrice}$
+            </span>
+          )}
+
+          <span className="text-[10px] font-bold text-black uppercase translate-y-[2px]">
             TTC
           </span>
         </div>
@@ -290,9 +364,15 @@ const SingleGridItem = ({ item }: { item: CategoryProduct }) => {
       <div className="w-full grid grid-cols-1 gap-2">
         <button
           onClick={handleAddToCart}
-          className="w-full text-center font-bold text-white text-sm rounded-full bg-[#116DB2] py-3 px-10 hover:bg-[#AD003A] transition-all duration-300"
+          disabled={isOutOfStock}
+          className={`w-full text-center font-bold text-white text-sm rounded-full py-3 px-10 transition-all duration-300 
+            ${
+              isOutOfStock
+                ? "bg-gray-4 cursor-not-allowed"
+                : "bg-[#116DB2] hover:bg-[#AD003A]"
+            }`}
         >
-          Add to Cart
+          {isOutOfStock ? "Out of Stock" : "Add to Cart"}
         </button>
         <Link
           href="/contact"

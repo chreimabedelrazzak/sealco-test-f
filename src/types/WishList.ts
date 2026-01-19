@@ -1,4 +1,7 @@
 export interface WishListItemVm {
+  thumbnailImageUrl: string;
+  price: number;
+  oldPrice: number;
   id: number;
   productId: number;
   productName: string;

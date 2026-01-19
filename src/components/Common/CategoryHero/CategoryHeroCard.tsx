@@ -57,12 +57,15 @@
 "use client";
 
 interface CategoryHeroCardProps {
+  title: string;
   image: string;
+  description: string;
+  buttonLink: string;
 }
 
 export default function CategoryHeroCard({ image }: CategoryHeroCardProps) {
   return (
-    <section className="relative w-full h-[400px] md:h-[500px] a2xl:max-w-[1600px] mx-auto overflow-hidden bg-[#F8F8F8]">
+    <section className="relative w-full ah-[700px] h-[500px] 2xl:h-[700px] a2xl:max-w-[1600px] mx-auto overflow-hidden bg-[#F8F8F8]">
       <div
         className="absolute inset-0 w-full h-full bg-center bg-no-repeat bg-cover transition-all duration-700"
         style={{

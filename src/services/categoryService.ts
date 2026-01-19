@@ -1,5 +1,5 @@
-import { apiClient } from './apiClient';
-import { CategoryDetails, CategoryProductResponse } from '../types/Category';
+import { apiClient } from "./apiClient";
+import { CategoryDetails, CategoryProductResponse } from "../types/Category";
 
 /**
  * Service to handle Category-related APIs
@@ -11,12 +11,18 @@ export const categoryService = {
    */
   getCategoryBySlug: async (slug: string): Promise<CategoryDetails> => {
     try {
-      const response = await apiClient.get<CategoryDetails>('/categories/by-slug', {
-        params: { slug } // Axios will encode "category/christmas-offers" correctly
-      });
+      const response = await apiClient.get<CategoryDetails>(
+        "/categories/by-slug",
+        {
+          params: { slug }, // Axios will encode "category/christmas-offers" correctly
+        },
+      );
       return response.data;
     } catch (error: any) {
-      console.error(`Get Category By Slug (${slug}) Error:`, error.response?.data || error.message);
+      console.error(
+        `Get Category By Slug (${slug}) Error:`,
+        error.response?.data || error.message,
+      );
       throw error;
     }
   },
@@ -26,21 +32,35 @@ export const categoryService = {
    * GET /api/categories/{id}/products?page=1&pageSize=10
    */
   getProductsByCategoryId: async (
-    id: number, 
-    page: number = 1, 
-    pageSize: number = 10
+    id: number,
+    page: number = 1,
+    pageSize: number = 12,
+    categories?: string,   // Comma-separated IDs: "47,48"
+    attributes?: string,   // Formatted string: "Color:Black,White|Size:22"
+    minPrice?: number,     // New parameter
+    maxPrice?: number      // New parameter
   ): Promise<CategoryProductResponse> => {
     try {
       const response = await apiClient.get<CategoryProductResponse>(
-        `/categories/${id}/products`, 
+        `/categories/${id}/products`,
         {
-          params: { page, pageSize }
-        }
+          params: {
+            page,
+            pageSize,
+            categories: categories || undefined,
+            attributes: attributes || undefined,
+            minPrice: minPrice ?? undefined,
+            maxPrice: maxPrice ?? undefined,
+          },
+        },
       );
       return response.data;
     } catch (error: any) {
-      console.error(`Get Products for Category ${id} Error:`, error.response?.data || error.message);
+      console.error(
+        `Get Products for Category ${id} Error:`,
+        error.response?.data || error.message,
+      );
       throw error;
     }
-  }
+  },
 };

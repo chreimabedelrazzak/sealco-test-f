@@ -20,24 +20,31 @@ const SingleItem = ({ item }: { item: Product }) => {
   };
 
   // add to cart
-  const handleAddToCart = () => {
-    dispatch(
-      addItemToCart({
-        ...item,
-        quantity: 1,
-      })
-    );
-  };
-
-  const handleItemToWishList = () => {
-    dispatch(
-      addItemToWishlist({
-        ...item,
-        status: "available",
-        quantity: 1,
-      })
-    );
-  };
+    const handleAddToCart = () => {
+      dispatch(
+        addItemToCart({
+          ...item,
+          title: item.productName,
+          itemId: item.id,
+          // Ensure discountedPrice is a number, falling back to regular price if null
+          discountedPrice: item.discountedPrice ?? item.price,
+          quantity: 1,
+        })
+      );
+    };
+  
+    const handleItemToWishList = () => {
+      dispatch(
+        addItemToWishlist({
+          ...item,
+          title: item.productName,
+          // Ensure discountedPrice is a number, falling back to regular price if null
+          discountedPrice: item.discountedPrice ?? item.price,
+          status: "available",
+          quantity: 1,
+        })
+      );
+    };
 
   return (
     <div className="group">
@@ -77,7 +84,7 @@ const SingleItem = ({ item }: { item: Product }) => {
               />
             </div>
 
-            <p className="text-custom-sm">({item.reviews})</p>
+            <p className="text-custom-sm">({item.reviewsCount || 0})</p>
           </div>
 
           <h3 className="font-medium text-dark ease-out duration-200 hover:text-blue mb-1.5">

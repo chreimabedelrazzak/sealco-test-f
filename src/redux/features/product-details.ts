@@ -11,15 +11,22 @@ const initialState: InitialState = {
     productId: 0,
     productName: "",
     title: "",
-    reviews: 0,
+    reviewsCount: 0, // Using reviewsCount to match your API
     price: 0,
     oldPrice: 0,
     discountedPrice: 0,
     thumbnailImageUrl: null,
     slug: "",
     description: "",
-    imgs: { thumbnails: [], previews: [] },
-  },
+    shortDescription: "",
+    stockQuantity: 0,
+    imgs: { 
+      thumbnails: [], 
+      previews: [], 
+      fullSize: [] // Added this to fix the error
+    },
+    attributes: []
+  } as Product,
 };
 
 export const productDetails = createSlice({

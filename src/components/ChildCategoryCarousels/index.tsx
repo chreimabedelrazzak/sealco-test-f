@@ -43,10 +43,10 @@ const ChildCategoryCarousel = ({ categories }: ChildCategoryCarouselProps) => {
             <SwiperSlide key={index}>
               <Link href={`/${item?.slug}`} className="group block text-center">
                 {/* Image Container: Using a light gray background like LG */}
-                <div className="relative aspect-square w-full bg-[#F6F6F6] rounded-sm overflow-hidden mb-4 items-center justify-center p-6 flex flex-col ">
+                <div className="relative aspect-square w-full bag-[#F6F6F6] rounded-sm overflow-hidden mb-4 items-center justify-center p-6 flex flex-col ">
                   <div className="relative w-full h-full transition-transform duration-500 ">
                     <Image
-                      src={`${process.env.NEXT_PUBLIC_BASE_URL}/user-content/no-image.png`}
+                      src={`${process.env.NEXT_PUBLIC_BASE_IMG_URL}${item.thumbnailImageUrl}`}
                       unoptimized
                       alt={item.name}
                       fill

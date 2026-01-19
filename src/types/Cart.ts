@@ -18,3 +18,9 @@ export interface CartDetails {
   totalQuantity: number;
   totalPrice: number;
 }
+
+export interface AddToCartResponse {
+  success: boolean;
+  itemId: number;
+  productId: number;
+}

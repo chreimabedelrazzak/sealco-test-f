@@ -43,5 +43,27 @@ export const wishListService = {
       console.error("Wishlist Add Error:", error.response?.data || error.message);
       throw error;
     }
+  },
+  
+  removeItemFromWishlist: async (
+    userId: number | string,
+    productId: number,
+    userToken: string
+  ): Promise<WishListResponse> => {
+    try {
+      const response = await apiClient.delete<WishListResponse>(
+        `/wishlist/remove-item/${userId}/${productId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${userToken}`,
+          },
+        }
+      );
+      return response.data;
+    } catch (error: any) {
+      console.error("Wishlist Remove Error:", error.response?.data || error.message);
+      throw error;
+    }
   }
+
 };

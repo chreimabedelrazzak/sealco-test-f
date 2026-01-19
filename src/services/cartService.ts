@@ -1,5 +1,5 @@
 import { apiClient } from './apiClient';
-import { CartItem, AddToCartRequest, CartDetails } from '@/types/Cart';
+import { CartItem, AddToCartRequest, CartDetails, AddToCartResponse } from '@/types/Cart';
 
 export const cartService = {
   /**
@@ -38,12 +38,14 @@ export const cartService = {
   addToCartByCustomerId: async (
     customerId: number,
     payload: AddToCartRequest
-  ): Promise<void> => {
+  ): Promise<AddToCartResponse> => { // Changed from void
     try {
-      await apiClient.post(
+      const response = await apiClient.post<AddToCartResponse>(
         `/customers/${customerId}/add-cart-item`,
         payload
       );
+      
+      return response.data; // Return the { success, itemId, productId } object
     } catch (error: any) {
       console.error(
         `Add To Cart for Customer ${customerId} Error:`,

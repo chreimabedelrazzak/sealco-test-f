@@ -26,6 +26,10 @@ const ProductItem = ({ item }: { item: Product }) => {
     dispatch(
       addItemToCart({
         ...item,
+        title: item.productName,
+        itemId: item.id,
+        // Ensure discountedPrice is a number, falling back to regular price if null
+        discountedPrice: item.discountedPrice ?? item.price,
         quantity: 1,
       })
     );
@@ -35,6 +39,9 @@ const ProductItem = ({ item }: { item: Product }) => {
     dispatch(
       addItemToWishlist({
         ...item,
+        title: item.productName,
+        // Ensure discountedPrice is a number, falling back to regular price if null
+        discountedPrice: item.discountedPrice ?? item.price,
         status: "available",
         quantity: 1,
       })
@@ -149,7 +156,7 @@ const ProductItem = ({ item }: { item: Product }) => {
           />
         </div>
 
-        <p className="text-custom-sm">({item.reviews})</p>
+        <p className="text-custom-sm">({item.reviewsCount || 0})</p>
       </div>
 
       <h3

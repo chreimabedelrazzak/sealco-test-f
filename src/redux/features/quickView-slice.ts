@@ -5,35 +5,41 @@ type InitialState = {
   value: Product;
 };
 
-const initialState = {
+const initialState: InitialState = {
   value: {
-    title: "",
-    reviews: 0,
-    price: 0,
-    discountedPrice: 0,
-    img: "",
     id: 0,
-    images: [],
-    imgs: { thumbnails: [], previews: [] },
-  } as unknown as Product,
-} as InitialState;
+    productId: 0,
+    productName: "",
+    title: "", // Map to productName in your components
+    reviewsCount: 0, // Matches your .NET API property
+    price: 0,
+    oldPrice: 0,
+    discountedPrice: 0,
+    thumbnailImageUrl: "",
+    slug: "",
+    description: "",
+    shortDescription: "", // Added missing property
+    stockQuantity: 0,     // Added missing property
+    categories: [],       // Added missing property
+    attributes: [],       // Added missing property
+    imgs: { 
+      thumbnails: [], 
+      previews: [], 
+      fullSize: []        // Fixed: Added missing fullSize array
+    },
+  } as Product,
+};
 
 export const quickView = createSlice({
   name: "quickView",
   initialState,
   reducers: {
-    updateQuickView: (_, action) => {
-      return {
-        value: {
-          ...action.payload,
-        },
-      };
+    updateQuickView: (state, action: PayloadAction<Product>) => {
+      state.value = action.payload;
     },
 
-    resetQuickView: () => {
-      return {
-        value: initialState.value,
-      };
+    resetQuickView: (state) => {
+      state.value = initialState.value;
     },
   },
 });
