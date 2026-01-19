@@ -9,8 +9,6 @@ import Link from "next/link";
 const Cart = () => {
   const cartItems = useAppSelector((state) => state.cartReducer.items);
 
-  
-
   return (
     <div className="bg-white min-h-screen">
       <BreadcrumbThree title={"Shopping Cart"} pages={["Shopping Cart"]} />
@@ -19,54 +17,47 @@ const Cart = () => {
         <section className="py-12">
           <div className="max-w-[1200px] 2xl:max-w-[1400px] w-full mx-auto px-4">
             {/* 1. SHOPPING CART TITLE */}
-  
 
-            {/* 2. STEP INDICATOR (LG Style) */}
-            <div className="flex w-full mb-10 overflow-hidden rounded-full border border-gray-100">
-              <div className="flex-1 bg-[#116DB2] text-white py-3 text-center font-bold text-sm">
-                Shopping Cart
+            {/* 2. STEP INDICATOR (Improved Responsive) */}
+            <div className="flex w-full mb-8 overflow-hidden rounded-full border border-gray-100 shadow-sm">
+              {/* Step 1: Shopping Cart */}
+              <div className="flex-1 bg-[#116DB2] text-white py-3 px-1 text-center font-bold text-xs sm:text-sm flex items-center justify-center gap-2">
+                <span>Shopping Cart</span>
               </div>
-              <div className="flex-1 bg-[#F6F6F6] text-gray-400 py-3 text-center font-bold text-sm">
-                Delivery & Payment
+
+              {/* Step 2: Delivery & Payment */}
+              <div className="flex-1 bg-[#F6F6F6] text-gray-400 py-3 px-1 text-center font-bold text-xs sm:text-sm flex items-center justify-center gap-2 border-x border-white">
+                <span className="hidden sm:inline">Delivery & Payment</span>
+                <span className="sm:hidden">Delivery</span>{" "}
+                {/* Shorter text for mobile */}
               </div>
-              <div className="flex-1 bg-[#F6F6F6] text-gray-400 py-3 text-center font-bold text-sm">
-                Receipt
+
+              {/* Step 3: Receipt */}
+              <div className="flex-1 bg-[#F6F6F6] text-gray-400 py-3 px-1 text-center font-bold text-xs sm:text-sm flex items-center justify-center gap-2">
+                <span>Receipt</span>
               </div>
             </div>
 
             {/* 3. PRODUCT TABLE HEADERS
                 Updated grid to match your request: size removed, titles outlined/aligned.
             */}
-            <div className="w-full overflow-x-auto">
-              <div className="min-w-[900px]">
-                {/* 3. PRODUCT TABLE HEADERS */}
-                <div className="grid grid-cols-[1.5fr_1.5fr_1.5fr_1fr_0.5fr_50px] border-b border-gray-200 pb-4 mb-6 px-4">
-                  <p className="text-sm font-bold text-black uppercase">
-                    Product
-                  </p>
-                  <p className="text-sm font-bold text-black uppercase text-center">
-                    Unit Price
-                  </p>
-                  <p className="text-sm font-bold text-black uppercase text-center">
-                    Quantity
-                  </p>
-                  <p className="text-sm font-bold text-black uppercase text-center">
-                    Subtotal
-                  </p>
-                  <p className="invisible">Action</p>
-                </div>
+            <div className="w-full px-4 md:px-0">
+  {/* 3. PRODUCT TABLE HEADERS - Visible only on Desktop (md and up) */}
+  <div className="hidden md:grid grid-cols-[1.5fr_1fr_1fr_1fr_50px] border-b border-gray-200 pb-4 mb-6 px-4">
+    <p className="text-sm font-bold text-black uppercase">Product</p>
+    <p className="text-sm font-bold text-black uppercase text-center">Unit Price</p>
+    <p className="text-sm font-bold text-black uppercase text-center">Quantity</p>
+    <p className="text-sm font-bold text-black uppercase text-center">Subtotal</p>
+    <p className="invisible">Action</p>
+  </div>
 
-                {/* 4. CART ITEMS 
-                    Ensure SingleItem component uses: 
-                    className="grid grid-cols-[2.5fr_1.2fr_1.2fr_1.2fr_50px] items-center px-4"
-                */}
-                <div className="flex flex-col gap-8">
-                  {cartItems.map((item, key) => (
-                    <SingleItem item={item} key={key} />
-                  ))}
-                </div>
-              </div>
-            </div>
+  {/* 4. CART ITEMS - Stacked cards on mobile, Grid rows on desktop */}
+  <div className="flex flex-col gap-6 md:gap-8">
+    {cartItems.map((item, key) => (
+      <SingleItem item={item} key={key} />
+    ))}
+  </div>
+</div>
 
             {/* 5. SEND AS A GIFT SECTION */}
             <div className="mt-12 border-t border-gray-100 pt-8">
