@@ -244,9 +244,9 @@
 // };
 
 // export default Header;
-
+//-----------------------------------------------------
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { menuData } from "./menuData";
 import Dropdown from "./Dropdown";
@@ -267,6 +267,26 @@ const Header = () => {
   const product = useAppSelector((state) => state.cartReducer.items);
   const router = useRouter();
   const [menuData_, setMenuData] = useState<MenuDetails | null>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      // If menu is open and the click is NOT inside the menuRef, close it
+      if (navigationOpen && menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setNavigationOpen(false);
+      }
+    };
+
+    // Bind the event listener
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      // Unbind the event listener on clean up
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [navigationOpen]);
+
+  // 3. Helper function to close menu when clicking an item
+  const closeMenu = () => setNavigationOpen(false);
 
   useEffect(() => {
     menuService
@@ -290,13 +310,14 @@ const Header = () => {
       // Redirect to /search with the query as a parameter
       router.push(`/search?q=${encodeURIComponent(searchQuery)}`);
     }
+    closeMenu()
   };
 
   return (
-    <header className="relative w-full bg-[#F8F8F8] z-[9999]">
+    <header ref={menuRef} className="relative w-full bg-[#F8F8F8] z-[9999] ">
       <div className="max-w-[1600px] mx-auto md:px-8 pt-4">
         {/* Main Flex Container: Logo on left, Actions/Search on right */}
-        <div className="flex items-center justify-between">
+        <div  className="flex items-center justify-between">
           {/* LOGO - Stays Left */}
           <Link href="/" className="flex-shrink-0">
             <div className="relative w-[140px] h-[80px] sm:w-[180px] md:w-[220px] lg:w-[240px]">
@@ -375,15 +396,18 @@ const Header = () => {
 
       {/* Navigation & Mobile Search Section */}
       <div
-        className={`xl:block ${navigationOpen ? "block bg-white border-t border-gray-100" : "hidden"}`}
+        className={`xl:block ${navigationOpen ? "block bg-white border-t border-[#F2F2F2]" : "hidden"}`}
       >
         <div className="max-w-[1600px] mx-auto px-4 md:px-8">
           <nav className="xl:flex xl:justify-end">
             <ul className="flex flex-col xl:flex-row xl:items-center gap-1 xl:gap-7">
               {/* For Mobile: Search bar appears at the top of the menu list */}
-              <li className="lg:hidden py-4 border-b border-gray-100">
+              <li className="lg:hidden py-4 border-b border-[#F2F2F2]">
                 <input
-                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onChange={(e) => {
+                    setSearchQuery(e.target.value)
+                    closeMenu()
+                  }}
                   onKeyDown={handleSearch} // Trigger on "Enter"
                   value={searchQuery}
                   type="search"
@@ -406,7 +430,7 @@ const Header = () => {
                 </li>
               ))} */}
               {menuData_?.items?.map((menuItem) => (
-                <li key={menuItem.id}>
+                <li onClick={closeMenu} key={menuItem.id}>
                   {menuItem.parentId !== null ? (
                     <Dropdown menuItem={menuItem} stickyMenu={false} />
                   ) : (
