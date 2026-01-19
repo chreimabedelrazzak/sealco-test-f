@@ -58,24 +58,39 @@ const SingleOrder = ({ orderItem, smallView }: { orderItem: OrderDetailVm; small
       )}
 
       {smallView && (
-        <div className="block md:hidden border-b border-gray-3">
-          <div className="py-4.5 px-7.5">
-            <p className="text-custom-sm text-dark"><span className="font-bold pr-2">Order:</span> #{orderItem.id}</p>
-            <p className="text-custom-sm text-dark"><span className="font-bold pr-2">Date:</span> {new Date(orderItem.createdOn).toLocaleDateString()}</p>
-            <p className="text-custom-sm text-dark"><span className="font-bold pr-2">Status:</span> 
-              <span className={`inline-block text-custom-sm py-0.5 px-2.5 rounded-[30px] capitalize ${getStatusClass(orderItem.orderStatusString)}`}>
-                {orderItem.orderStatusString}
-              </span>
-            </p>
-            <p className="text-custom-sm text-dark"><span className="font-bold pr-2">Items:</span> {orderTitle}</p>
-            <p className="text-custom-sm text-dark"><span className="font-bold pr-2">Total:</span> {orderItem.orderTotalString}</p>
-            {/* <div className="flex items-center mt-2">
-              <span className="font-bold pr-2 text-custom-sm text-dark">Actions:</span>
-              <OrderActions toggleDetails={toggleDetails} toggleEdit={toggleEdit} />
-            </div> */}
-          </div>
+  <div className="block md:hidden border-b border-gray-200 bg-white">
+    <div className="py-20 px-6">
+      {/* Top Row: Order ID and Status Badge */}
+      <div className="flex justify-between items-start mb-4">
+        <div>
+          <span className="text-xs font-bold text-gray-400 uppercase tracking-wider block mb-1">Order ID</span>
+          <p className="text-lg font-bold text-dark leading-none">#{orderItem.id}</p>
         </div>
-      )}
+        <span className={`text-xs font-bold py-1 px-3 rounded-full capitalize shadow-sm ${getStatusClass(orderItem.orderStatusString)}`}>
+          {orderItem.orderStatusString}
+        </span>
+      </div>
+
+      {/* Detail Grid */}
+      <div className="grid grid-cols-2 gap-y-4 gap-x-2 border-t border-gray-50 pt-4">
+        <div>
+          <span className="text-xs text-gray-500 block">Date</span>
+          <p className="text-sm font-medium text-dark">{new Date(orderItem.createdOn).toLocaleDateString()}</p>
+        </div>
+        <div>
+          <span className="text-xs text-gray-500 block">Total</span>
+          <p className="text-sm font-bold text-[#116DB2]">{orderItem.orderTotalString}</p>
+        </div>
+        <div className="col-span-2">
+          <span className="text-xs text-gray-500 block">Items</span>
+          <p className="text-sm font-medium text-dark line-clamp-1">{orderTitle}</p>
+        </div>
+      </div>
+
+     
+    </div>
+  </div>
+)}
 
       <OrderModal showDetails={showDetails} showEdit={showEdit} toggleModal={toggleModal} order={orderItem} />
     </>

@@ -80,11 +80,15 @@ const CartSidebarModal = () => {
       <div className="absolute inset-0 bg-black/5" onClick={closeCartModal} />
       <div className="max-w-[1400px] mx-auto px-4 relative h-full">
         <div
-          ref={modalRef}
-          className={`absolute top-20 right-4 w-full max-w-[380px] bg-white shadow-2xl rounded-sm border border-gray-100 transition-all duration-300 transform origin-top-right ${
-            isCartModalOpen ? "scale-100 opacity-100" : "scale-95 opacity-0"
-          }`}
-        >
+  ref={modalRef}
+  className={`absolute top-20 w-[calc(100%-32px)] max-w-[380px] bg-white shadow-2xl rounded-sm border border-gray-100 transition-all duration-300 transform 
+    /* MOBILE: Centered */
+    left-1/2 -translate-x-1/2 origin-top 
+    /* DESKTOP (md and up): Aligned to right */
+    md:left-auto md:right-4 md:translate-x-0 md:origin-top-right 
+    ${isCartModalOpen ? "scale-100 opacity-100" : "scale-95 opacity-0"}
+  `}
+>
           <div className="px-5 py-4 flex items-center justify-between border-b border-gray-100">
             <h2 className="font-bold text-[#010101] text-lg">My Bag</h2>
             <button

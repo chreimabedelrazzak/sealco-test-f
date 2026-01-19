@@ -123,7 +123,7 @@ const MyAccount = () => {
         <div className="max-w-[1200px] 2xl:max-w-[1600px] w-full mx-auto px-4 sm:px-8">
           <div className="flex flex-col lg:flex-row gap-12 xl:gap-24">
             {/* LEFT SIDEBAR */}
-            <aside className="lg:w-[280px] flex-shrink-0">
+            <aside className="lg:w-[280px] flex-shrink-0 hidden lg:flex">
               <nav className="space-y-8">
                 <div>
                   <h3 className="text-xl font-bold text-[#000000] mb-4">
