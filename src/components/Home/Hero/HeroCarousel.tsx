@@ -1,160 +1,117 @@
+
 // "use client";
 // import { Swiper, SwiperSlide } from "swiper/react";
 // import { Autoplay, Pagination } from "swiper/modules";
-
-// // Import Swiper styles
-// import "swiper/css/pagination";
 // import "swiper/css";
-
-// import Image from "next/image";
-
-// const HeroCarousal = () => {
+// import "swiper/css/pagination";
+// import HeroCardOne from "./HeroCardOne";
+// const HeroCarousel = () => {
 //   return (
 //     <Swiper
-//       spaceBetween={30}
+//       spaceBetween={0}
 //       centeredSlides={true}
-//       // autoplay={{
-//       //   delay: 2500,
-//       //   disableOnInteraction: false,
-//       // }}
-//       pagination={{
-//         clickable: true,
-//       }}
+//       pagination={{ clickable: true }}
 //       modules={[Autoplay, Pagination]}
-//       className="hero-carousel"
+//       className="hero-carousel h-full"
 //     >
-//       <SwiperSlide>
-//         <div
-//           className="flex items-center pt-6 sm:pt-0 flex-col-reverse sm:flex-row"
-//           style={{
-//             backgroundImage: 'url("/images/hero/main-01.png")',
-//             backgroundSize: "cover",
-//             // backgroundPosition: "bottom right",
-//           }}
-//         >
-//           <div className="w-[100%] ah-[100vh] amax-w-[394px] py-10 sm:py-15 lg:py-24.5 apl-4 asm:pl-7.5 alg:pl-12.5">
-//             <div className="flex items-center agap-4 mb-2 asm:mb-10">
-//               {/* <span className="block font-semibold text-heading-3 sm:text-heading-1 text-blue">
-//                 30%
-//               </span> */}
-//               <span className="block text-[#000000] atext-sm asm:text-custom-1 sm:leading-[24px] font-semibold text-xl sm:text-5xl">
-//                 Shop in a
-//                 <br />
-//                 {/* Off */}
-//               </span>
-//             </div>
-
-//             <h1 className="font-bold text-[#000000] text-xl sm:text-6xl mb-5">
-//               <a href="#">New Reality</a>
-//             </h1>
-
-//             <p className="sm:text-2xl text-[#000000] font-medium">
-//               Visit our virtual showroom now
-//             </p>
-
-//             <a
-//               href="#"
-//               className="inline-flex font-medium text-white text-custom-sm rounded-3xl bg-[#116DB2] py-3 px-9 ease-out duration-200 hover:bg-[#AD003A] mt-5"
-//             >
-//               Learn more
-//             </a>
-//           </div>
-
-//           {/* <div>
-//             <Image
-//               src="/images/hero/main-01.png"
-//               alt="headphone"
-//               width={351}
-//               height={358}
-//             />
-//           </div> */}
-//         </div>
-//       </SwiperSlide>
+//       {" "}
+//       {/* SLIDE 1 */}{" "}
 //       <SwiperSlide>
 //         {" "}
-//         <div className="flex items-center pt-6 sm:pt-0 flex-col-reverse sm:flex-row">
-//           <div className="w-[100%] h-[100vh] amax-w-[394px] py-10 sm:py-15 lg:py-26 pl-4 sm:pl-7.5 lg:pl-12.5">
-//             <div className="flex items-center gap-4 mb-7.5 sm:mb-10">
-//               <span className="block font-semibold text-heading-3 sm:text-heading-1 text-blue">
-//                 30%
-//               </span>
-//               <span className="block text-dark text-sm sm:text-custom-1 sm:leading-[24px]">
-//                 Sale
-//                 <br />
-//                 Off
-//               </span>
-//             </div>
-
-//             <h1 className="font-semibold text-dark text-xl sm:text-3xl mb-3">
-//               <a href="#">True Wireless Noise Cancelling Headphone</a>
-//             </h1>
-
-//             <p>
-//               Lorem ipsum dolor sit, consectetur elit nunc suscipit non ipsum
-//               nec suscipit.
-//             </p>
-
-//             <a
-//               href="#"
-//               className="inline-flex font-medium text-white text-custom-sm rounded-md bg-dark py-3 px-9 ease-out duration-200 hover:bg-blue mt-10"
-//             >
-//               Shop Now
-//             </a>
-//           </div>
-
-//           <div>
-//             <Image
-//               src="/images/hero/hero-01.png"
-//               alt="headphone"
-//               width={351}
-//               height={358}
-//             />
-//           </div>
-//         </div>
-//       </SwiperSlide>
+//         <HeroCardOne
+//           subtitle="Shop in a"
+//           title="New Reality"
+//           buttonText="Learn more"
+//           description="Visit our virtual showroom now"
+//           image="/images/hero/main-01.png"
+//         />{" "}
+//       </SwiperSlide>{" "}
+//       {/* SLIDE 2 */}{" "}
+//       <SwiperSlide>
+//         {" "}
+//         <HeroCardOne 
+//           subtitle="Shop in a"
+//           title="New Reality"
+//           buttonText="Learn more"
+//           description="Visit our virtual showroom now"
+//           image="/images/hero/main-01.png"
+//         />{" "}
+//       </SwiperSlide>{" "}
+//       <div className="swiper-pagination !bottom-5"></div>
 //     </Swiper>
 //   );
 // };
+// export default HeroCarousel;
 "use client";
+import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
+
 import HeroCardOne from "./HeroCardOne";
+import { widgetService } from "@/services/carouselService";
+import { CarouselItem } from "@/types/Carousel";
+
 const HeroCarousel = () => {
+  const [items, setItems] = useState<CarouselItem[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchWidget = async () => {
+      try {
+        // Fetching widget with ID 1 as per your requirements
+        const data = await widgetService.getCarouselWidget(1);
+        setItems(data.items);
+      } catch (error) {
+        console.error("Failed to load hero carousel:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchWidget();
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div className="flex h-full items-center justify-center min-h-[500px]">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
+
+  if (items.length === 0) return null;
+
   return (
     <Swiper
       spaceBetween={0}
       centeredSlides={true}
+      autoplay={{
+        delay: 50000,
+        disableOnInteraction: false,
+      }}
       pagination={{ clickable: true }}
       modules={[Autoplay, Pagination]}
       className="hero-carousel h-full"
     >
-      {" "}
-      {/* SLIDE 1 */}{" "}
-      <SwiperSlide>
-        {" "}
-        <HeroCardOne
-          subtitle="Shop in a"
-          title="New Reality"
-          buttonText="Learn more"
-          description="Visit our virtual showroom now"
-          image="/images/hero/main-01.png"
-        />{" "}
-      </SwiperSlide>{" "}
-      {/* SLIDE 2 */}{" "}
-      <SwiperSlide>
-        {" "}
-        <HeroCardOne 
-          subtitle="Shop in a"
-          title="New Reality"
-          buttonText="Learn more"
-          description="Visit our virtual showroom now"
-          image="/images/hero/main-01.png"
-        />{" "}
-      </SwiperSlide>{" "}
+      {items.map((item, index) => (
+        <SwiperSlide key={index}>
+          <HeroCardOne
+            subtitle={item.subCaption || ""}
+            title={item.caption || ""}
+            buttonText={item.linkText || "Learn more"}
+            description={""} // Map to an API field if available
+            targetUrl={item.targetUrl}
+            // Use videoUrl if available, otherwise fallback to imageUrl
+            video={item.video && item.video !== "null" ? item.videoUrl : null}
+            image={item.image && item.image !== "null" ? item.imageUrl : null}
+          />
+        </SwiperSlide>
+      ))}
       <div className="swiper-pagination !bottom-5"></div>
     </Swiper>
   );
 };
+
 export default HeroCarousel;

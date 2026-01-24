@@ -1,7 +1,7 @@
 export default function Globe() {
   return (
     <svg
-      fill="#676767"
+      fill="#343434"
       width="20px"
       height="20px"
       viewBox="0 0 16 16"
