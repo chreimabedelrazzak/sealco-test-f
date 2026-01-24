@@ -293,12 +293,12 @@ const Header = () => {
                   <React.Fragment key={menuItem.id}>
                     {/* Logic for the first separator after exactly 4 items */}
                     {index === 4 && (
-                      <span className="text-[#7F7F7F] font-bold mx-0">|</span>
+                      <span className="text-[#676767] font-bold mx-0">|</span>
                     )}
 
                     {/* Logic for every 3 items after the initial 4 */}
                     {index > 4 && (index - 4) % 3 === 0 && (
-                      <span className="text-[#7F7F7F] font-bold mx-0">|</span>
+                      <span className="text-[#676767] font-bold mx-0">|</span>
                     )}
 
                     <li className="whitespace-nowrap">
@@ -307,7 +307,7 @@ const Header = () => {
                       ) : (
                         <Link
                           href={`/${menuItem.customLink}`}
-                          className="text-[12px] 2xl:text-[14px] font-semibold tracking-wide text-[#7F7F7F] uppercase hover:text-[#116DB2] transition-colors leading-tight"
+                          className="text-[13px] 2xl:text-[14px] font-semibold xl:font-bold tracking-wide text-[#676767] uppercase hover:text-[#116DB2] transition-colors leading-tight"
                         >
                           {menuItem.name}
                         </Link>
