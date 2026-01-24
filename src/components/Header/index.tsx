@@ -292,12 +292,12 @@ const Header = () => {
                 {menuData_?.items?.map((menuItem, index) => (
                   <React.Fragment key={menuItem.id}>
                     {/* Logic for the first separator after exactly 4 items */}
-                    {index === 4 && (
+                    {index === 3 && (
                       <span className="text-[#676767] font-bold mx-0">|</span>
                     )}
 
                     {/* Logic for every 3 items after the initial 4 */}
-                    {index > 4 && (index - 4) % 3 === 0 && (
+                    {index > 3 && (index - 3) % 3 === 0 && (
                       <span className="text-[#676767] font-bold mx-0">|</span>
                     )}
 
