@@ -28,7 +28,7 @@ export default function CtaThree({
     <section className="bg-[#FFFFFF] pt-16 pb-6">
       <div className="2xl:max-w-[1600px] mx-auto px-6 xl:px-8">
         {/* Section Title */}
-        <h2 className="text-3xl font-bold text-[#000000] mb-12 text-start px-4">
+        <h2 className="text-3xl xl:text-4xl font-bold text-[#000000] mb-12 text-start px-4">
           {title}
         </h2>
 

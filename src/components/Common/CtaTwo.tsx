@@ -18,7 +18,7 @@ export default function CtaTwo({ title, features }: CTASectionProps) {
     <section className="bg-[#F8F8F8] py-16">
       <div className=" 2xl:max-w-[1600px] mx-auto px-6 xl:px-8">
         {/* Section Title */}
-        <h2 className="text-3xl font-bold text-[#000000] mb-12 text-start px-4">
+        <h2 className="text-3xl xl:text-4xl font-bold text-[#000000] mb-12 text-start px-4">
           {title}
         </h2>
 
@@ -31,20 +31,20 @@ export default function CtaTwo({ title, features }: CTASectionProps) {
                 <Image
                 src={item.img}
                 alt={item.title}
-                width={80}
-                height={80}
+                width={70}
+                height={70}
                 className=""
               />
               </div>
               
 
               {/* Item Title */}
-              <h3 className="font-bold text-lg text-[#000000] mb-2 uppercase">
+              <h3 className="font-bold text-xl text-[#000000] mb-2 uppercase">
                 {item.title}
               </h3>
 
               {/* Description */}
-              <p class-name="text-gray-700 text-sm leading-relaxed">
+              <p class-name="text-gray-700 text-md leading-relaxed">
                 {item.description}
               </p>
             </div>

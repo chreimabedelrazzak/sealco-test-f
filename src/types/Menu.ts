@@ -26,9 +26,17 @@ export interface MenuItem {
 }
 
 export interface MenuDetails {
-  map(arg0: (menuItem: any) => JSX.Element): import("react").ReactNode;
   id: number;
   name: string;
   isPublished: boolean;
-  items: MenuItem[];
+  items: MenuItem[]; // This is where the data lives
 }
+
+// Keep this if you use it for the formatted/nested structure in your UI
+export type FormattedMenu = {
+  id: number;
+  name: string;
+  customLink: string;
+  parentId: number | null;
+  submenu: MenuItem[];
+};

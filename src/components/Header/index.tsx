@@ -216,7 +216,7 @@ import Cart from "../svg/cart";
 import Globe from "../svg/globe";
 import { useRouter } from "next/navigation";
 import { menuService } from "@/services/menuService";
-import { MenuDetails } from "@/types/Menu";
+import { MenuDetails, MenuItem } from "@/types/Menu";
 import Dropdown from "./Dropdown";
 
 const Header = () => {
@@ -263,6 +263,22 @@ const Header = () => {
     closeMenu();
   };
 
+  // Safety first: Fallback to an empty array if data isn't loaded yet
+  const buildMenuTree = (items: MenuItem[], parentId: number | null = null): any[] => {
+  return items
+    .filter((item) => item.parentId === parentId)
+    .map((item) => ({
+      ...item,
+      submenu: buildMenuTree(items, item.id), // Recursive call
+    }))
+    .sort((a, b) => a.displayOrder - b.displayOrder);
+};
+
+// Usage inside component:
+const menuData = menuData_?.items || [];
+const structuredMenu = buildMenuTree(menuData, null);
+
+
   return (
     <header
       ref={menuRef}
@@ -289,33 +305,35 @@ const Header = () => {
             {/* CENTER/RIGHT: NAVIGATION (Hidden on mobile, flex on desktop) */}
             <nav className="hidden xl:flex items-center flex-grow justify-start lg:ml-4">
               <ul className="flex items-center flex-wrap justify-end gap-4 2xl:gap-6">
-                {menuData_?.items?.map((menuItem, index) => (
-                  <React.Fragment key={menuItem.id}>
-                    {/* Logic for the first separator after exactly 4 items */}
-                    {index === 3 && (
-                      <span className="text-[#676767] font-bold mx-0">|</span>
-                    )}
+  {structuredMenu.map((menuItem, index) => (
+    <React.Fragment key={menuItem.id}>
+      {/* Logic for the first separator after exactly 4 items */}
+      {index === 4 && (
+        <span className="text-[#676767] font-bold mx-0">|</span>
+      )}
 
-                    {/* Logic for every 3 items after the initial 4 */}
-                    {index > 3 && (index - 3) % 3 === 0 && (
-                      <span className="text-[#676767] font-bold mx-0">|</span>
-                    )}
+      {/* Logic for every 3 items after the initial 4 */}
+      {index > 4 && (index - 4) % 3 === 0 && (
+        <span className="text-[#676767] font-bold mx-0">|</span>
+      )}
 
-                    <li className="whitespace-nowrap">
-                      {menuItem.parentId !== null ? (
-                        <Dropdown menuItem={menuItem} stickyMenu={false} />
-                      ) : (
-                        <Link
-                          href={`/${menuItem.customLink}`}
-                          className="text-[13px] 2xl:text-[14px] font-semibold xl:font-bold tracking-wide text-[#676767] uppercase hover:text-[#116DB2] transition-colors leading-tight"
-                        >
-                          {menuItem.name}
-                        </Link>
-                      )}
-                    </li>
-                  </React.Fragment>
-                ))}
-              </ul>
+      <li className="whitespace-nowrap">
+        {/* If the item has children in its submenu, show Dropdown */}
+        {menuItem.submenu && menuItem.submenu.length > 0 ? (
+          <Dropdown menuItem={menuItem} stickyMenu={false} />
+        ) : (
+          <Link
+            href={menuItem.customLink.startsWith('http') ? menuItem.customLink : `/${menuItem.customLink}`}
+            className="text-[13px] 2xl:text-[14px] font-semibold xl:font-bold tracking-wide text-[#676767] uppercase hover:text-[#116DB2] transition-colors leading-tight"
+          >
+            {menuItem.name}
+          </Link>
+        )}
+      </li>
+    </React.Fragment>
+  ))}
+</ul>
+              
             </nav>
 
             {/* RIGHT GROUP: Search + Icons */}

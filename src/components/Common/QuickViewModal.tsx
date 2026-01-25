@@ -487,12 +487,12 @@ const QuickViewModal = () => {
                 </div>
               </div>
 
-              <p>
+              <div>
                 <div
                   className="product-description-container text-base lg:text-lg text-[#333333] leading-relaxed"
                   dangerouslySetInnerHTML={{ __html: product.shortDescription }}
                 />
-              </p>
+              </div>
 
               <div className="flex flex-wrap justify-between gap-5 mt-6 mb-7.5">
                 <div>

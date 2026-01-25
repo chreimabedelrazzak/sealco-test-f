@@ -20,8 +20,8 @@ export default function HeroCardTwo({
       
       {/* CONTENT LAYER - Moved up in the DOM so it renders first on mobile */}
       <div className="relative z-10 w-full 2xl:max-w-[1600px] mx-auto px-6 xl:px-8 flex flex-col justify-start pt-16 md:pt-0 md:h-full md:justify-center">
-        <div className="px-4 w-full md:max-w-[550px] lg:max-w-[500px] text-center md:text-left flex flex-col items-center md:items-start">
-          <span className="block text-[#000000] sm:leading-[45px] font-semibold text-xl sm:text-4xl axl:text-6xl">
+        <div className="px-4 w-full md:max-w-[600px] lg:max-w-[550px] text-center md:text-left flex flex-col items-center md:items-start">
+          <span className="block text-[#000000] sm:leading-[45px] font-semibold text-xl sm:text-5xl axl:text-7xl">
             {title}
           </span>
           <span className="block text-[#000000] font-semibold text-xl sm:text-3xl mb-3">
@@ -32,7 +32,7 @@ export default function HeroCardTwo({
           </p>
           <a
             href="#"
-            className="inline-flex font-bold text-white text-sm md:text-base rounded-full bg-[#116DB2] py-4 px-10 hover:bg-[#AD003A] transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1"
+            className="inline-flex font-bold text-white text-sm md:text-base rounded-3xl bg-[#116DB2] py-3 px-10 hover:bg-[#AD003A] transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1"
           >
             {buttonText}
           </a>

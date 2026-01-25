@@ -32,11 +32,13 @@ export default function CategoryCard({
             </div>
           )}
         <div className="relative w-full max-w-xs flex justify-center mb-10">
-          {/* Discount tag position adjusted */}
           
-
-          {/* Image */}
-          <img src={image} alt="product" className="w-52 h-52 object-contain" />
+          {/* IMAGE WITH ZOOM LOGIC */}
+          <img 
+            src={image} 
+            alt="product" 
+            className="w-48 h-48 object-contain transition-transform duration-500 ease-in-out group-hover:scale-110" 
+          />
 
           {/* Buy button is now positioned absolutely, hidden by default (opacity-0), 
             and fades in on hover (group-hover:opacity-100).
