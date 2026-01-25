@@ -94,6 +94,7 @@ const SingleItem = ({ orderItem, smallView, onRemove }: SingleItemProps) => {
     const reduxPayload = {
       id: cleanId, // Product ID for calculations
       title: orderItem.productName,
+      shortDescription: orderItem.shortDescription,
       itemId: finalItemId, // REAL DB ID if logged in, otherwise product.id
       price: Number(orderItem.price || orderItem.oldPrice || 0),
       discountedPrice: Number(orderItem.price || 0),

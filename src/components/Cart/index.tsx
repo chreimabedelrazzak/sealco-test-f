@@ -19,21 +19,21 @@ const Cart = () => {
             {/* 1. SHOPPING CART TITLE */}
 
             {/* 2. STEP INDICATOR (Improved Responsive) */}
-            <div className="flex w-full mb-8 overflow-hidden rounded-full border border-gray-100 shadow-sm">
+            <div className="flex w-full mb-8 overflow-hidden rounded-full shadow-sm">
               {/* Step 1: Shopping Cart */}
-              <div className="flex-1 bg-[#116DB2] text-white py-3 px-1 text-center font-bold text-xs sm:text-sm flex items-center justify-center gap-2">
+              <div className="flex-1 bg-[#116DB2] text-white py-3  text-center font-bold text-xs sm:text-sm flex items-center justify-center ">
                 <span>Shopping Cart</span>
               </div>
 
               {/* Step 2: Delivery & Payment */}
-              <div className="flex-1 bg-[#F6F6F6] text-gray-400 py-3 px-1 text-center font-bold text-xs sm:text-sm flex items-center justify-center gap-2 border-x border-white">
+              <div className="flex-1 bg-[#F6F6F6] text-[#B5B5B5] py-3  text-center font-bold text-xs sm:text-sm flex items-center justify-center">
                 <span className="hidden sm:inline">Delivery & Payment</span>
                 <span className="sm:hidden">Delivery</span>{" "}
                 {/* Shorter text for mobile */}
               </div>
 
               {/* Step 3: Receipt */}
-              <div className="flex-1 bg-[#F6F6F6] text-gray-400 py-3 px-1 text-center font-bold text-xs sm:text-sm flex items-center justify-center gap-2">
+              <div className="flex-1 bg-[#F6F6F6] text-[#B5B5B5] py-3 text-center font-bold text-xs sm:text-sm flex items-center justify-center ">
                 <span>Receipt</span>
               </div>
             </div>
@@ -44,16 +44,16 @@ const Cart = () => {
             <div className="w-full px-4 md:px-0">
               {/* 3. PRODUCT TABLE HEADERS - Visible only on Desktop (md and up) */}
               <div className="hidden md:grid grid-cols-[1.5fr_1fr_1fr_1fr_50px] border-b border-gray-200 pb-4 mb-6 px-4">
-                <p className="text-sm font-bold text-black uppercase">
+                <p className="text-sm font-bold text-black">
                   Product
                 </p>
-                <p className="text-sm font-bold text-black uppercase text-center">
+                <p className="text-sm font-bold text-black text-center">
                   Unit Price
                 </p>
-                <p className="text-sm font-bold text-black uppercase text-center">
+                <p className="text-sm font-bold text-black text-center">
                   Quantity
                 </p>
-                <p className="text-sm font-bold text-black uppercase text-center">
+                <p className="text-sm font-bold text-black text-center">
                   Subtotal
                 </p>
                 <p className="invisible">Action</p>

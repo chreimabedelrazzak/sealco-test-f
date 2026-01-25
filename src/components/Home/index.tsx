@@ -20,20 +20,22 @@ const Home = () => {
     <main>
       <Hero />
       <HeroCardTwo
-        subtitle="LG Vision"
-        title={"LG InstaView™ French Door Fridge, 716L, Steel"}
-        buttonText="Learn more"
-        description="LG's Stylish & innovative applicances "
-        image="/images/hero/main-02.png"
+        // subtitle="LG Vision"
+        // title={"LG InstaView™ French Door Fridge, 716L, Steel"}
+        // buttonText="Learn more"
+        // description="LG's Stylish & innovative applicances "
+        // image="/images/hero/main-02.png"
+        widgetId={5}
       />
       <Categories />
 
       <HeroCardTwo
-        subtitle="LG Vision"
-        title={'"The LG G5 is the best TV I\'ve ever tested" – CNET'}
-        buttonText="Learn more"
-        description="Our best and brightest OLED ever"
-        image="/images/hero/main-03.png"
+        // subtitle="LG Vision"
+        // title={'"The LG G5 is the best TV I\'ve ever tested" – CNET'}
+        // buttonText="Learn more"
+        // description="Our best and brightest OLED ever"
+        // image="/images/hero/main-03.png"
+        widgetId={6}
       />
       <Categories />
       <HeroCardThree
@@ -50,10 +52,11 @@ const Home = () => {
       {/* <CounDown /> */}
       {/* <Testimonials /> */}
       <CtaOne
-        title="Meet LG ThinQ®"
-        description="LG ThinQ® elevates your quality of life at home and beyond by bringing New Intelligence to Connected Living"
-        image="/images/common/cta-01.png"
-        buttonText="Discover More"
+        // title="Meet LG ThinQ®"
+        // description="LG ThinQ® elevates your quality of life at home and beyond by bringing New Intelligence to Connected Living"
+        // image="/images/common/cta-01.png"
+        // buttonText="Discover More"
+        widgetId={7}
       />
       <Recomendations />
       <CtaTwo

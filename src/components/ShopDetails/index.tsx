@@ -30,12 +30,13 @@ const ShopDetails = () => {
   const [previewImg, setPreviewImg] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState("specs"); // Default to specs to match LG focus
+  const [isExpanded, setIsExpanded] = useState(false);
   // Auto-select the first color found in the attributes list
   const [selectedColor, setSelectedColor] = useState(
     product.attributes?.filter((a) => a.attributeName === "Color")[0]?.value ||
       null,
   );
-    const isOutOfStock = product.stockQuantity <= 0;
+  const isOutOfStock = product.stockQuantity <= 0;
 
   const [wishlistMessage, setWishlistMessage] = useState<string | null>(null);
 
@@ -53,15 +54,15 @@ const ShopDetails = () => {
       null,
   );
 
-const handleAddToCart = async () => {
+  const handleAddToCart = async () => {
     if (isOutOfStock) return;
 
     // 1. Prepare standardized values
     const cleanId = Number(product.id);
     const imageUrl = `${process.env.NEXT_PUBLIC_BASE_IMG_URL}${product.thumbnailImageUrl}`;
-    
+
     // 2. Determine the Item ID (Default to product.id for guest/offline users)
-    let finalItemId = product.id; 
+    let finalItemId = product.id;
 
     const userToken = localStorage.getItem("userToken");
     const customerIdStr = localStorage.getItem("customerId");
@@ -81,7 +82,7 @@ const handleAddToCart = async () => {
           apiPayload,
           {
             headers: { Authorization: `Bearer ${userToken}` },
-          }
+          },
         );
 
         // ✅ Success: Update the itemId with the REAL primary key from your DB (e.g., 30086)
@@ -90,7 +91,10 @@ const handleAddToCart = async () => {
           console.log("Synced with server. DB ItemId:", finalItemId);
         }
       } catch (err) {
-        console.error("Error adding item to server-side cart, falling back to local ID:", err);
+        console.error(
+          "Error adding item to server-side cart, falling back to local ID:",
+          err,
+        );
         // We keep finalItemId as item.id so the cart doesn't break
       }
     }
@@ -99,6 +103,7 @@ const handleAddToCart = async () => {
     const reduxPayload = {
       id: cleanId, // Product ID for calculations
       title: product.productName,
+      shortDescription: product.shortDescription,
       itemId: finalItemId, // REAL DB ID if logged in, otherwise product.id
       price: Number(product.price || product.oldPrice || 0),
       discountedPrice: Number(product.price || 0),
@@ -112,7 +117,7 @@ const handleAddToCart = async () => {
 
     // 5. Update Redux and UI
     dispatch(addItemToCart(reduxPayload));
-    
+
     window.scrollTo({
       top: 0,
       behavior: "smooth",
@@ -214,6 +219,22 @@ const handleAddToCart = async () => {
   if (!product)
     return <div className="py-20 text-center">Loading product...</div>;
 
+  const stripHtml = (html) => {
+    const tmp = document.createElement("DIV");
+    tmp.innerHTML = html;
+    const text = tmp.textContent || tmp.innerText || "";
+
+    return text
+      .replace(/^\./, "") // Remove "." if it is the first character
+      .replace(/\./g, " "); // Replace all remaining "." with a space
+  };
+
+  const stripHtmlDescription = (html) => {
+    return html
+      .replace(/^\./, "") // Remove "." if it is the first character
+      .replace(/\./g, " "); // Replace all remaining "." with a space
+  };
+
   return (
     <>
       <BreadcrumbTwo title={"Shop Details"} pages={[`${product.title}`]} />
@@ -244,7 +265,7 @@ const handleAddToCart = async () => {
           <div className="flex flex-col lg:flex-row gap-10 xl:gap-20">
             {/* LEFT SIDE: Image Gallery */}
             <div className="lg:w-[55%] w-full">
-              <div className="relative aspect-square border border-[#EEEEEE] abg-[#FDFDFD] flex items-center justify-center p-10 overflow-hidden group">
+              <div className="relative aspect-square border border-[#EEEEEE] abg-[#FDFDFD] flex items-center justify-center ap-10 overflow-hidden group">
                 {/* Previous Arrow */}
                 {totalImages > 1 && (
                   <button
@@ -274,8 +295,8 @@ const handleAddToCart = async () => {
                       product.thumbnailImageUrl,
                   )}
                   alt={product.productName}
-                  width={800}
-                  height={800}
+                  width={1000}
+                  height={1000}
                   priority
                   className="object-contain transition-transform duration-500 group-hover:scale-105"
                 />
@@ -309,73 +330,87 @@ const handleAddToCart = async () => {
               </div>
 
               {/* THUMBNAILS LIST */}
-              <div className="flex gap-4 mt-6 overflow-x-auto pb-2 scrollbar-hide">
-                {product.imgs?.thumbnails.map((item: string, key: number) => {
-                  // If you want to show only a few and then "+ more", use this logic:
-                  // For now, we show all, but add the "more" label to the last one if total > limit
-                  const isLastVisible = key === displayLimit;
-                  const hasMore = totalImages > displayLimit + 1;
+              <div
+                className={`flex gap-4 mt-6 pb-2 transition-all duration-500 ${
+                  isExpanded
+                    ? "flex-wrap justify-start"
+                    : "overflow-x-auto scrollbar-hide"
+                }`}
+              >
+                {(isExpanded
+                  ? product.imgs?.thumbnails
+                  : product.imgs?.thumbnails.slice(0, 4)
+                ).map((item: string, key: number) => (
+                  <button
+                    key={key}
+                    onClick={() => setPreviewImg(key)}
+                    className={`relative w-[100px] h-[100px] border-2 transition-all p-1 bg-white flex-shrink-0 
+        ${key === previewImg ? "border-[#116DB2]" : "border-[#EEEEEE] hover:border-gray-300"}`}
+                  >
+                    <Image
+                      width={80}
+                      height={80}
+                      src={getImgUrl(item)}
+                      alt={`thumb-${key}`}
+                      className="w-full h-full object-contain"
+                    />
+                  </button>
+                ))}
 
-                  return (
-                    <button
-                      key={key}
-                      onClick={() => setPreviewImg(key)}
-                      className={`relative min-w-[80px] h-[80px] border-2 transition-all p-1 bg-white flex-shrink-0 
-                        ${key === previewImg ? "border-[#116DB2]" : "border-[#EEEEEE] hover:border-gray-300"}`}
-                    >
-                      <Image
-                        width={80}
-                        height={80}
-                        src={getImgUrl(item)}
-                        alt={`thumb-${key}`}
-                        className="w-full h-full object-contain"
-                      />
-
-                      {/* Show "+N more" overlay on the 5th image if there are many */}
-                      {key === displayLimit &&
-                        totalImages > displayLimit + 1 && (
-                          <div className="absolute inset-0 bg-black/40 flex items-center justify-center text-white text-xs font-bold">
-                            +{totalImages - (displayLimit + 1)} more
-                          </div>
-                        )}
-                    </button>
-                  );
-                })}
+                {/* Show the "+ more" box as a 6th box only when NOT expanded */}
+                {!isExpanded && totalImages > 5 && (
+                  <button
+                    onClick={() => setIsExpanded(true)}
+                    className="relative w-[100px] h-[100px] border-2 border-[#EEEEEE] transition-all p-1 bg-gray-50 flex-shrink-0 flex items-center justify-center hover:border-gray-300"
+                  >
+                    {/* Background: optional tiny preview of the next image */}
+                    <div className="relative z-10 text-[#116DB2] text-xs font-bold text-center">
+                      +{totalImages - 5} <br /> more
+                    </div>
+                  </button>
+                )}
               </div>
+
+              {/* Optional: Add a "Show Less" button if expanded */}
+              {isExpanded && (
+                <button
+                  onClick={() => setIsExpanded(false)}
+                  className="mt-2 text-[#116DB2] text-xs font-bold hover:underline"
+                >
+                  Show Less
+                </button>
+              )}
             </div>
 
             {/* RIGHT SIDE: Content */}
             <div className="lg:w-[45%] w-full flex flex-col">
-              <span className="text-sm font-bold text-gray-400 uppercase tracking-widest mb-1">
-                <div className="product-description-container text-xl lg:text-lg text-black leading-relaxed">
+              <span className="text-sm font-bold text-gray-400 uppercase tracking-tight mb-1">
+                <div className="product-description-container text-xl lg:text-lg text-black leading-relaxed font-medium">
                   {product.title}
                 </div>
               </span>
-              <span className="text-sm font-bold text-gray-400 uppercase tracking-widest mb-1">
-                <div
-                  className="product-description-container text-base lg:text-lg text-[#333333] leading-relaxed"
+              <span className="text-sm font-bold text-gray-400 tracking-tight mb-1">
+                {/* <div
+                  className="product-description-container text-base lg:text-2xl text-[#333333] leading-relaxed font-bold"
                   dangerouslySetInnerHTML={{ __html: product.shortDescription }}
-                />
+                /> */}
+                <div className="product-description-container text-base lg:text-3xl text-[#333333] leading-relaxed font-bold">
+                  {stripHtml(product.shortDescription)}
+                </div>
               </span>
-              <h1 className="text-2xl lg:text-3xl font-bold text-[#000000] mb-4 leading-tight">
-                <div
-                  className="product-description-container text-base lg:text-lg text-[#333333] leading-relaxed"
-                  dangerouslySetInnerHTML={{ __html: product.description }}
-                />
-              </h1>
-
-              <div className="flex items-center gap-4 mb-6">
+              <div className="flex items-center gap-4 border-b border-[#EEEEEE] py-4">
                 <div className="flex items-center gap-1">
                   {[...Array(5)].map((_, i) => (
                     <svg
                       key={i}
-                      className="w-4 h-4 fill-gray-200"
+                      className="w-4 h-4 fill-white stroke-[#D2D2D2]"
                       viewBox="0 0 20 20"
+                      strokeWidth={1.5}
                     >
                       <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
                     </svg>
                   ))}
-                  <span className="text-sm text-gray-500 ml-1 font-bold">
+                  <span className="text-sm text-gray-500 ml-1 border-r pr-4 border-[#EEEEEE] font-bold">
                     (0)
                   </span>
                 </div>
@@ -383,6 +418,15 @@ const handleAddToCart = async () => {
                   Write a review
                 </button>
               </div>
+              <h3 className="font-bold text-2xl pt-4">Key Features</h3>
+              <h1 className="text-2xl lg:text-3xl font-bold text-[#000000] mb-4 leading-tight border-b border-[#EEEEEE] py-4">
+                <div
+                  className="product-description-container text-base lg:text-md text-[#5D5D5D] leading-relaxed"
+                  dangerouslySetInnerHTML={{
+                    __html: stripHtmlDescription(product.description),
+                  }}
+                />
+              </h1>
 
               {/* Key Features */}
               {/* <div className="border-t border-[#EEEEEE] py-6 relative">
@@ -400,10 +444,10 @@ const handleAddToCart = async () => {
 
               {/* 1. DYNAMIC COLOR SELECTOR */}
               {product.attributes?.some((a) => a.attributeName === "Color") && (
-                <div className="border-t border-[#EEEEEE] py-6 relative">
-                  <h3 className="font-bold text-lg mb-2">Choose your color</h3>
-                  <p className="text-xs font-bold text-gray-800 mb-3 uppercase tracking-tight">
-                    Selected: {selectedColor || "None"}
+                <div className="border-b border-[#EEEEEE] py-4 relative">
+                  <h3 className="font-bold text-2xl mb-2">Choose your color</h3>
+                  <p className="text-xs font-bold text-[#000000] mb-3 tracking-tight">
+                    Color: {selectedColor || "None"}
                   </p>
                   <div className="flex gap-3">
                     {product.attributes
@@ -412,7 +456,7 @@ const handleAddToCart = async () => {
                         <button
                           key={index}
                           onClick={() => setSelectedColor(color.value)}
-                          className={`w-8 h-8 rounded-full border p-0.5 transition-all ${
+                          className={`w-8 h-8 p-0.5 transition-all ${
                             selectedColor === color.value
                               ? "border-gray-800 scale-110"
                               : "border-transparent"
@@ -420,9 +464,14 @@ const handleAddToCart = async () => {
                           title={color.value}
                         >
                           <div
-                            className="w-full h-full rounded-full border border-gray-100"
-                            style={{ backgroundColor: color.value }}
-                          />
+                            className="w-8 h-8 flex items-center justify-center rounded-md border border-[#E1E1E1] bg-white shadow-sm"
+                            title={color.value}
+                          >
+                            <div
+                              className="w-6 h-6 rounded-[3px]"
+                              style={{ backgroundColor: color.value }}
+                            />
+                          </div>
                         </button>
                       ))}
                   </div>
@@ -431,8 +480,10 @@ const handleAddToCart = async () => {
 
               {/* 2. DYNAMIC SIZE / WEIGHT SELECTOR */}
               {product.attributes?.some((a) => a.attributeName === "Size") && (
-                <div className="border-t border-[#EEEEEE] py-6 relative">
-                  <h3 className="font-bold text-lg mb-4">Available Sizes</h3>
+                <div className="border-b border-[#EEEEEE] py-4 relative">
+                  <h3 className="font-bold text-2xl mb-4">
+                    Choose your Weight
+                  </h3>
                   <div className="flex flex-wrap gap-2">
                     {product.attributes
                       .filter((a) => a.attributeName === "Size")
@@ -446,7 +497,7 @@ const handleAddToCart = async () => {
                               : "bg-gray-50 border-transparent text-gray-400 hover:border-gray-200"
                           }`}
                         >
-                          {size.value}
+                          {size.value} L
                         </button>
                       ))}
                   </div>
@@ -468,7 +519,7 @@ const handleAddToCart = async () => {
                 )}
 
                 {/* Tax Label */}
-                <span className="text-xs font-bold text-black uppercase">
+                <span className="text-lg font-bold text-[#000000] uppercase">
                   TTC
                 </span>
               </div>
@@ -477,24 +528,31 @@ const handleAddToCart = async () => {
               <div className="flex flex-col gap-3">
                 <div className="flex gap-4 items-center">
                   {/* QUANTITY COUNTER (Rectangle Design) */}
-                  <div className="flex items-center h-12 bg-white">
+                  <div className="flex items-center gap-1.5 h-11 bg-white">
+                    {/* Minus Button */}
                     <button
                       onClick={() => quantity > 1 && setQuantity(quantity - 1)}
-                      className="w-10 h-full border border-gray-200 text-gray-400 hover:text-gray-600 transition-colors"
+                      className="w-11 h-full border border-[#E2E2E2] rounded-lg flex items-center justify-center text-gray-400 hover:text-black transition-colors"
                     >
-                      −
+                      <span className="text-xl font-light leading-none">−</span>
                     </button>
-                    <input
-                      type="text"
-                      readOnly
-                      value={quantity}
-                      className="w-16 h-full border-y border-gray-200 text-center font-bold text-gray-900 outline-none"
-                    />
+
+                    {/* Quantity Display */}
+                    <div className="flex-1 min-w-[120px] h-full border border-[#E2E2E2] rounded-lg flex items-center justify-center">
+                      <input
+                        type="text"
+                        readOnly
+                        value={quantity}
+                        className="w-full text-center font-bold text-lg text-black outline-none bg-transparent"
+                      />
+                    </div>
+
+                    {/* Plus Button */}
                     <button
                       onClick={() => setQuantity(quantity + 1)}
-                      className="w-10 h-full border border-gray-200 text-gray-400 hover:text-gray-600 transition-colors"
+                      className="w-11 h-full border border-[#E2E2E2] rounded-lg flex items-center justify-center text-gray-400 hover:text-black transition-colors"
                     >
-                      +
+                      <span className="text-xl font-light leading-none">+</span>
                     </button>
                   </div>
                   <button
@@ -545,11 +603,11 @@ const handleAddToCart = async () => {
                   Where To Buy
                 </button>
                 <button
-                onClick={handleAddToWishlist}
+                  onClick={handleAddToWishlist}
                   className="w-full text-center font-bold text-sm rounded-full 
                   bg-white text-gray-800 border border-gray-300
                   py-3 px-10
-                  hover:bg-[#116DB2] hover:text-white hover:border-[#116DB2]
+                  hover:bg-[#AD003A] hover:text-white hover:border-[#AD003A]
                   transition-all duration-300 flex items-center justify-center gap-2 mt-2 uppercase"
                 >
                   <svg
@@ -557,28 +615,28 @@ const handleAddToCart = async () => {
                     height="20"
                     viewBox="0 0 24 24"
                     fill="currentColor"
-                    className="text-[#AD003A] hover:text-[#AD003A]"
+                    className="text-[#333333]"
                   >
                     <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
                   </svg>
                   Add to Wishlist
                 </button>
                 <div className="h-5">
-                    {" "}
-                    <p className="w-full text-center"></p>
-                    {/* Fixed height prevent layout shift when text appears */}
-                    {wishlistMessage && (
-                      <p
-                        className={`text-sm font-medium animate-fade-in text-center ${
-                          wishlistMessage.includes("Added to wishlist!")
-                            ? "text-red"
-                            : "text-green-600"
-                        }`}
-                      >
-                        {wishlistMessage}
-                      </p>
-                    )}
-                  </div>
+                  {" "}
+                  <p className="w-full text-center"></p>
+                  {/* Fixed height prevent layout shift when text appears */}
+                  {wishlistMessage && (
+                    <p
+                      className={`text-sm font-medium animate-fade-in text-center ${
+                        wishlistMessage.includes("Added to wishlist!")
+                          ? "text-red"
+                          : "text-green-600"
+                      }`}
+                    >
+                      {wishlistMessage}
+                    </p>
+                  )}
+                </div>
               </div>
             </div>
           </div>

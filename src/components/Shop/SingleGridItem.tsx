@@ -20,7 +20,15 @@ const SingleGridItem = ({ item }: { item: CategoryProduct }) => {
   const { openCartModal } = useCartModalContext();
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
+  const [previewImg, setPreviewImg] = useState(0);
   const [wishlistMessage, setWishlistMessage] = useState<string | null>(null);
+
+  const getImgUrl = (path: string) =>
+    `${process.env.NEXT_PUBLIC_BASE_IMG_URL}${path}`;
+
+  const thumbnails = item.imgs?.thumbnails || [];
+  const fullSizeImages = item.imgs?.fullSize || [];
+  const totalImages = Math.max(thumbnails.length, 1);
 
   const handleSetProductDetails = () => {
     const productDetails = {
@@ -91,9 +99,9 @@ const SingleGridItem = ({ item }: { item: CategoryProduct }) => {
     // 1. Prepare standardized values
     const cleanId = Number(item.id);
     const imageUrl = `${process.env.NEXT_PUBLIC_BASE_IMG_URL}${item.thumbnailImageUrl}`;
-    
+
     // 2. Determine the Item ID (Default to product.id for guest/offline users)
-    let finalItemId = item.id; 
+    let finalItemId = item.id;
 
     const userToken = localStorage.getItem("userToken");
     const customerIdStr = localStorage.getItem("customerId");
@@ -113,7 +121,7 @@ const SingleGridItem = ({ item }: { item: CategoryProduct }) => {
           apiPayload,
           {
             headers: { Authorization: `Bearer ${userToken}` },
-          }
+          },
         );
 
         // ✅ Success: Update the itemId with the REAL primary key from your DB (e.g., 30086)
@@ -122,7 +130,10 @@ const SingleGridItem = ({ item }: { item: CategoryProduct }) => {
           console.log("Synced with server. DB ItemId:", finalItemId);
         }
       } catch (err) {
-        console.error("Error adding item to server-side cart, falling back to local ID:", err);
+        console.error(
+          "Error adding item to server-side cart, falling back to local ID:",
+          err,
+        );
         // We keep finalItemId as item.id so the cart doesn't break
       }
     }
@@ -131,6 +142,7 @@ const SingleGridItem = ({ item }: { item: CategoryProduct }) => {
     const reduxPayload = {
       id: cleanId, // Product ID for calculations
       title: item.productName,
+      shortDescription: item.shortDescription,
       itemId: finalItemId, // REAL DB ID if logged in, otherwise product.id
       price: Number(item.price || item.oldPrice || 0),
       discountedPrice: Number(item.price || 0),
@@ -144,7 +156,7 @@ const SingleGridItem = ({ item }: { item: CategoryProduct }) => {
 
     // 5. Update Redux and UI
     dispatch(addItemToCart(reduxPayload));
-    
+
     window.scrollTo({
       top: 0,
       behavior: "smooth",
@@ -200,10 +212,20 @@ const SingleGridItem = ({ item }: { item: CategoryProduct }) => {
     ? Math.round(((item.oldPrice - item.price) / item.oldPrice) * 100)
     : 0;
 
+  const stripHtml = (html) => {
+    const tmp = document.createElement("DIV");
+    tmp.innerHTML = html;
+    const text = tmp.textContent || tmp.innerText || "";
+
+    return text
+      .replace(/^\./, "") // Remove "." if it is the first character
+      .replace(/\./g, " "); // Replace all remaining "." with a space
+  };
+
   return (
     <div className="group w-full bg-white flex flex-col items-start text-start">
       {/* Image Container with LG-style border and padding */}
-      <div className="relative w-full aspect-square flex items-center justify-center mb-4 border border-[#E8E8E8] p-8 overflow-hidden">
+      <div className="relative w-full aspect-square flex items-center justify-center mb-4 border bga-[#F8F8F8] border-[#E8E8E8] p-8 overflow-hidden">
         {/* TOP RIGHT ICONS: Wishlist and Share */}
         <div className="absolute top-2 right-2 flex items-center gap-2 z-20">
           <div className="h-5">
@@ -264,7 +286,7 @@ const SingleGridItem = ({ item }: { item: CategoryProduct }) => {
         </div>
 
         {isOutOfStock ? (
-          <span className="absolute top-12 right-0 bg-[#D32F2F] text-white text-[10px] font-bold py-1 px-3 z-10 uppercase tracking-widest">
+          <span className="absolute top-12 right-0 bg-[#D32F2F] text-white text-[10px] font-bold py-1 px-3 z-10 uppercase tracking-tight">
             Out of Stock
           </span>
         ) : (
@@ -274,19 +296,73 @@ const SingleGridItem = ({ item }: { item: CategoryProduct }) => {
             </span>
           )
         )}
-        {/* Product Image */}
-        <div className="relative w-full h-full transition-transform duration-500 group-hover:scale-105">
-          <Image
-            src={`${process.env.NEXT_PUBLIC_BASE_IMG_URL}${item.thumbnailImageUrl}`}
-            unoptimized
-            alt={item.productName}
-            fill
-            className="object-contain"
-          />
+        {/* Product Image Container */}
+
+        {/* Product Image Container */}
+        <div className="relative w-full aspect-[4/5] overflow-hidden abg-[#f9f9f9]">
+          <div className="relative w-full h-full transition-transform duration-500 group-hover:scale-110">
+            <div className="relative w-full h-full transition-transform duration-500 group-hover:scale-110 flex items-center justify-center p-8">
+              <Image
+                src={
+                  fullSizeImages[previewImg]
+                    ? getImgUrl(fullSizeImages[previewImg])
+                    : getImgUrl(item.thumbnailImageUrl)
+                }
+                alt={item.productName}
+                fill
+                sizes="(max-width: 768px) 100vw, 40vw"
+                className="object-contain w-[80%] h-[80%]" // Centers the image automatically within the fill area
+              />
+            </div>
+
+            {/* <Image
+              src={`${process.env.NEXT_PUBLIC_BASE_IMG_URL}${item.thumbnailImageUrl}`}
+              unoptimized
+              alt={item.productName}
+              fill
+              // Updated sizes to tell the browser we are using a larger portion of the viewport
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
+              className="object-contain p-2" // Reduced padding from p-4 to p-2
+            /> */}
+          </div>
+          {/* THUMBNAILS LIST AT BOTTOM OF CONTAINER */}
+          <div className="absolute bottom-4 left-0 w-full flex justify-center items-end gap-2 px-2 z-30">
+            {thumbnails.slice(0, 4).map((thumb, idx) => {
+              const isLastVisible = idx === 3;
+              const hasMore = thumbnails.length > 4;
+
+              return (
+                <button
+                  key={idx}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation(); // Prevents clicking thumb from triggering link
+                    setPreviewImg(idx);
+                  }}
+                  className={`relative  border-2 bg-white/90 border-[#84858A] rounded-md overflow-hidden shadow-sm transition-all flex-shrink-0 
+            ${idx === previewImg ? " w-12 h-12 2xl:w-18 2xl:h-18" : "  hover:border-gray-400 w-10 h-10 2xl:w-12 2xl:h-12"}`}
+                >
+                  <Image
+                    src={getImgUrl(thumb)}
+                    alt={`thumb-${idx}`}
+                    width={48}
+                    height={48}
+                    className="object-contain w-full h-full"
+                  />
+
+                  {isLastVisible && hasMore && (
+                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center text-white text-[10px] font-bold pointer-events-none">
+                      +{thumbnails.length - 4}
+                    </div>
+                  )}
+                </button>
+              );
+            })}
+          </div>
         </div>
 
         {/* Hover Actions (Quick View) */}
-        <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+        {/* <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
           <button
             onClick={() => {
               openModal();
@@ -296,22 +372,22 @@ const SingleGridItem = ({ item }: { item: CategoryProduct }) => {
           >
             Quick View
           </button>
-        </div>
+        </div> */}
       </div>
 
       {/* Product Title */}
-      <h3 className="text-sm font-bold text-black mb-1 line-clamp-2 min-h-[40px] leading-tight">
+      <h3 className="text-sm font-bold text-black mb-1 line-clamp-2 min-h-[70px] leading-tight">
         <Link
           href="/shop-details"
           onClick={handleSetProductDetails}
-          className="hover:text-[#116DB2] transition-colors text-lg font-bold text-[#000000]"
+          className="hover:text-[#116DB2] transition-colors text-2xl font-bold text-[#000000]"
         >
-          {item.productName}
+          {stripHtml(item.shortDescription)}
         </Link>
       </h3>
 
       {/* Meta Info - Fixed height container */}
-      <div className="mt-2 mb-2 h-[52px] flex flex-col justify-start gap-1">
+      <div className="mt-2 mb-8 h-[100px] flex flex-col justify-center gap-3">
         {item.attributes &&
           item.attributes
             .filter(
@@ -319,28 +395,39 @@ const SingleGridItem = ({ item }: { item: CategoryProduct }) => {
                 attr.attributeName === "Size" || attr.attributeName === "Color",
             )
             .map((attr, index) => (
-              <div key={index} className="flex items-center gap-2 h-6">
-                <p className="text-[12px] text-gray-500 font-medium uppercase tracking-wider">
-                  {attr.attributeName}:
+              <div key={index} className="flex flex-col items-start gap-2">
+                {/* Label */}
+                <p className="text-[12px] text-[#000000] font-medium">
+                  {attr.attributeName === "Color" && `${attr.attributeName}:`}
                 </p>
 
+                {/* Value Display */}
                 {attr.attributeName === "Size" ? (
-                  <span className="text-[12px] text-gray-900 font-bold">
-                    {attr.value}
-                  </span>
+                  <div className="inline-flex items-center justify-center px-2 py-0.5 border border-gray-200 rounded-full min-w-[100px]">
+                    <span className="text-lg text-[#000000] font-semibold">
+                      {attr.value} L
+                    </span>
+                  </div>
                 ) : (
                   <div
-                    className="w-4 h-4 rounded-full border border-gray-200 shadow-sm"
-                    style={{ backgroundColor: attr.value }}
+                    className="w-6 h-6 flex items-center justify-center rounded-md border border-[#E1E1E1] bg-white shadow-sm"
                     title={attr.value}
-                  />
+                  >
+                    <div
+                      className="w-4 h-4 rounded-[3px]"
+                      style={{ backgroundColor: attr.value }}
+                    />
+                  </div>
                 )}
               </div>
             ))}
       </div>
 
       {/* Pricing section - Modified Logic */}
-      <div className="flex flex-col items-start mb-5 h-[40px] justify-center">
+      <div className="flex flex-col items-start mb-8 h-[40px] justify-center">
+        <div className="hover:text-[#116DB2] transition-colors text-[14px] font-bold text-[#696969]">
+          {item.productName}
+        </div>
         <div className="flex items-center gap-2">
           {/* Current Price */}
           <span className="text-2xl font-bold text-[#000000]">
@@ -354,7 +441,7 @@ const SingleGridItem = ({ item }: { item: CategoryProduct }) => {
             </span>
           )}
 
-          <span className="text-[10px] font-bold text-black uppercase translate-y-[2px]">
+          <span className="text-[14px] font-bold text-[#000000] uppercase translate-y-[2px]">
             TTC
           </span>
         </div>

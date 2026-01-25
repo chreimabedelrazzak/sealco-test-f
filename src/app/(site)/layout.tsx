@@ -18,6 +18,7 @@ import PreLoader from "@/components/Common/PreLoader";
 import FooterTwo from "@/components/Footer/FooterTwo";
 import CartInitializer from "@/components/Common/CartSidebarModal/CartInitializer";
 import { AuthGuard } from "@/components/Auth/AuthGuard";
+import ChatBot from "@/components/ChatBot";
 
 export default function RootLayout({
   children,
@@ -43,6 +44,7 @@ export default function RootLayout({
                   <ModalProvider>
                     <PreviewSliderProvider>
                       <CartInitializer />
+                      <ChatBot />
                       <Header />
                       {children}
 

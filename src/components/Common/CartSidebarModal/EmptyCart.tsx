@@ -7,7 +7,7 @@ const EmptyCart = () => {
 
   return (
     <div className="text-center">
-      <div className="mx-auto pb-7.5">
+      {/* <div className="mx-auto pb-7.5">
         <svg
           className="mx-auto"
           width="100"
@@ -36,14 +36,14 @@ const EmptyCart = () => {
             fill="#8D93A5"
           />
         </svg>
-      </div>
+      </div> */}
 
       <p className="pb-6">Your cart is empty!</p>
 
       <Link
         onClick={() => closeCartModal()}
         href="/"
-        className="w-full text-center font-bold text-white text-sm rounded-full bg-[#116DB2] py-3 px-10 hover:bg-[#AD003A] transition-all duration-300"
+        className="w-full text-center font-bold text-white text-sm rounded-3xl bg-[#116DB2] py-3 px-10 hover:bg-[#AD003A] transition-all duration-300"
       >
         Continue Shopping
       </Link>

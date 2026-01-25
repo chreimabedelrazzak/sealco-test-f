@@ -55,7 +55,10 @@ const ShopWithSidebar = ({ slug }: Props) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       // Only update debounced range if the range has actually changed
-      if (debouncedRange[0] !== priceRange[0] || debouncedRange[1] !== priceRange[1]) {
+      if (
+        debouncedRange[0] !== priceRange[0] ||
+        debouncedRange[1] !== priceRange[1]
+      ) {
         setDebouncedRange(priceRange);
       }
     }, 600);
@@ -94,19 +97,19 @@ const ShopWithSidebar = ({ slug }: Props) => {
         debouncedRange[0],
         debouncedRange[1],
       );
-      
+
       setProducts((prev) =>
         isNewFilter ? res.items : [...prev, ...res.items],
       );
       setAvailableFilters(res.availableFilters);
       setHasMore(res.items.length === 12);
-      
+
       // Update server price limits from API response
       if (res.priceRange) {
         const newMin = res.priceRange.min;
         const newMax = res.priceRange.max;
         setServerPriceLimits({ min: newMin, max: newMax });
-        
+
         // Reset price range to server limits only on initial load
         if (isInitialLoad) {
           setPriceRange([newMin, newMax]);
@@ -183,22 +186,22 @@ const ShopWithSidebar = ({ slug }: Props) => {
 
   // Custom handle styles
   const handleStyles: React.CSSProperties = {
-  width: 18,
-  height: 18,
-  marginTop: -7,
-  backgroundColor: "#fff",
-  border: "2px solid #2563eb",
-  borderRadius: "50%",
-  boxShadow: "0 2px 6px rgba(0,0,0,0.15)",
-  opacity: 1,
-};
+    width: 18,
+    height: 18,
+    marginTop: -7,
+    backgroundColor: "#fff",
+    border: "2px solid #2563eb",
+    borderRadius: "50%",
+    boxShadow: "0 2px 6px rgba(0,0,0,0.15)",
+    opacity: 1,
+  };
 
   return (
     <div className="bg-white">
       <Breadcrumb title={category?.name} pages={[`${category?.name}`]} />
       <ChildCategoryCarousel categories={category?.subCategories} />
       <CategoryHero banners={category?.banners} />
-      
+
       <section className="pb-20 border-t border-gray-200 pt-10 ">
         <div className="max-w-[1200px] 2xl:max-w-[1600px] px-4 w-full mx-auto">
           {/* Top Bar Filter Toggle & Sort */}
@@ -334,23 +337,31 @@ const ShopWithSidebar = ({ slug }: Props) => {
                       {filter.name}
                     </h3>
                     {filter.name.toLowerCase() === "color" ? (
-                      <div className="flex flex-wrap gap-3">
+                      <div className="flex flex-wrap gap-2 items-center">
                         {filter.values.map((val) => (
                           <button
                             key={val}
                             onClick={() => toggleAttribute(filter.name, val)}
                             title={val}
-                            className={`w-7 h-7 rounded-full border-2 transition-all ${
-                              selectedAttributes[filter.name]?.includes(val)
-                                ? "border-red-600 scale-110"
-                                : "border-gray-200"
-                            }`}
-                            style={{
-                              backgroundColor: val.startsWith("#")
-                                ? val
-                                : "transparent",
-                            }}
-                          />
+                            className={`
+        group flex items-center justify-center 
+        w-7 h-7 rounded-md border bg-white transition-all
+        ${
+          selectedAttributes[filter.name]?.includes(val)
+            ? "border-blue-500 shadow-sm scale-105" // Change blue-500 to your preferred accent color
+            : "border-[#E1E1E1]"
+        }
+      `}
+                          >
+                            <div
+                              className="w-[18px] h-[18px] rounded-[3px]"
+                              style={{
+                                backgroundColor: val.startsWith("#")
+                                  ? val
+                                  : "transparent",
+                              }}
+                            />
+                          </button>
                         ))}
                       </div>
                     ) : (
@@ -388,11 +399,15 @@ const ShopWithSidebar = ({ slug }: Props) => {
                 </div>
               ) : error ? (
                 <div className="text-center py-20">
-                  <p className="text-red-600">Error loading products. Please try again.</p>
+                  <p className="text-red-600">
+                    Error loading products. Please try again.
+                  </p>
                 </div>
               ) : products.length === 0 ? (
                 <div className="text-center py-20">
-                  <p className="text-gray-500">No products found with the selected filters.</p>
+                  <p className="text-gray-500">
+                    No products found with the selected filters.
+                  </p>
                 </div>
               ) : (
                 <>
@@ -403,7 +418,7 @@ const ShopWithSidebar = ({ slug }: Props) => {
                       <SingleGridItem item={item} key={key} />
                     ))}
                   </div>
-                  
+
                   {/* --- The Sentinel --- */}
                   <div
                     ref={observerTarget}

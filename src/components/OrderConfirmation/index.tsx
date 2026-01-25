@@ -56,19 +56,19 @@ const OrderConfirmation = () => {
 
           <div className="flex w-full mb-8 overflow-hidden rounded-full border border-gray-100 shadow-sm">
             {/* Step 1: Shopping Cart */}
-            <div className="flex-1 bg-[#F6F6F6] text-gray-400 py-3 px-1 text-center font-bold text-xs sm:text-sm flex items-center justify-center gap-2">
+            <div className="flex-1 bg-[#F6F6F6] text-[#B5B5B5] py-3 text-center font-bold text-xs sm:text-sm flex items-center justify-center ">
               <span>Shopping Cart</span>
             </div>
 
             {/* Step 2: Delivery & Payment */}
-            <div className="flex-1 bg-[#F6F6F6] text-gray-400 py-3 px-1 text-center font-bold text-xs sm:text-sm flex items-center justify-center gap-2 border-x border-white">
+            <div className="flex-1 bg-[#F6F6F6] text-[#B5B5B5] py-3 text-center font-bold text-xs sm:text-sm flex items-center justify-center ">
               <span className="hidden sm:inline">Delivery & Payment</span>
               <span className="sm:hidden">Delivery</span>{" "}
               {/* Shorter text for mobile */}
             </div>
 
             {/* Step 3: Receipt */}
-            <div className="flex-1 bg-[#116DB2] text-white  py-3 px-1 text-center font-bold text-xs sm:text-sm flex items-center justify-center gap-2">
+            <div className="flex-1 bg-[#116DB2] text-white  py-3 text-center font-bold text-xs sm:text-sm flex items-center justify-center gap-2">
               <span>Receipt</span>
             </div>
           </div>
@@ -77,12 +77,12 @@ const OrderConfirmation = () => {
             <h1 className="text-3xl font-bold text-black mb-2">
               Success! Your order is confirmed.
             </h1>
-            <p className="text-gray-600">
+            {/* <p className="text-gray-600">
               A confirmation email has been sent to{" "}
               <span className="font-bold text-black">
                 {order.customerEmail}
               </span>
-            </p>
+            </p> */}
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

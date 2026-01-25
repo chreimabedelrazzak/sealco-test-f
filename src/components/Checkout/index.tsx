@@ -663,21 +663,21 @@ const Checkout = () => {
         <div className="max-w-[1200px] 2xl:max-w-[1400px] w-full mx-auto px-4 sm:px-8 xl:px-0">
           {/* Progress Tracker Bar */}
 
-          <div className="flex w-full mb-8 overflow-hidden rounded-full border border-gray-100 shadow-sm">
+          <div className="flex w-full mb-8 overflow-hidden rounded-full shadow-sm">
             {/* Step 1: Shopping Cart */}
-            <div className="flex-1 bg-[#F6F6F6] text-gray-400 py-3 px-1 text-center font-bold text-xs sm:text-sm flex items-center justify-center gap-2">
+            <div className="flex-1 bg-[#F6F6F6] text-[#B5B5B5] py-3 px-1 text-center font-bold text-xs sm:text-sm flex items-center justify-center">
               <span>Shopping Cart</span>
             </div>
 
             {/* Step 2: Delivery & Payment */}
-            <div className="flex-1 bg-[#116DB2] text-white  py-3 px-1 text-center font-bold text-xs sm:text-sm flex items-center justify-center gap-2 border-x border-white">
+            <div className="flex-1 bg-[#116DB2] text-white  py-3 px-1 text-center font-bold text-xs sm:text-sm flex items-center justify-center">
               <span className="hidden sm:inline">Delivery & Payment</span>
               <span className="sm:hidden">Delivery</span>{" "}
               {/* Shorter text for mobile */}
             </div>
 
             {/* Step 3: Receipt */}
-            <div className="flex-1 bg-[#F6F6F6] text-gray-400 py-3 px-1 text-center font-bold text-xs sm:text-sm flex items-center justify-center gap-2">
+            <div className="flex-1 bg-[#F6F6F6] text-[#B5B5B5] py-3 px-1 text-center font-bold text-xs sm:text-sm flex items-center justify-center ">
               <span>Receipt</span>
             </div>
           </div>

@@ -30,6 +30,11 @@ const nextConfig = {
         hostname: 'api.sealco-leb.com',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'api-v2.sealco-leb.com',
+        pathname: '/**',
+      },
     ],
   },
 };

@@ -8,6 +8,7 @@ export interface WishListItemVm {
   productImage: string;
   quantity: number;
   description?: string;
+  shortDescription?: string;
 }
 
 export interface AddToWishListRequest {
