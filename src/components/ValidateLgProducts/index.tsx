@@ -93,11 +93,11 @@
 //                   className="object-contain"
 //                 />
 //               </div>
-//               <p className="text-[12.6px] font-medium text-gray-500 leading-relaxed max-w-[540px]">
-//                 Serial number label is located at the back of the product. You can also check
-//                 for the serial number on the LG product box prior to purchase to
-//                 make sure it is under Sealco warranty.
-//               </p>
+              // <p className="text-[12.6px] font-medium text-gray-500 leading-relaxed max-w-[540px]">
+              //   Serial number label is located at the back of the product. You can also check
+              //   for the serial number on the LG product box prior to purchase to
+              //   make sure it is under Sealco warranty.
+              // </p>
 //             </div>
 
 //             {/* SCAN BARCODE BUTTON - Using file input for both upload and mobile camera */}
@@ -122,12 +122,12 @@
 //               </button>
 //             </div>
 
-//             {/* DIVIDER */}
-//             <div className="relative flex items-center w-full lg:w-[360px] mb-9">
-//               <div className="flex-grow border-t border-gray-100"></div>
-//               <span className="flex-shrink mx-3.5 text-[10.8px] font-bold text-gray-400 uppercase">Or</span>
-//               <div className="flex-grow border-t border-gray-100"></div>
-//             </div>
+            // {/* DIVIDER */}
+            // <div className="relative flex items-center w-full lg:w-[360px] mb-9">
+            //   <div className="flex-grow border-t border-gray-100"></div>
+            //   <span className="flex-shrink mx-3.5 text-[10.8px] font-bold text-gray-400 uppercase">Or</span>
+            //   <div className="flex-grow border-t border-gray-100"></div>
+            // </div>
 
 //             {/* MANUAL ENTRY SECTION */}
 //             <div className="mb-9">
@@ -340,21 +340,21 @@ export default function ValidateLgProduct() {
   return (
     <div className="bg-white min-h-screen">
       <BreadcrumbThree
-        title="Validate LG Product"
-        pages={["Validate LG Product"]}
+        title="Validate LG Product's Serial Number"
+        pages={["Validate LG Product's Serial Number"]}
       />
       <div id="reader" className="hidden"></div>
 
-      <section className="py-7 z:max-w-[1500px] w-full mx-auto px-8">
+      <section className="py-2 z:max-w-[1500px] w-full mx-auto px-8">
         <form className="flex flex-col" onSubmit={handleValidate}>
           <div className="mb-7">
-            <label className="block text-[12.6px] font-bold text-black mb-3.5">
-              Select a product category
+            <label className="block text-[19px] font-semibold text-[#000000] mb-3.5">
+              Select a profuct category from the below list
             </label>
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="w-full lg:w-[360px] border border-gray-200 p-2.5 rounded bg-white text-[12.6px] outline-none"
+              className="w-full lg:w-[460px] border border-[#CBCBCB] p-2.5 bg-white text-[12.6px] outline-none"
             >
               <option value="">Select Category</option>
               {categories.map((cat) => (
@@ -365,7 +365,7 @@ export default function ValidateLgProduct() {
             </select>
           </div>
 
-          <div className="relative w-full max-w-[360px] aspect-[4/3] mb-7">
+          <div className="relative w-full max-w-[460px] aspect-[4/3] mb-7">
             <Image
               src="/images/validate/validate-product.png"
               alt="Serial Location"
@@ -374,6 +374,12 @@ export default function ValidateLgProduct() {
             />
           </div>
 
+          <p className="text-[13px] font-medium text-gray-500 leading-relaxed max-w-[460px] mb-7">
+                Serial number label is located at the back of the product. You can also check
+                for the serial number on the LG product box prior to purchase to
+                make sure it is under Sealco warranty.
+              </p>
+
           <button
             type="button"
             onClick={() => {
@@ -381,13 +387,20 @@ export default function ValidateLgProduct() {
               setShowModal(true);
               setErrorMessage(null);
             }}
-            className="w-full lg:w-[360px] border border-gray-200 py-2.5 rounded-full font-bold text-black text-[12.6px] mb-9 hover:bg-gray-50 transition-colors"
+            className="w-full lg:w-[460px] border border-[#CBCBCB] py-2.5 rounded-full font-semibold text-[#000000] text-[14px] mb-9 hover:bg-gray-50 transition-colors"
           >
             Scan Serial Number Barcode
           </button>
 
+          {/* DIVIDER */}
+            <div className="relative flex items-center w-full lg:w-[460px] mb-9">
+              <div className="flex-grow border-t border-[#CBCBCB]"></div>
+              <span className="flex-shrink mx-3.5 text-[10.8px] font-bold text-gray-400 ">Or</span>
+              <div className="flex-grow border-t border-[#CBCBCB]"></div>
+            </div>
+
           <div className="mb-9">
-            <label className="block text-[12.6px] font-bold text-black mb-3.5">
+            <label className="block text-[19px] font-semibold text-[#000000] mb-3.5">
               Enter serial number manually
             </label>
             <input
@@ -398,14 +411,14 @@ export default function ValidateLgProduct() {
                 setErrorMessage(null);
               }}
               placeholder="Enter serial number"
-              className="w-full lg:w-[360px] border border-gray-200 p-2.5 rounded bg-white text-[12.6px] focus:border-[#116DB2] outline-none"
+              className="w-full lg:w-[460px] border border-[#CBCBCB] p-2.5  bg-white text-[12.6px] focus:border-[#116DB2] outline-none"
             />
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full lg:w-[360px] font-semibold text-white text-[14px] rounded-[20px] bg-[#116DB2] py-3 shadow-md disabled:bg-gray-400 hover:bg-[#0e5a94] transition-all"
+            className="w-full lg:w-[460px] font-semibold text-white text-[14px] rounded-[20px] bg-[#116DB2] py-3 shadow-md disabled:bg-gray-400 hover:bg-[#0e5a94] transition-all"
           >
             {loading && !showModal ? "Verifying..." : "Validate My LG Product"}
           </button>
