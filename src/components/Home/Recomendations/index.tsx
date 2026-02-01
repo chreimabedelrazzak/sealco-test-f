@@ -38,7 +38,7 @@ export default function Recomendations() {
   };
 
   return (
-    <div className="2.5xl:max-w-[1500px] px-8 mx-auto">
+    <div className="z:max-w-[1500px] px-8 mx-auto">
       <div className="swiper categories-carousel common-carousel mb-12">
         <div className="mb-5 mt-10 flex items-center justify-between">
           <h2 className="font-bold text-3xl text-[#000000]">
