@@ -28,7 +28,7 @@ export default function Faq() {
   return (
     <>
       <BreadcrumbFour
-        title={"Frequently Asked Questions"}
+        carouselId={20}
         pages={["Frequently Asked Questions"]}
       />
       <div className="w-full bg-white pt-10">

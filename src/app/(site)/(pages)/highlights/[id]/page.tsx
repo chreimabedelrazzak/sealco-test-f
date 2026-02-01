@@ -9,7 +9,7 @@ export default async function HighlightsDetails({ params }: { params: { id: stri
 
   return (
     <div className="bg-white min-h-screen">
-      <BreadcrumbFour title={"Highlights Details"} pages={["Highlights Details"]} />
+      {/* <BreadcrumbFour title={"Highlights Details"} pages={["Highlights Details"]} /> */}
 
       <section className="py-12">
         <div className="max-w-[1200px] 2xl:max-w-[1600px] w-full mx-auto px-4 sm:px-8">

@@ -3,7 +3,7 @@ import BreadcrumbFour from "../Common/BreadcrumbFour"
 export default function CareersOpportunities() {
     return (
         <>
-        <BreadcrumbFour title={"Careers Opportunities"} pages={["Careers Opportunities"]} />
+        <BreadcrumbFour carouselId={19} pages={["Careers Opportunities"]} />
         </>
     )
 }

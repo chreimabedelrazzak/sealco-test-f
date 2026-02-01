@@ -9,7 +9,7 @@ export default function Search() {
   return (
     <>
       <BreadcrumbFour
-        title={query ? `Results for "${query}"` : "Search"}
+        carouselId={18}
         pages={["Search"]}
       />
       <div className="container py-10 max-w-[1200px] 2xl:max-w-[1400px] w-full mx-auto px-4">
