@@ -97,7 +97,7 @@ export default function CtaOne({ widgetId }: CtaOneProps) {
 
   return (
     <section className="w-full overflow-hidden mb-20 md:mb-10">
-      <div className="w-full 2.5xl:max-w-[1500px] mx-auto">
+      <div className="w-full z:max-w-[1500px] mx-auto">
       <Swiper
         spaceBetween={0}
         effect={"fade"}

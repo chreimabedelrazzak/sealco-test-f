@@ -19,7 +19,7 @@ interface ChildCategoryCarouselProps {
 const ChildCategoryCarousel = ({ categories }: ChildCategoryCarouselProps) => {
   return (
     <section className="bg-white pt-12">
-      <div className="2xl:max-w-[1400px] mx-auto px-6">
+      <div className="z:max-w-[1500px] mx-auto px-6">
         <Swiper
           modules={[Navigation, Pagination]}
           spaceBetween={8}

@@ -62,7 +62,7 @@
 //       {/* Hidden reader element for the library to use for processing */}
 //       <div id="reader" className="hidden"></div>
 
-//       <section className="py-7 2.5xl:max-w-[1500px] w-full mx-auto px-8">
+//       <section className="py-7 z:max-w-[1500px] w-full mx-auto px-8">
 //         <div className="">
 //           <form className="flex flex-col" onSubmit={handleValidate}>
 
@@ -345,7 +345,7 @@ export default function ValidateLgProduct() {
       />
       <div id="reader" className="hidden"></div>
 
-      <section className="py-7 2.5xl:max-w-[1500px] w-full mx-auto px-8">
+      <section className="py-7 z:max-w-[1500px] w-full mx-auto px-8">
         <form className="flex flex-col" onSubmit={handleValidate}>
           <div className="mb-7">
             <label className="block text-[12.6px] font-bold text-black mb-3.5">

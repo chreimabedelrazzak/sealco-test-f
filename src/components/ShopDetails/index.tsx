@@ -804,7 +804,7 @@ const ShopDetails = () => {
       {/* Reduced pb-20 -> pb-18, pt-10 -> pt-9 */}
       <section className="overflow-hidden relative pb-18 pta-9 lg:pt-14 bg-white">
         {/* max-width reduced 1400 -> 1260, 1200 -> 1080 */}
-        <div className=" 2.5xl:max-w-[1500px] w-full mx-auto px-8">
+        <div className=" z:max-w-[1500px] w-full mx-auto px-8">
           {/* mb-6 -> mb-5 */}
           
 

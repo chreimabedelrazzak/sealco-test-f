@@ -65,7 +65,7 @@ interface CategoryHeroCardProps {
 
 export default function CategoryHeroCard({ image }: CategoryHeroCardProps) {
   return (
-    <section className="relative w-full min-h-[450px] 2xl:min-h-[500px] 2.5xl:max-w-[1500px] mx-auto  overflow-hidden bg-[#F8F8F8]">
+    <section className="relative w-full min-h-[450px] 2xl:min-h-[500px] z:max-w-[1500px] mx-auto  overflow-hidden bg-[#F8F8F8]">
       <div
         className="absolute inset-0 w-full h-full bg-center bg-no-repeat bg-cover transition-all duration-700"
         style={{

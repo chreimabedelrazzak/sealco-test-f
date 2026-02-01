@@ -76,7 +76,7 @@ const Header = () => {
 
   return (
     <header ref={menuRef} className="relative w-full bg-[#F8F8F8] z-[9999]">
-      <div className="2.5xl:max-w-[1500px] mx-auto px-8">
+      <div className="z:max-w-[1500px] mx-auto px-8">
         <div className="flex items-center justify-between gap-4">
           <div className="flex justify-end items-center">
             {/* LEFT: LOGO */}

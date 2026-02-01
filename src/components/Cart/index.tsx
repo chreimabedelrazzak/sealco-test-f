@@ -165,7 +165,7 @@ const Cart = () => {
         // Reduced py-12 to py-11
         <section className="py-11">
           {/* max-width reduced 1200->1080, 1400->1260 */}
-          <div className="2xl:max-w-[1400px] w-full mx-auto px-8">
+          <div className="z:max-w-[1500px] w-full mx-auto px-8">
             
             {/* 2. STEP INDICATOR: mb-8 -> mb-7, py-3 -> py-2.5 */}
             <div className="flex w-full mb-7 overflow-hidden rounded-full shadow-sm">

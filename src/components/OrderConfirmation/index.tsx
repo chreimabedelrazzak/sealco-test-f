@@ -299,7 +299,7 @@ const OrderConfirmation = () => {
       {/* Reduced py-12 to py-10.5 */}
       <section className="py-10.5">
         {/* max-width reduced 1200->1080, 1400->1260 */}
-        <div className=" 2.5xl:max-w-[1500px] w-full mx-auto px-8">
+        <div className=" z:max-w-[1500px] w-full mx-auto px-8">
           
           {/* STEP INDICATOR - mb-8 to mb-7, py-3 to py-2.5 */}
           

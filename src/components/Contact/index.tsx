@@ -190,7 +190,7 @@ const Contact = () => {
       {/* Reduced py-12 to py-11 (approx 10% decrease) */}
       <section className="py-11">
         {/* max-width reduced 1200->1080, 1600->1440 */}
-        <div className="2.5xl:max-w-[1500px] px-8 mx-auto">
+        <div className="z:max-w-[1500px] px-8 mx-auto">
           
           {/* HEADER SECTION - mb-4 to mb-3.5 */}
           <div className="mb-3.5">

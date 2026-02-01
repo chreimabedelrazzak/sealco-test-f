@@ -101,6 +101,7 @@ const config: Config = {
       xsm: "375px",
       lsm: "425px",
       "3xl": "2000px",
+      'z': '1600px',
       ...defaultTheme.screens,
     },
     extend: {
