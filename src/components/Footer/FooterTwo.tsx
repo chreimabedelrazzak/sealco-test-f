@@ -90,7 +90,7 @@ export default function FooterTwo() {
   return (
     <>
       <footer className="bg-white border-t border-[#E8E8E8] w-full mt-5 border-b">
-        <div className=" 2xl:max-w-[1500px] mx-auto px-8">
+        <div className=" 3xl:max-w-[1500px] mx-auto px-8">
           {/* Top Section: Navigation Grid */}
           <div className="">
             {/* Use mx-auto to center the container, but px-0 to ensure content starts at the edge */}

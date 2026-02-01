@@ -5,7 +5,7 @@ const BreadcrumbThree = ({ title, pages }) => {
   return (
     <div className="overflow-hidden">
       <div className="border-t border-gray-3 w-full flex justify-center items-center">
-        <div className="w-full  2xl:max-w-[1500px] px-8 mx-auto apb-5 pt-4 axl:pb-10">
+        <div className="w-full  3xl:max-w-[1500px] px-8 mx-auto apb-5 pt-4 axl:pb-10">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <ul className="flex items-center gap-2 ">
               <li className="text-sm hover:text-[#116DB2]">

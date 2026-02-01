@@ -95,7 +95,7 @@ export default function HeroCardThree({
 }: HeroCard) {
   return (
     <div className="flex justify-center items-center min-h-[740px] 2xl:min-h-[760px]">
-      <div className="w-full 2xl:max-w-[1500px] min-h-[740px] 2xl:min-h-[760px]">
+      <div className="w-full 3xl:max-w-[1500px] min-h-[740px] 2xl:min-h-[760px]">
         <div className="relative w-full h-auto md:my-8 overflow-hidden bg-white ">
           {/* 1. PHYSICAL IMAGE: This defines the parent's height */}
           <img
@@ -123,7 +123,7 @@ export default function HeroCardThree({
           >
             {/* 4. CONTENT LAYER: Flexbox used to pin text to the bottom */}
             <div className="absolute inset-0 z-20 flex items-end ">
-              <div className="acontainer w-full 2xl:max-w-[1500px]  px-8 mx-auto pb-14">
+              <div className="acontainer w-full 3xl:max-w-[1500px]  px-8 mx-auto pb-14">
                 <div className="qmax-w-[400px]">
                   <div className="mb-4">
                     <h1 className="text-[#000000] block text-[38px] 2xl:text-[40px] font-bold leading-tight">
@@ -157,7 +157,7 @@ export default function HeroCardThree({
         </div>
 
         <div className="flex items-end md:hidden bg-[#F3F4F7] pt-8 mb-20">
-          <div className="acontainer w-full 2xl:max-w-[1500px] px-8 mx-auto pb-8 lg:pb-6 ">
+          <div className="acontainer w-full 3xl:max-w-[1500px] px-8 mx-auto pb-8 lg:pb-6 ">
             <div className="amax-w-[400px] px-8">
               <div className="mb-4">
                 <h1 className="text-[#000000] text-3xl md:text-3xl 2xl:text-6xl font-bold leading-tight">
