@@ -315,3 +315,17 @@ input[type='search']::-webkit-search-results-decoration {
     border: 1px solid white !important;
     border-radius: 2px !important; /* Square nodes as per reference */
 }
+
+/* Target Microsoft Edge specifically */
+@supports (-ms-ime-align:auto) {
+  html {
+    zoom: 1.05; /* Increases overall site scale by 5% */
+  }
+}
+
+/* Alternative selector for modern Chromium Edge */
+@media (min-width:0\0) and (orientation:landscape) {
+  html {
+    zoom: 1.05;
+  }
+}
