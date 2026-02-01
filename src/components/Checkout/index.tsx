@@ -660,7 +660,7 @@ const Checkout = () => {
     <div className="bg-white min-h-screen">
       <BreadcrumbThree title={"Checkout"} pages={["checkout"]} />
       <section className="py-12 lg:py-20">
-        <div className="z:max-w-[1500px] w-full mx-auto px-4 sm:px-8 xl:px-0">
+        <div className="z:max-w-[1500px] w-full mx-auto px-8">
           {/* Progress Tracker Bar */}
 
           <div className="flex w-full mb-8 overflow-hidden rounded-full shadow-sm">
