@@ -11,7 +11,7 @@ const config: Config = {
   darkMode: "class",
   theme: {
     fontFamily: {
-      LGSmart: ["'LG Smart'", "sans-serif"],
+      LGSmart: ['"L GE IText TT F"', '"LG Smart"', '"Segoe UI"', 'sans-serif'],
     },
     container: {
       center: true,
@@ -120,7 +120,7 @@ const config: Config = {
         "custom-4xl": ["36px", "48px"],
         "custom-1": ["22px", "30px"],
         "custom-2": ["32px", "38px"],
-        "custom-3": ["35px", "45px"],
+        "custom-3": ["35px", "45px"],        
       },
       spacing: {
         4.5: "1.125rem",

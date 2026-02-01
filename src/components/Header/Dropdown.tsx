@@ -155,12 +155,21 @@ const Dropdown = ({ menuItem, stickyMenu }) => {
       className="static group"
     >
       <button
-        className={`hover:text-[#116DB2] text-[13px] 2xl:text-[15px] font-semibold text-[#676767] flex items-center gap-1.5 uppercase transition-colors ${
+        className={`text-[14px] 2xl:text-[15px] font-semibold text-[#676767] uppercase hover:text-[#116DB2] transition-colors leading-tight ${
           stickyMenu ? "xl:pb-4 xl:pt-2" : "axl:py-6"
         } ${dropdownToggler === true && "!text-[#116DB2]"}`}
       >
-        {menuItem.name}
-        <svg
+        <span className="relative">
+    {menuItem.name}
+    
+    {/* The Blue Indicator Line */}
+    <span 
+      className={`absolute -bottom-8 left-0 w-full h-[3px] bg-[#116DB2] transition-all duration-300 transform origin-left
+        ${dropdownToggler ? "scale-x-100 opacity-100" : "scale-x-0 opacity-0"}
+      `}
+    />
+  </span>
+        {/* <svg
           className={`fill-current transition-transform duration-200 ${
             dropdownToggler ? "rotate-180" : ""
           }`}
@@ -174,12 +183,12 @@ const Dropdown = ({ menuItem, stickyMenu }) => {
             clipRule="evenodd"
             d="M2.95363 5.67461C3.13334 5.46495 3.44899 5.44067 3.65866 5.62038L7.99993 9.34147L12.3412 5.62038C12.5509 5.44067 12.8665 5.46495 13.0462 5.67461C13.2259 5.88428 13.2017 6.19993 12.992 6.37964L8.32532 10.3796C8.13808 10.5401 7.86178 10.5401 7.67453 10.3796L3.00787 6.37964C2.7982 6.19993 2.77392 5.88428 2.95363 5.67461Z"
           />
-        </svg>
+        </svg> */}
       </button>
 
       {/* Mega Menu Dropdown */}
       <div
-        className={`absolute left-0 top-full w-full bg-white border-t border-[#EEEEEE] min-h-[100vh] shadow-xl z-50 transition-all duration-300 ${
+        className={`absolute left-0 top-full w-full bg-white border-t border-[#EEEEEE] min-h-[40vh] shadow-xl z-50 transition-all duration-300 ${
           dropdownToggler
             ? "opacity-100 visible translate-y-0"
             : "opacity-0 invisible -translate-y-2"
@@ -187,7 +196,7 @@ const Dropdown = ({ menuItem, stickyMenu }) => {
       >
         <div className="max-w-[1400px] mx-auto px-8 py-10">
           <div className="flex items-center gap-2 mb-8 group/title cursor-pointer">
-            <h2 className="text-xl font-bold text-[#010101] uppercase">
+            <h2 className="text-[16px] 2xl:text-[18px] font-bold text-[#010101] uppercase">
               {menuItem.name}
             </h2>
             <svg
@@ -227,7 +236,7 @@ const Dropdown = ({ menuItem, stickyMenu }) => {
 
                 <Link
                   href={getHref(subItem.customLink)}
-                  className="text-lg font-bold text-[#000000] mb-3 hover:text-[#116DB2] transition-colors"
+                  className="text-[14px] 2xl:text-[15px] font-bold text-[#000000] mb-3 hover:text-[#116DB2] transition-colors"
                 >
                   {subItem.name}
                 </Link>
@@ -239,7 +248,7 @@ const Dropdown = ({ menuItem, stickyMenu }) => {
                       <li key={childItem.id || childIdx}>
                         <Link
                           href={getHref(childItem.customLink)}
-                          className="text-xs font-medium text-gray-500 hover:text-[#116DB2] transition-colors"
+                          className="text-[12px] 2xl:text-[13px] font-semibold text-gray-500 hover:text-[#116DB2] transition-colors"
                         >
                           {childItem.name}
                         </Link>

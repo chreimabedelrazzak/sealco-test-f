@@ -799,7 +799,7 @@ const Checkout = () => {
                         </div>
                       </div>
                     )}
-                    <h2 className="text-2xl font-bold text-black mb-6">
+                    <h2 className="text-2xl font-bold text-[#000000] mb-6">
                       Order Summary
                     </h2>
 
@@ -853,7 +853,7 @@ const Checkout = () => {
                     <button
                       type="submit"
                       disabled={!billingProvided || isUpdatingTotals}
-                      className={`w-full mt-10 text-white py-4 rounded-full font-bold uppercase text-sm tracking-wider transition-all ${
+                      className={`w-full inline-flex justify-center items-center font-semibold text-white text-[14px] 2xl:text-[15px] rounded-[20px] bg-[#116DB2] py-3 px-10 hover:bg-[#AD003A] transition-all duration-300 shadow-md ${
                         billingProvided && !isUpdatingTotals
                           ? "bg-[#116DB2] hover:bg-black shadow-lg"
                           : "bg-gray-300 cursor-not-allowed"

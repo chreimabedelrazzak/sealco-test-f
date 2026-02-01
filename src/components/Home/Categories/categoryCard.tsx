@@ -20,7 +20,7 @@ export default function CategoryCard({
   return (
     // Main container now uses the 'group' class to enable hover effects on children
     <div className="group w-full max-w-[400px] min-w-[300px] bg-[#FDFDFD] border border-[#E8E8E8] p-0 flex flex-col items-center text-center ">
-      <h2 className="text-2xl font-semibold text-[#000000] my-6 px-4">
+      <h2 className="text-2xl font-bold text-[#000000] my-6 px-4">
         {title}
       </h2>
 
@@ -45,7 +45,7 @@ export default function CategoryCard({
             The 'bottom' value is chosen to place it over the lower part of the image, 
             as seen in the provided UI.
           */}
-          <button className="absolute bottom-[-25px] opacity-0 group-hover:opacity-100 inline-flex font-medium text-white text-sm rounded-3xl bg-[#116DB2] py-3 px-12 hover:bg-[#AD003A] transition">
+          <button className="absolute bottom-[-25px] opacity-0 group-hover:opacity-100 inline-flex font-semibold text-white text-[14px] 2xl:text-[15px] rounded-[20px] bg-[#116DB2] py-3 px-12 hover:bg-[#AD003A] transition-all duration-300 shadow-md">
             Buy
           </button>
           

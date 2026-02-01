@@ -75,7 +75,7 @@ const HeroCarousel = () => {
 
   if (isLoading) {
     return (
-      <div className="flex h-full items-center justify-center min-h-[500px]">
+      <div className="flex h-full items-center justify-center min-h-[630px] 2xl:min-h-[700px] ">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
       </div>
     );
@@ -93,7 +93,7 @@ const HeroCarousel = () => {
       }}
       pagination={{ clickable: true }}
       modules={[Autoplay, Pagination]}
-      className="hero-carousel h-full"
+      className="hero-carousel h-full 2xl:max-w-[1500px] px-8"
     >
       {items.map((item, index) => (
         <SwiperSlide key={index}>
@@ -101,7 +101,7 @@ const HeroCarousel = () => {
             subtitle={item.subCaption || ""}
             title={item.caption || ""}
             buttonText={item.linkText || "Learn more"}
-            description={""} // Map to an API field if available
+            description={"Visit our virtual showroom now"} // Map to an API field if available
             targetUrl={item.targetUrl}
             // Use videoUrl if available, otherwise fallback to imageUrl
             video={item.video && item.video !== "null" ? item.videoUrl : null}

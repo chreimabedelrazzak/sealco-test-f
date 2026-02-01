@@ -57,18 +57,18 @@ export default function FooterTwo() {
       return (
         <div
           key={parent.id}
-          className={`p-4 text-start border-[#E8E8E8] pl-4 p-12 pt-10 ${isFirstInRow ? "pl-0" : "pl-10 "} ${
+          className={` text-start border-[#E8E8E8] p-12 pt-10 ${isFirstInRow ? "pl-0" : "pl-10 "} ${
             !isLastInRow ? "lg:border-r" : ""
           }`}
         >
-          <h3 className="text-sm font-semibold text-[#000000] mb-4 uppercase">
+          <h3 className="font-bold text-[16px] text-[#000000] mb-4">
             {parent.name}
           </h3>
           <div className="flex flex-col gap-2">
             {children.map((child) => (
               <div
                 key={child.id}
-                className="font-medium text-sm hover:text-red-600 transition-colors"
+                className="text-gray-700 text-sm font-semibold leading-relaxed pl-4"
               >
                 <a
                   href={
@@ -90,7 +90,7 @@ export default function FooterTwo() {
   return (
     <>
       <footer className="bg-white border-t border-[#E8E8E8] w-full mt-5 border-b">
-        <div className=" 2xl:max-w-[1600px] mx-auto px-6 xl:px-8">
+        <div className=" 2xl:max-w-[1500px] mx-auto px-8">
           {/* Top Section: Navigation Grid */}
           <div className="">
             {/* Use mx-auto to center the container, but px-0 to ensure content starts at the edge */}
@@ -104,8 +104,8 @@ export default function FooterTwo() {
       </footer>
       <div className="py-6 bg-white 2xl:max-w-[1600px] mx-auto px-6 xl:px-8">
         {/* Aligning the footer bottom with the grid above */}
-        <div className=" flex flex-col md:flex-row gap-5 items-center justify-between px-4">
-          <p className="text-[#6E6E6E] font-medium text-[11px]">
+        <div className=" flex flex-col md:flex-row gap-5 items-center justify-between">
+          <p className="text-gray-700 text-[11px] font-medium leading-relaxed">
             Copyright &copy; {year} Sealco LG. All rights reserved.
           </p>
 
@@ -127,7 +127,7 @@ export default function FooterTwo() {
                 href="#"
                 className="text-[#6E6E6E] hover:text-black font-medium text-[11px]"
               >
-                Blog
+                Press Release
               </a>
               <a
                 href="#"

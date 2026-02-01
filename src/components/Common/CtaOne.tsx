@@ -87,7 +87,7 @@ export default function CtaOne({ widgetId }: CtaOneProps) {
 
   if (isLoading) {
     return (
-      <div className="flex h-[300px] items-center justify-center bg-[#F8F8F8] mb-20 md:mb-10 rounded-lg">
+      <div className="flex h-[340px] items-center justify-center bg-[#F8F8F8] mb-20 md:mb-10 rounded-lg">
         <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-[#116DB2]"></div>
       </div>
     );
@@ -97,6 +97,7 @@ export default function CtaOne({ widgetId }: CtaOneProps) {
 
   return (
     <section className="w-full overflow-hidden mb-20 md:mb-10">
+      <div className="w-full 2xl:max-w-[1500px] mx-auto">
       <Swiper
         spaceBetween={0}
         effect={"fade"}
@@ -115,7 +116,7 @@ export default function CtaOne({ widgetId }: CtaOneProps) {
 
           return (
             <SwiperSlide key={index}>
-              <div className="relative w-full h-[350px] sm:h-[400px] lg:h-[350px] flex items-center">
+              <div className="relative w-full h-[350px] sm:h-[400px] lg:h-[350px] flex items-center ">
                 
                 {/* MEDIA LAYER (BACKGROUND) */}
                 <div className="absolute inset-0 z-0">
@@ -144,8 +145,8 @@ export default function CtaOne({ widgetId }: CtaOneProps) {
 
                 {/* CONTENT LAYER */}
                 <div className="relative z-10 2xl:max-w-[1600px] mx-auto w-full px-6 xl:px-8">
-                  <div className="max-w-[500px] text-left px-4">
-                    <h2 className="text-white font-bold text-2xl sm:text-4xl leading-tight mb-4 drop-shadow-sm">
+                  <div className="max-w-[500px] text-left apx-4">
+                    <h2 className="text-white font-bold text-[38px] 2xl:text-[44px]leading-tight mb-4 drop-shadow-sm">
                       {item.caption}
                     </h2>
 
@@ -155,7 +156,7 @@ export default function CtaOne({ widgetId }: CtaOneProps) {
 
                     <a
                       href={item.targetUrl || "#"}
-                      className="inline-flex font-bold text-white text-sm md:text-base rounded-3xl bg-[#116DB2] py-3 px-10 hover:bg-[#AD003A] transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1"
+                      className="inline-flex font-semibold text-white text-[14px] 2xl:text-[15px] rounded-[20px] bg-[#116DB2] py-3 px-7 hover:bg-[#AD003A] transition-all duration-300 shadow-md"
                     >
                       {item.linkText || "Discover More"}
                     </a>
@@ -167,6 +168,7 @@ export default function CtaOne({ widgetId }: CtaOneProps) {
         })}
         <div className="swiper-pagination !bottom-4"></div>
       </Swiper>
+      </div>
     </section>
   );
 }

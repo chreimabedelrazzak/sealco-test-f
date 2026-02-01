@@ -80,9 +80,8 @@ const OrderSummary = () => {
             disabled={loading}
             className={`w-full max-w-[450px] ${
               loading ? "bg-gray-400" : "bg-[#116DB2]"
-            } text-white py-4 rounded-full font-bold uppercase text-sm tracking-wider transition-colors hover:bg-black flex justify-center items-center`}
-          >
-            {loading ? (
+            } inline-flex font-semibold text-white text-[14px] 2xl:text-[15px] rounded-[20px] bg-[#116DB2] py-3 px-10 hover:bg-[#AD003A] transition-all duration-300 shadow-md w-full justify-center items-center`}
+          >{loading ? (
               <span className="inline-block animate-spin mr-2">...</span>
             ) : null}
             {loading ? "Processing..." : "Proceed to Checkout"}

@@ -31,7 +31,7 @@ const Categories = () => {
 
   return (
     <section className="overflow-hidden pt-5 flex justify-center items-center w-full mb-20 md:mb-10 ">
-      <div className="max-w-[1200px] 2xl:max-w-[1600px] mx-auto px-4 sm:px-4 xl:px-0 pb-10">
+      <div className=" 2xl:max-w-[1500px] mx-auto px-8 pb-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-8 justify-items-center">
           {data.map((item, key) => (
             <CategoryCard

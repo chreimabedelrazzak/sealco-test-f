@@ -123,7 +123,7 @@ import React from "react";
 import HeroCarousel from "./HeroCarousel";
 const Hero = () => {
   return (
-    <section className="overflow-hidden mb-20 md:mb-10 bg-[#F8F8F8] min-h-[500px] md:min-h-[600px] 2xl:min-h-[800px] alg:h-[80vh]">
+    <section className="overflow-hidden mb-20 md:mb-10 bg-[#F8F8F8] max-h-[630px] 2xl:max-h-[800px]">
       {" "}
       <HeroCarousel />{" "}
     </section>

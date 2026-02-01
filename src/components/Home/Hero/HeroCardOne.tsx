@@ -85,7 +85,7 @@ export default function HeroCardOne({
   targetUrl,
 }: HeroCard) {
   return (
-    <section className="relative w-full h-full min-h-[500px] md:min-h-[600px] 2xl:min-h-[800px] bg-[#F8F8F8] overflow-hidden flex flex-col md:flex-row items-center">
+    <section className="relative w-full h-full min-h-[630px] 2xl:min-h-[750px] bg-[#F8F8F8] overflow-hidden flex flex-col md:flex-row items-center">
       
       {/* BACKGROUND LAYER: Video or Image */}
       <div className="absolute inset-0 z-0 w-full h-full overflow-hidden">
@@ -95,13 +95,13 @@ export default function HeroCardOne({
             muted
             loop
             playsInline
-            className="w-full h-full object-cover"
+            className="w-full h-full min-h-[630px] 2xl:min-h-[750px] object-cover bg-bottom" 
           >
             <source src={video} type="video/mp4" />
           </video>
         ) : (
           <div
-            className="w-full h-full bg-no-repeat bg-bottom bg-contain md:bg-right transition-all duration-700"
+            className="w-full h-full  min-h-[630px] 2xl:min-h-[750px] bg-no-repeat bg-right-bottom bg-cover amd:bg-right transition-all duration-700"
             style={{
               backgroundImage: image ? `url(${image})` : "none",
               backgroundPosition: "center bottom",
@@ -111,23 +111,23 @@ export default function HeroCardOne({
       </div>
 
       {/* CONTENT LAYER */}
-      <div className="relative z-10 w-full 2xl:max-w-[1600px] mx-auto px-6 xl:px-8 h-full flex flex-col justify-start pt-16 md:pt-0 md:justify-center">
-        <div className="px-4 w-full md:max-w-[550px] lg:max-w-[650px] text-center md:text-left flex flex-col items-center md:items-start">
-          <span className="block text-[#000000] sm:leading-[24px] font-semibold text-xl sm:text-4xl">
+      <div className="relative z-10 w-full 2xl:max-w-[1500px] mx-auto px-8 h-full flex flex-col justify-start pt-16 md:pt-0 md:justify-center">
+        <div className=" w-full md:max-w-[550px] lg:max-w-[650px] text-center md:text-left flex flex-col items-center md:items-start">
+          <span className="block text-[#000000] text-[38px] 2xl:text-[40px] font-semibold pb-5">
             {title}
           </span>
 
-          <h1 className="block text-[#000000] font-bold text-xl sm:text-6xl mb-3">
+          <h1 className="block text-[#000000] font-bold text-[56px] 2xl:text-[60px] pb-10">
             {subtitle}
           </h1>
 
-          <p className="text-lg text-[#000000] font-medium mb-3">
+          <p className="text-lg text-[#000000] text-[21px] 2xl:text-[23px] font-medium pb-4">
             {description}
           </p>
 
           <a
             href={targetUrl || "#"}
-            className="inline-flex font-bold text-white text-sm md:text-base rounded-3xl bg-[#116DB2] py-3 px-10 hover:bg-[#AD003A] transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1"
+            className="inline-flex font-semibold text-white text-[14px] 2xl:text-[15px] rounded-[20px] bg-[#116DB2] py-3 px-10 hover:bg-[#AD003A] transition-all duration-300 shadow-md"
           >
             {buttonText}
           </a>

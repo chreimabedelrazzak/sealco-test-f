@@ -31,11 +31,11 @@ export default function RecomendationCard({
       </div>
 
       {/* Title */}
-      <h2 className="text-lg font-semibold text-[#000000] mb-2">{title}</h2>
+      <h2 className="text-lg font-bold text-[#000000] mb-2">{title}</h2>
 
       {/* Price section */}
       <div className="flex flex-col items-start mb-2">
-        <p className="text-2xl font-bold text-[#000000]">{price}$</p>
+        <p className="text-3xl font-bold text-[#000000]">{price}$</p>
       </div>
 
       {/* Description */}

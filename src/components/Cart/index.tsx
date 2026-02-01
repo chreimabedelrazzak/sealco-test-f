@@ -1,3 +1,151 @@
+// "use client";
+// import React from "react";
+// import OrderSummary from "./OrderSummary";
+// import { useAppSelector } from "@/redux/store";
+// import SingleItem from "./SingleItem";
+// import BreadcrumbThree from "../Common/CartSidebarModal/BreadcrumbThree";
+// import Link from "next/link";
+
+// const Cart = () => {
+//   const cartItems = useAppSelector((state) => state.cartReducer.items);
+
+//   return (
+//     <div className="bg-white min-h-screen">
+//       <BreadcrumbThree title={"Shopping Cart"} pages={["Shopping Cart"]} />
+
+//       {cartItems.length > 0 ? (
+//         <section className="py-12">
+//           <div className="max-w-[1200px] 2xl:max-w-[1400px] w-full mx-auto px-4">
+//             {/* 1. SHOPPING CART TITLE */}
+
+//             {/* 2. STEP INDICATOR (Improved Responsive) */}
+//             <div className="flex w-full mb-8 overflow-hidden rounded-full shadow-sm">
+//               {/* Step 1: Shopping Cart */}
+//               <div className="flex-1 bg-[#116DB2] text-white py-3  text-center font-bold text-xs sm:text-sm flex items-center justify-center ">
+//                 <span>Shopping Cart</span>
+//               </div>
+
+//               {/* Step 2: Delivery & Payment */}
+//               <div className="flex-1 bg-[#F6F6F6] text-[#B5B5B5] py-3  text-center font-bold text-xs sm:text-sm flex items-center justify-center">
+//                 <span className="hidden sm:inline">Delivery & Payment</span>
+//                 <span className="sm:hidden">Delivery</span>{" "}
+//                 {/* Shorter text for mobile */}
+//               </div>
+
+//               {/* Step 3: Receipt */}
+//               <div className="flex-1 bg-[#F6F6F6] text-[#B5B5B5] py-3 text-center font-bold text-xs sm:text-sm flex items-center justify-center ">
+//                 <span>Receipt</span>
+//               </div>
+//             </div>
+
+//             {/* 3. PRODUCT TABLE HEADERS
+//                 Updated grid to match your request: size removed, titles outlined/aligned.
+//             */}
+//             <div className="w-full px-4 md:px-0">
+//               {/* 3. PRODUCT TABLE HEADERS - Visible only on Desktop (md and up) */}
+//               <div className="hidden md:grid grid-cols-[1.5fr_1fr_1fr_1fr_50px] border-b border-gray-200 pb-4 mb-6 px-4">
+//                 <p className="text-sm font-bold text-black">
+//                   Product
+//                 </p>
+//                 <p className="text-sm font-bold text-black text-center">
+//                   Unit Price
+//                 </p>
+//                 <p className="text-sm font-bold text-black text-center">
+//                   Quantity
+//                 </p>
+//                 <p className="text-sm font-bold text-black text-center">
+//                   Subtotal
+//                 </p>
+//                 <p className="invisible">Action</p>
+//               </div>
+
+//               {/* 4. CART ITEMS - Stacked cards on mobile, Grid rows on desktop */}
+//               <div className="flex flex-col gap-6 md:gap-8">
+//                 {cartItems.map((item, key) => (
+//                   <SingleItem item={item} key={key} />
+//                 ))}
+//               </div>
+//             </div>
+
+//             {/* 5. SEND AS A GIFT SECTION */}
+//             <div className="mt-12 border-t border-gray-100 pt-8">
+//               <div className="flex items-center gap-3 mb-6">
+//                 <input
+//                   type="checkbox"
+//                   id="gift"
+//                   className="w-5 h-5 rounded border-gray-300 accent-[#116DB2]"
+//                 />
+//                 <label
+//                   htmlFor="gift"
+//                   className="text-sm font-bold text-gray-700 uppercase tracking-wide"
+//                 >
+//                   Send as a gift
+//                 </label>
+//               </div>
+
+//               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+//                 <div>
+//                   <label className="block text-xs font-bold text-gray-800 mb-2 uppercase">
+//                     To*
+//                   </label>
+//                   <input
+//                     type="text"
+//                     className="w-full border border-gray-200 p-3 rounded bg-[#FDFDFD] outline-none focus:border-[#116DB2]"
+//                   />
+//                 </div>
+//                 <div>
+//                   <label className="block text-xs font-bold text-gray-800 mb-2 uppercase">
+//                     From*
+//                   </label>
+//                   <input
+//                     type="text"
+//                     className="w-full border border-gray-200 p-3 rounded bg-[#FDFDFD] outline-none focus:border-[#116DB2]"
+//                   />
+//                 </div>
+//               </div>
+//               <div className="mb-8">
+//                 <label className="block text-xs font-bold text-gray-800 mb-2 uppercase">
+//                   Message*
+//                 </label>
+//                 <textarea
+//                   rows={4}
+//                   className="w-full border border-gray-200 p-3 rounded bg-[#FDFDFD] resize-none outline-none focus:border-[#116DB2]"
+//                 ></textarea>
+//               </div>
+//               <div className="flex gap-4 mb-16">
+//                 <button className="bg-[#116DB2] text-white px-10 py-3 rounded-full font-bold text-sm uppercase transition-colors hover:bg-black">
+//                   Save
+//                 </button>
+//                 <button className="bg-white border border-gray-200 text-black px-10 py-3 rounded-full font-bold text-sm uppercase hover:bg-gray-50">
+//                   Cancel
+//                 </button>
+//               </div>
+//             </div>
+
+//             {/* 6. ORDER SUMMARY */}
+//             <div className="w-full max-w-[1200px] 2xl:max-w-[1400px] mx-auto">
+//               <OrderSummary />
+//             </div>
+//           </div>
+//         </section>
+//       ) : (
+//         <div className="py-40 text-center">
+//           <p className="text-xl font-bold text-gray-400 mb-6">
+//             Your cart is empty!
+//           </p>
+//           <Link
+//             href="/"
+//             className="inline-block bg-[#116DB2] text-white py-4 px-12 rounded-full font-bold transition-transform hover:scale-105"
+//           >
+//             Continue Shopping
+//           </Link>
+//         </div>
+//       )}
+//     </div>
+//   );
+// };
+
+// export default Cart;
 "use client";
 import React from "react";
 import OrderSummary from "./OrderSummary";
@@ -14,128 +162,107 @@ const Cart = () => {
       <BreadcrumbThree title={"Shopping Cart"} pages={["Shopping Cart"]} />
 
       {cartItems.length > 0 ? (
-        <section className="py-12">
-          <div className="max-w-[1200px] 2xl:max-w-[1400px] w-full mx-auto px-4">
-            {/* 1. SHOPPING CART TITLE */}
-
-            {/* 2. STEP INDICATOR (Improved Responsive) */}
-            <div className="flex w-full mb-8 overflow-hidden rounded-full shadow-sm">
-              {/* Step 1: Shopping Cart */}
-              <div className="flex-1 bg-[#116DB2] text-white py-3  text-center font-bold text-xs sm:text-sm flex items-center justify-center ">
+        // Reduced py-12 to py-11
+        <section className="py-11">
+          {/* max-width reduced 1200->1080, 1400->1260 */}
+          <div className="2xl:max-w-[1400px] w-full mx-auto px-8">
+            
+            {/* 2. STEP INDICATOR: mb-8 -> mb-7, py-3 -> py-2.5 */}
+            <div className="flex w-full mb-7 overflow-hidden rounded-full shadow-sm">
+              <div className="flex-1 bg-[#116DB2] text-white py-2.5 text-center font-bold text-[10.8px] sm:text-[12.6px] flex items-center justify-center ">
                 <span>Shopping Cart</span>
               </div>
-
-              {/* Step 2: Delivery & Payment */}
-              <div className="flex-1 bg-[#F6F6F6] text-[#B5B5B5] py-3  text-center font-bold text-xs sm:text-sm flex items-center justify-center">
+              <div className="flex-1 bg-[#F6F6F6] text-[#B5B5B5] py-2.5 text-center font-bold text-[10.8px] sm:text-[12.6px] flex items-center justify-center">
                 <span className="hidden sm:inline">Delivery & Payment</span>
-                <span className="sm:hidden">Delivery</span>{" "}
-                {/* Shorter text for mobile */}
+                <span className="sm:hidden">Delivery</span>
               </div>
-
-              {/* Step 3: Receipt */}
-              <div className="flex-1 bg-[#F6F6F6] text-[#B5B5B5] py-3 text-center font-bold text-xs sm:text-sm flex items-center justify-center ">
+              <div className="flex-1 bg-[#F6F6F6] text-[#B5B5B5] py-2.5 text-center font-bold text-[10.8px] sm:text-[12.6px] flex items-center justify-center ">
                 <span>Receipt</span>
               </div>
             </div>
 
-            {/* 3. PRODUCT TABLE HEADERS
-                Updated grid to match your request: size removed, titles outlined/aligned.
-            */}
             <div className="w-full px-4 md:px-0">
-              {/* 3. PRODUCT TABLE HEADERS - Visible only on Desktop (md and up) */}
-              <div className="hidden md:grid grid-cols-[1.5fr_1fr_1fr_1fr_50px] border-b border-gray-200 pb-4 mb-6 px-4">
-                <p className="text-sm font-bold text-black">
-                  Product
-                </p>
-                <p className="text-sm font-bold text-black text-center">
-                  Unit Price
-                </p>
-                <p className="text-sm font-bold text-black text-center">
-                  Quantity
-                </p>
-                <p className="text-sm font-bold text-black text-center">
-                  Subtotal
-                </p>
+              {/* 3. TABLE HEADERS: text-sm -> text-[12.6px], mb-6 -> mb-5.5 */}
+              <div className="hidden md:grid grid-cols-[1.5fr_1fr_1fr_1fr_50px] border-b border-gray-200 pb-3.5 mb-5.5 px-4">
+                <p className="text-[12.6px] font-bold text-black">Product</p>
+                <p className="text-[12.6px] font-bold text-black text-center">Unit Price</p>
+                <p className="text-[12.6px] font-bold text-black text-center">Quantity</p>
+                <p className="text-[12.6px] font-bold text-black text-center">Subtotal</p>
                 <p className="invisible">Action</p>
               </div>
 
-              {/* 4. CART ITEMS - Stacked cards on mobile, Grid rows on desktop */}
-              <div className="flex flex-col gap-6 md:gap-8">
+              {/* 4. CART ITEMS: gap-8 -> gap-7 */}
+              <div className="flex flex-col gap-5.5 md:gap-7">
                 {cartItems.map((item, key) => (
                   <SingleItem item={item} key={key} />
                 ))}
               </div>
             </div>
 
-            {/* 5. SEND AS A GIFT SECTION */}
-            <div className="mt-12 border-t border-gray-100 pt-8">
-              <div className="flex items-center gap-3 mb-6">
+            {/* 5. GIFT SECTION: mt-12 -> mt-11, pt-8 -> pt-7 */}
+            <div className="mt-11 border-t border-gray-100 pt-7">
+              <div className="flex items-center gap-2.5 mb-5.5">
                 <input
                   type="checkbox"
                   id="gift"
-                  className="w-5 h-5 rounded border-gray-300 accent-[#116DB2]"
+                  className="w-4.5 h-4.5 rounded border-gray-300 accent-[#116DB2]"
                 />
                 <label
                   htmlFor="gift"
-                  className="text-sm font-bold text-gray-700 uppercase tracking-wide"
+                  className="text-[12.6px] font-bold text-gray-700 uppercase tracking-wide"
                 >
                   Send as a gift
                 </label>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+              {/* gap-6 -> gap-5.5, p-3 -> p-2.5 */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5.5 mb-5.5">
                 <div>
-                  <label className="block text-xs font-bold text-gray-800 mb-2 uppercase">
-                    To*
-                  </label>
+                  <label className="block text-[10.8px] font-bold text-gray-800 mb-1.5 uppercase">To*</label>
                   <input
                     type="text"
-                    className="w-full border border-gray-200 p-3 rounded bg-[#FDFDFD] outline-none focus:border-[#116DB2]"
+                    className="w-full border border-gray-200 p-2.5 rounded bg-[#FDFDFD] outline-none focus:border-[#116DB2]"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-gray-800 mb-2 uppercase">
-                    From*
-                  </label>
+                  <label className="block text-[10.8px] font-bold text-gray-800 mb-1.5 uppercase">From*</label>
                   <input
                     type="text"
-                    className="w-full border border-gray-200 p-3 rounded bg-[#FDFDFD] outline-none focus:border-[#116DB2]"
+                    className="w-full border border-gray-200 p-2.5 rounded bg-[#FDFDFD] outline-none focus:border-[#116DB2]"
                   />
                 </div>
               </div>
-              <div className="mb-8">
-                <label className="block text-xs font-bold text-gray-800 mb-2 uppercase">
-                  Message*
-                </label>
+              <div className="mb-7">
+                <label className="block text-[10.8px] font-bold text-gray-800 mb-1.5 uppercase">Message*</label>
                 <textarea
                   rows={4}
-                  className="w-full border border-gray-200 p-3 rounded bg-[#FDFDFD] resize-none outline-none focus:border-[#116DB2]"
+                  className="w-full border border-gray-200 p-2.5 rounded bg-[#FDFDFD] resize-none outline-none focus:border-[#116DB2]"
                 ></textarea>
               </div>
-              <div className="flex gap-4 mb-16">
-                <button className="bg-[#116DB2] text-white px-10 py-3 rounded-full font-bold text-sm uppercase transition-colors hover:bg-black">
+
+              {/* mb-16 -> mb-14, px-10 -> px-9, py-3 -> py-2.5 */}
+              <div className="flex gap-3.5 mb-14">
+                <button className="inline-flex font-semibold text-white text-[14px] 2xl:text-[15px] rounded-[20px] bg-[#116DB2] py-3 px-10 hover:bg-[#AD003A] transition-all duration-300 shadow-md">
                   Save
                 </button>
-                <button className="bg-white border border-gray-200 text-black px-10 py-3 rounded-full font-bold text-sm uppercase hover:bg-gray-50">
+                <button className="bg-white border border-gray-200 text-[#000000] inline-flex font-semibold text-[14px] 2xl:text-[15px] rounded-[20px] py-3 px-10 hover:bg-[#AD003A] hover:text-white transition-all duration-300 shadow-md">
                   Cancel
                 </button>
               </div>
             </div>
 
             {/* 6. ORDER SUMMARY */}
-            <div className="w-full max-w-[1200px] 2xl:max-w-[1600px] mx-auto">
+            <div className="w-full 2xl:max-w-[1400px] mx-auto">
               <OrderSummary />
             </div>
           </div>
         </section>
       ) : (
-        <div className="py-40 text-center">
-          <p className="text-xl font-bold text-gray-400 mb-6">
-            Your cart is empty!
-          </p>
+        <div className="py-36 text-center">
+          <p className="text-[18.9px] font-bold text-gray-400 mb-5.5">Your cart is empty!</p>
           <Link
             href="/"
-            className="inline-block bg-[#116DB2] text-white py-4 px-12 rounded-full font-bold transition-transform hover:scale-105"
+            className="inline-block bg-[#116DB2] text-white py-3.5 px-11 rounded-full font-bold transition-transform hover:scale-105"
           >
             Continue Shopping
           </Link>

@@ -38,10 +38,10 @@ export default function Recomendations() {
   };
 
   return (
-    <div className="2xl:max-w-[1600px] px-6 xl:px-8 mx-auto">
-      <div className="swiper categories-carousel common-carousel mb-12 px-4">
-        <div className="mb-5 mt-10 flex items-center justify-between px-4">
-          <h2 className="font-semibold text-3xl xl:text-4xl text-[#000000]">
+    <div className="2xl:max-w-[1500px] px-8 mx-auto">
+      <div className="swiper categories-carousel common-carousel mb-12">
+        <div className="mb-5 mt-10 flex items-center justify-between">
+          <h2 className="font-bold text-3xl text-[#000000]">
             Recommended for you
           </h2>
         </div>

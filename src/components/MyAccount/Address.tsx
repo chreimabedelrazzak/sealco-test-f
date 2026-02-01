@@ -200,7 +200,6 @@
 // );
 // 
 // export default Address;
-
 "use client";
 import React, { useEffect, useState } from "react";
 import {
@@ -227,8 +226,6 @@ const Address = () => {
   };
 
   const billingExists = !isAddressEmpty(addressData?.newBillingAddress);
-  
-  // Controls the visibility of the shipping section
   const [dropdown, setDropdown] = useState(false);
 
   const [status, setStatus] = useState<{ message: string; type: "success" | "error" | null }>({
@@ -239,62 +236,50 @@ const Address = () => {
   const userToken = typeof window !== "undefined" ? localStorage.getItem("userToken") || "" : "";
 
   const emptyAddress: AddressVm = {
-  userAddressId: 0,
-  contactName: "",
-  phone: "",
-  addressLine1: "",
-  addressLine2: "",
-  city: "",
-  zipCode: "",
-  stateOrProvinceId: 0,
-  countryId: "118", // Default to your country ID if known
-  districtId: 0,
-};
-
-useEffect(() => {
-  const init = async () => {
-    if (!userToken) return;
-    try {
-      setLoading(true);
-      const [addrRes, statesRes] = await Promise.all([
-        getAddresses(),
-        getStatesOrProvinces("118"),
-      ]);
-
-      const safeData: AccountAddressesRequestResponse = {
-        ...addrRes,
-        newBillingAddress: addrRes?.newBillingAddress || { ...emptyAddress },
-        newShippingAddress: addrRes?.newShippingAddress || { ...emptyAddress },
-        existingShippingAddressId: addrRes?.existingShippingAddressId || null,
-      };
-
-      setAddressData(safeData);
-      setStates(statesRes);
-      
-      // --- LOGIC CHANGE HERE ---
-      // 1. Check if shipping address actually has data
-      const shippingIsPopulated = !isAddressEmpty(safeData.newShippingAddress);
-      console.log("here", shippingIsPopulated)
-      
-      // 2. Check if it's DIFFERENT from billing 
-      // (Optional: only if you want the checkbox unchecked if they are identical)
-      // const isDifferentFromBilling = 
-      //   safeData.newShippingAddress?.addressLine1 !== safeData.newBillingAddress?.addressLine1;
-
-      // If shipping exists and it's not just a duplicate of billing, open the dropdown
-      if (shippingIsPopulated) {
-        setDropdown(true);
-      }
-      // --------------------------
-
-    } catch (err) {
-      console.error("Initialization error:", err);
-    } finally {
-      setLoading(false);
-    }
+    userAddressId: 0,
+    contactName: "",
+    phone: "",
+    addressLine1: "",
+    addressLine2: "",
+    city: "",
+    zipCode: "",
+    stateOrProvinceId: 0,
+    countryId: "118",
+    districtId: 0,
   };
-  init();
-}, [userToken]);
+
+  useEffect(() => {
+    const init = async () => {
+      if (!userToken) return;
+      try {
+        setLoading(true);
+        const [addrRes, statesRes] = await Promise.all([
+          getAddresses(),
+          getStatesOrProvinces("118"),
+        ]);
+
+        const safeData: AccountAddressesRequestResponse = {
+          ...addrRes,
+          newBillingAddress: addrRes?.newBillingAddress || { ...emptyAddress },
+          newShippingAddress: addrRes?.newShippingAddress || { ...emptyAddress },
+          existingShippingAddressId: addrRes?.existingShippingAddressId || null,
+        };
+
+        setAddressData(safeData);
+        setStates(statesRes);
+        
+        const shippingIsPopulated = !isAddressEmpty(safeData.newShippingAddress);
+        if (shippingIsPopulated) {
+          setDropdown(true);
+        }
+      } catch (err) {
+        console.error("Initialization error:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    init();
+  }, [userToken]);
 
   const openEditModal = (type: "shipping" | "billing") => {
     setEditingType(type);
@@ -302,51 +287,41 @@ useEffect(() => {
   };
 
   const handleFormChange = (e: any) => {
-  const { name, value } = e.target;
-  if (!addressData) return;
-  
-  const key = editingType === "shipping" ? "newShippingAddress" : "newBillingAddress";
-  
-  setAddressData({
-    ...addressData,
-    [key]: { 
-      // Ensure we have an object to spread
-      ...(addressData[key] || {}), 
-      [name]: value 
-    } as AddressVm,
-  });
-};
+    const { name, value } = e.target;
+    if (!addressData) return;
+    const key = editingType === "shipping" ? "newShippingAddress" : "newBillingAddress";
+    setAddressData({
+      ...addressData,
+      [key]: { ...(addressData[key] || {}), [name]: value } as AddressVm,
+    });
+  };
 
   const handleSubmit = async () => {
     if (!addressData) return;
     try {
       const payload = { ...addressData };
-      
-      // LOGIC: If dropdown is closed, shipping = billing
       if (!dropdown) {
         payload.newShippingAddress = { ...addressData.newBillingAddress };
       }
-
       const response = await saveAddresses(payload);
       if (response.success) {
         setStatus({ message: "Addresses updated successfully!", type: "success" });
         const updated = await getAddresses();
         setAddressData(updated);
-        setTimeout(() => {
-          setStatus({ message: "", type: null });
-        }, 10000);
+        setTimeout(() => setStatus({ message: "", type: null }), 10000);
       }
     } catch (err) {
       setStatus({ message: "An error occurred.", type: "error" });
     }
   };
 
-  if (loading) return <div className="p-10 text-center">Loading...</div>;
+  if (loading) return <div className="p-9 text-center">Loading...</div>;
 
   return (
-    <div className="p-4 max-w-4xl mx-auto">
-      {/* 1. BILLING CARD (Always Visible) */}
-      <div className="mb-6">
+    // max-w-4xl (896px) -> max-w-[806px], p-4 -> p-3.5
+    <div className="p-3.5 max-w-[806px] mx-auto">
+      {/* 1. BILLING CARD: mb-6 -> mb-5.5 */}
+      <div className="mb-5.5">
         <AddressCard
           title="Billing Address"
           address={addressData?.newBillingAddress}
@@ -354,31 +329,32 @@ useEffect(() => {
         />
       </div>
 
-      {/* 2. THE TOGGLE SECTION */}
-      {/* 2. THE TOGGLE SECTION (Only visible if Billing exists) */}
       {billingExists ? (
         <div className="border border-gray-200 rounded-xl overflow-hidden bg-white shadow-sm transition-all duration-300">
           <div
             onClick={() => setDropdown(!dropdown)}
-            className="cursor-pointer flex items-center gap-2.5 font-bold text-sm uppercase text-gray-800 py-5 px-5.5 hover:bg-gray-50 transition-colors"
+            // gap-2.5 -> gap-2, text-sm -> text-[12.6px], py-5 -> py-4.5
+            className="cursor-pointer flex items-center gap-2 font-bold text-[12.6px] uppercase text-gray-800 py-4.5 px-5 hover:bg-gray-50 transition-colors"
           >
             <input
               type="checkbox"
               checked={dropdown}
               readOnly
-              className="w-4 h-4 accent-[#116DB2]"
+              className="w-3.5 h-3.5 accent-[#116DB2]"
             />
             Ship to a different address?
+            {/* SVG width/height 22 -> 20 */}
             <svg
               className={`fill-current ease-out duration-200 ml-auto ${dropdown && "rotate-180"}`}
-              width="22" height="22" viewBox="0 0 22 22" fill="none"
+              width="20" height="20" viewBox="0 0 22 22" fill="none"
             >
               <path fillRule="evenodd" clipRule="evenodd" d="M4.06103 7.80259C4.30813 7.51431 4.74215 7.48092 5.03044 7.72802L10.9997 12.8445L16.9689 7.72802C17.2572 7.48092 17.6912 7.51431 17.9383 7.80259C18.1854 8.09088 18.1521 8.5249 17.8638 8.772L11.4471 14.272C11.1896 14.4927 10.8097 14.4927 10.5523 14.272L4.1356 8.772C3.84731 8.5249 3.81393 8.09088 4.06103 7.80259Z" fill="currentColor" />
             </svg>
           </div>
 
-          <div className={`p-6 border-t border-gray-100 bg-gray-50/30 ${dropdown ? "block" : "hidden"}`}>
-            <p className="text-xs text-gray-500 mb-6 italic">Please manage your shipping destination details below.</p>
+          {/* p-6 -> p-5.5 */}
+          <div className={`p-5.5 border-t border-gray-100 bg-gray-50/30 ${dropdown ? "block" : "hidden"}`}>
+            <p className="text-[10.8px] text-gray-500 mb-5.5 italic">Please manage your shipping destination details below.</p>
             <AddressCard
               title="Shipping Address"
               address={addressData?.newShippingAddress}
@@ -388,39 +364,40 @@ useEffect(() => {
           </div>
         </div>
       ) : (
-        <div className="p-6 border border-dashed border-gray-300 rounded-xl bg-gray-50 text-center">
-            <p className="text-sm text-gray-500">Please provide a billing address first to enable separate shipping.</p>
+        <div className="p-5.5 border border-dashed border-gray-300 rounded-xl bg-gray-50 text-center">
+            <p className="text-[12.6px] text-gray-500">Please provide a billing address first to enable separate shipping.</p>
         </div>
       )}
 
-      {/* SAVE BUTTON & STATUS */}
-      <div className="mt-8 flex flex-col items-end gap-4">
+      {/* SAVE BUTTON & STATUS: mt-8 -> mt-7 */}
+      <div className="mt-7 flex flex-col items-end gap-3.5">
         <button
           onClick={handleSubmit}
-          className="px-10 py-3 bg-[#116DB2] text-white rounded-md font-bold hover:bg-[#0a4a7a] transition-all"
+          // py-3 -> py-2.5, px-10 -> px-9, text-[14px] -> text-[12.6px]
+          className="inline-flex font-semibold text-white text-[12.6px] 2xl:text-[13.5px] rounded-full bg-[#116DB2] py-2.5 px-9 hover:bg-[#AD003A] transition-all duration-300 shadow-md"
         >
           Save Addresses
         </button>
         {status.message && (
-          <p className={status.type === "success" ? "text-green-600" : "text-red-600"}>
+          <p className={`text-[12.6px] ${status.type === "success" ? "text-green-600" : "text-red-600"}`}>
             {status.message}
           </p>
         )}
       </div>
 
-      {/* MODAL (Unchanged Logic) */}
+      {/* MODAL: p-6 -> p-5.5, max-w-2xl -> max-w-[612px] */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#000000]/50 p-4">
-          <div className="bg-white rounded-2xl w-full max-w-2xl p-6 relative">
-            <h2 className="text-xl font-bold mb-6">Edit {editingType}</h2>
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#000000]/50 p-3.5">
+          <div className="bg-white rounded-2xl w-full max-w-[612px] p-5.5 relative">
+            <h2 className="text-[18px] font-bold mb-5.5">Edit {editingType}</h2>
             <Billing
               formData={editingType === "shipping" ? addressData?.newShippingAddress : addressData?.newBillingAddress}
               onChange={handleFormChange}
               stateOptions={states}
               userToken={userToken}
             />
-            <div className="mt-6 flex justify-end gap-3">
-              <button onClick={() => setIsModalOpen(false)} className="px-6 py-2 border rounded-md">Close</button>
+            <div className="mt-5.5 flex justify-end gap-2.5">
+              <button onClick={() => setIsModalOpen(false)} className="px-5.4 py-1.8 border rounded-md text-[12.6px]">Close</button>
             </div>
           </div>
         </div>
@@ -430,20 +407,22 @@ useEffect(() => {
 };
 
 const AddressCard = ({ title, address, onEdit }: any) => (
-  <div className="border border-gray-200 rounded-xl p-6 bg-white flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+  // p-6 -> p-5.5, gap-4 -> gap-3.5
+  <div className="border border-gray-200 rounded-xl p-5.5 bg-white flex flex-col md:flex-row justify-between items-start md:items-center gap-3.5">
     <div>
-      <h3 className="text-xs font-bold uppercase text-gray-400 mb-2">{title}</h3>
+      {/* text-xs -> text-[10.8px] */}
+      <h3 className="text-[10.8px] font-bold uppercase text-gray-400 mb-1.5">{title}</h3>
       {address?.contactName ? (
-        <div className="text-sm text-gray-700">
+        <div className="text-[12.6px] text-gray-700">
           <span className="font-bold text-gray-900">{address.contactName}</span> — {address.addressLine1}, {address.city}
         </div>
       ) : (
-        <span className="text-sm text-gray-400 italic">No address provided</span>
+        <span className="text-[12.6px] text-gray-400 italic">No address provided</span>
       )}
     </div>
     <button
       onClick={onEdit}
-      className="text-[#116DB2] font-bold text-sm hover:underline"
+      className="text-[#116DB2] font-bold text-[12.6px] hover:underline"
     >
       {address?.contactName ? "Change" : "Add Address"}
     </button>

@@ -198,3 +198,120 @@ input[type='search']::-webkit-search-results-decoration {
 .range-slider__range {
   @apply !bg-blue;
 }
+/* Target the div where you render the CMS content */
+@layer components {
+  /* 1. Force Font Family on EVERYTHING inside the wrapper */
+  .cms-content-wrapper, 
+  .cms-content-wrapper * {
+    font-family: "L GE IText TT F", "LG Smart", "Segoe UI", sans-serif !important;
+  }
+
+  /* 2. Global Wrapper Settings */
+  .cms-content-wrapper {
+    color: #444;
+  }
+
+  /* 3. Heading 1 Overrides */
+  .cms-content-wrapper h1,
+  .cms-content-wrapper h1 * {
+    color: #000000 !important;
+    font-weight: 700 !important;
+    line-height: 2.6rem !important;
+    font-size: 38px !important;
+    padding-bottom: 2.5rem !important;
+  }
+
+  /* 4. Heading 2 Overrides */
+  .cms-content-wrapper h2,
+  .cms-content-wrapper h2 * {
+    color: #000000 !important;
+    font-weight: 700 !important;
+    font-size: 35px !important;
+    padding-bottom: 2.5rem !important;
+    padding-top: 4rem !important;
+  }
+
+  /* 5. Table & Image Logic (Kept from your original) */
+  .cms-content-wrapper table {
+    width: 100% !important;
+    table-layout: fixed !important;
+    border-collapse: collapse !important;
+    margin: 2rem 0 !important;
+  }
+
+  .cms-content-wrapper td {
+    width: 50% !important;
+    vertical-align: top !important;
+    padding: 1.5rem !important;
+  }
+
+  .cms-content-wrapper img {
+    width: 100% !important;
+    height: auto !important;
+    display: block !important;
+  }
+
+  /* Responsive Scaling for Headings */
+  @media (min-width: 1536px) {
+    .cms-content-wrapper h1, .cms-content-wrapper h1 * {
+      font-size: 44px !important;
+    }
+    .cms-content-wrapper h2, .cms-content-wrapper h2 * {
+      font-size: 35px !important; /* Note: You requested 23px for 2xl h2 */
+    }
+  }
+
+  /* Mobile Stack for Tables */
+  @media (max-width: 768px) {
+    .cms-content-wrapper td {
+      display: block !important;
+      width: 100% !important;
+      padding: 1rem 0 !important;
+    }
+  }
+}
+
+/* Custom styling for Cropper Nodes */
+.reactEasyCrop_CropArea {
+  border: 1px solid #116DB2 !important; /* Main blue border */
+  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5) !important; /* Dim background outside crop */
+}
+
+/* Creating the Nodes (Corners and Sides) */
+.reactEasyCrop_CropArea::before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  border: none;
+  /* Top Left Node */
+  background-image: 
+    radial-gradient(circle, #116DB2 4px, transparent 5px),
+    radial-gradient(circle, #116DB2 4px, transparent 5px),
+    radial-gradient(circle, #116DB2 4px, transparent 5px),
+    radial-gradient(circle, #116DB2 4px, transparent 5px),
+    /* Center Nodes */
+    radial-gradient(circle, #116DB2 4px, transparent 5px),
+    radial-gradient(circle, #116DB2 4px, transparent 5px);
+  background-position: 
+    0 0, 100% 0, 0 100%, 100% 100%, /* Corners */
+    50% 0, 50% 100%; /* Top/Bottom Centers */
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+
+/* Custom styling for nodes in ReactCrop */
+.ReactCrop__crop-selection {
+    border: 1px dashed white !important;
+    box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5) !important;
+}
+
+.ReactCrop__drag-handle {
+    width: 10px !important;
+    height: 10px !important;
+    background-color: #116db2 !important;
+    border: 1px solid white !important;
+    border-radius: 2px !important; /* Square nodes as per reference */
+}
