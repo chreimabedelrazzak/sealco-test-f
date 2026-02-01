@@ -24,7 +24,7 @@ const CategoryHero = ({ banners }: CategoryHeroProps) => {
       }}
       pagination={{ clickable: true }}
       modules={[Autoplay, Pagination]}
-      className="hero-carousel ah-115 max-w-[1400px]"
+      className="hero-carousel ah-115 3xl:max-w-[1500px]"
     >
       {banners.map((banner) => (
         <SwiperSlide key={banner.id}>
