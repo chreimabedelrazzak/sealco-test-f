@@ -221,6 +221,7 @@ const config: Config = {
         30: "7.5rem",
         40: "10rem",
         50: "12.5rem",
+        '2.5xl': '45rem',
       },
       zIndex: {
         999999: "999999",

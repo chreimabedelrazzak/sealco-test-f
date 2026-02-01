@@ -93,7 +93,7 @@ const HeroCarousel = () => {
       }}
       pagination={{ clickable: true }}
       modules={[Autoplay, Pagination]}
-      className="hero-carousel h-full 3xl:max-w-[1500px] px-8"
+      className="hero-carousel h-full 2.5xl:max-w-[1500px] px-8"
     >
       {items.map((item, index) => (
         <SwiperSlide key={index}>

@@ -16,7 +16,7 @@ interface CTASectionProps {
 export default function CtaTwo({ title, features }: CTASectionProps) {
   return (
     <section className="bg-[#F8F8F8] py-12">
-      <div className=" 3xl:max-w-[1500px] mx-auto px-8">
+      <div className=" 2.5xl:max-w-[1500px] mx-auto px-8">
         {/* Section Title */}
         <h2 className="text-3xl font-bold text-[#000000] mb-8 text-start apx-4">
           {title}

@@ -33,7 +33,7 @@ export default function Faq() {
       />
       <div className="w-full bg-white pt-10">
         {/* 1. TAB HEADER */}
-        <div className="max-w-[1200px] 2xl:max-w-[1600px] mx-auto border-b-2 border-[#EFEFEF] mb-12 px-4 sm:px-8">
+        <div className="2.5xl:max-w-[1500px] mx-auto border-b-2 border-[#EFEFEF] mb-12 px-4 sm:px-8">
           <div className="flex gap-10">
             {["Frequently Asked Questions"].map((tab) => {
               const tabId = tab.toLowerCase();

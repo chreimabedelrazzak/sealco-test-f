@@ -113,7 +113,7 @@ export default function HeroCardTwo({ widgetId }: HeroCardTwoProps) {
               }}
               pagination={{ clickable: true }}
               modules={[Autoplay, Pagination]}
-              className="hero-carousel h-full 3xl:max-w-[1500px] px-8"
+              className="hero-carousel h-full 2.5xl:max-w-[1500px] px-8"
       >
         {items.map((item, index) => {
           const hasVideo = item.video && item.video !== "null";
@@ -124,7 +124,7 @@ export default function HeroCardTwo({ widgetId }: HeroCardTwoProps) {
               <section className="relative w-full min-h-[740px] 2xl:min-h-[760px] overflow-hidden flex items-center">
                   {/* MEDIA LAYER (BACKGROUND) */}
                   <div className="absolute inset-0 z-0 w-full h-full flex justify-center items-center">
-                    <div className="w-full h-full 3xl:max-w-[1500px]">
+                    <div className="w-full h-full 2.5xl:max-w-[1500px]">
                     {hasVideo ? (
                       <video
                         autoPlay
@@ -149,7 +149,7 @@ export default function HeroCardTwo({ widgetId }: HeroCardTwoProps) {
                   </div>
 
                   {/* CONTENT LAYER (OVERLAY) */}
-                  <div className="relative z-10 w-full mx-auto px-8 3xl:max-w-[1500px]">
+                  <div className="relative z-10 w-full mx-auto px-8 2.5xl:max-w-[1500px]">
                     <div className=" w-full md:max-w-[650px] lg:max-w-[500px] text-center md:text-left flex flex-col items-center md:items-start">
                       <span className="block text-white md:text-[#000000] drop-shadow-md md:drop-shadow-none leading-[2.6rem] font-bold text-[38px] 2xl:text-[44px] pb-10">
                         {item.caption}

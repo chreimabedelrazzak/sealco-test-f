@@ -73,7 +73,7 @@ const BreadcrumbFour = ({ carouselId, pages }: BreadcrumbProps) => {
   return (
     <div className="overflow-hidden">
       <div className="border-t border-gray-3">
-        <div className="w-full 3xl:max-w-[1500px] mx-auto px-8 pb-4 pt-4 axl:pb-10">
+        <div className="w-full 2.5xl:max-w-[1500px] mx-auto px-8 pb-4 pt-4 axl:pb-10">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <ul className="flex items-center gap-2 ">
               <li className="text-sm hover:text-[#116DB2]">
@@ -117,7 +117,7 @@ const BreadcrumbFour = ({ carouselId, pages }: BreadcrumbProps) => {
             {/* Caption Overlay */}
             {(heroItem.caption || heroItem.subCaption) && (
               <div className="absolute inset-0 pointer-events-none">
-                <div className="w-full 3xl:max-w-[1500px] mx-auto px-8 h-full flex flex-col justify-end pb-28 2xl:pb-40">
+                <div className="w-full 2.5xl:max-w-[1500px] mx-auto px-8 h-full flex flex-col justify-end pb-28 2xl:pb-40">
                   {/* Adjust pb-12 (bottom padding) or justify-end to move the text up/down. 
          Using flex-col and justify-end is often more reliable than top percentage.
       */}

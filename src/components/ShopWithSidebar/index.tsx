@@ -173,7 +173,7 @@ const ShopWithSidebar = ({ slug }: Props) => {
       {/* Reduced pb-20 to pb-18, pt-10 to pt-9 */}
       <section className="pb-18  apt-9">
         {/* Adjusted 2xl max-width and px-8 to px-7 */}
-        <div className="3xl:max-w-[1500px] px-8 w-full mx-auto">
+        <div className="2.5xl:max-w-[1500px] px-8 w-full mx-auto">
           {/* mb-8 to mb-7, pb-4 to pb-3.5 */}
           <div className="flex items-center justify-between mb-7 border-b border-[#E2E2E2] py-3.5">
             <div className="flex items-center gap-7">

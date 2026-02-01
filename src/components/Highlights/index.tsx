@@ -246,7 +246,7 @@ export default function Highlights() {
     <div className="bg-white min-h-screen">
       <BreadcrumbFour pages={["Highlights"]} carouselId={15} />
       <section className="apt-8 alg:py-20 py-8">
-        <div className="3xl:max-w-[1500px] w-full mx-auto px-8">
+        <div className="2.5xl:max-w-[1500px] w-full mx-auto px-8">
           <div
             className={`flex flex-col ${selectedNewsItem ? "lg:flex-row gap-12" : ""}`}
           >
