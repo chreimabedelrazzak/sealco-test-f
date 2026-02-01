@@ -111,7 +111,7 @@ export default function HeroCardOne({
       </div>
 
       {/* CONTENT LAYER */}
-      <div className="relative z-10 w-full 2xl:max-w-[1500px] mx-auto px-8 h-full flex flex-col justify-start pt-16 md:pt-0 md:justify-center">
+      <div className="relative z-10 w-full 3xl:max-w-[1500px] mx-auto px-8 h-full flex flex-col justify-start pt-16 md:pt-0 md:justify-center">
         <div className=" w-full md:max-w-[550px] lg:max-w-[650px] text-center md:text-left flex flex-col items-center md:items-start">
           <span className="block text-[#000000] text-[38px] 2xl:text-[40px] font-semibold pb-5">
             {title}
